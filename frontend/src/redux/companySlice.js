@@ -28,8 +28,23 @@ export const fetchCompanies = createAsyncThunk(
 
 const companySlice = createSlice({
     name: "company",
-    initialState: { companies: [], loading: false },
-    reducers: {},
+    initialState: {
+        companies: [],
+        singleCompany: null,
+        loading: false,
+        searchCompanyByText: ""
+    },
+    reducers: {
+        setSingleCompany: (state, action) => {
+            state.singleCompany = action.payload;
+        },
+        setCompanies: (state, action) => {
+            state.companies = action.payload;
+        },
+        setSearchCompanyByText: (state, action) => {
+            state.searchCompanyByText = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(registerCompany.fulfilled, (state, action) => {
@@ -41,4 +56,5 @@ const companySlice = createSlice({
     }
 });
 
+export const { setSingleCompany, setCompanies, setSearchCompanyByText } = companySlice.actions;
 export default companySlice.reducer;

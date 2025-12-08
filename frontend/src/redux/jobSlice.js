@@ -28,8 +28,31 @@ export const fetchJobs = createAsyncThunk(
 
 const jobSlice = createSlice({
     name: "job",
-    initialState: { jobs: [], loading: false },
-    reducers: {},
+    initialState: {
+        jobs: [],
+        allAdminJobs: [],
+        singleJob: null,
+        loading: false,
+        searchedQuery: "",
+        searchJobByText: ""
+    },
+    reducers: {
+        setSearchedQuery: (state, action) => {
+            state.searchedQuery = action.payload;
+        },
+        setAllJobs: (state, action) => {
+            state.jobs = action.payload;
+        },
+        setAllAdminJobs: (state, action) => {
+            state.allAdminJobs = action.payload;
+        },
+        setSingleJob: (state, action) => {
+            state.singleJob = action.payload;
+        },
+        setSearchJobByText: (state, action) => {
+            state.searchJobByText = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(postJob.fulfilled, (state, action) => {
@@ -41,4 +64,5 @@ const jobSlice = createSlice({
     }
 });
 
+export const { setSearchedQuery, setAllJobs, setAllAdminJobs, setSingleJob, setSearchJobByText } = jobSlice.actions;
 export default jobSlice.reducer;

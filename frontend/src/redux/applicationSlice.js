@@ -6,7 +6,7 @@ export const applyForJob = createAsyncThunk(
     "application/apply",
     async (jobId, { rejectWithValue }) => {
         try {
-            const res = await api.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`);
+            const res = await api.post(`${APPLICATION_API_END_POINT}/apply/${jobId}`);
             return res.data;
         } catch (err) {
             return rejectWithValue(err.response?.data);
@@ -16,9 +16,20 @@ export const applyForJob = createAsyncThunk(
 
 const applicationSlice = createSlice({
     name: "application",
-    initialState: { applied: [], loading: false },
-    reducers: {},
-    extraReducers: (builder) => { }
+    initialState: {
+        applied: [],
+        applicants: [],
+        loading: false
+    },
+    reducers: {
+        setAllAppliedJobs: (state, action) => {
+            state.applied = action.payload;
+        },
+        setAllApplicants: (state, action) => {
+            state.applicants = action.payload;
+        }
+    }
 });
 
+export const { setAllAppliedJobs, setAllApplicants } = applicationSlice.actions;
 export default applicationSlice.reducer;

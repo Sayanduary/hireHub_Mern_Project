@@ -139,11 +139,19 @@ export const updateProfile = async (req, res) => {
         if (bio) user.profile.bio = bio;
         if (skills) user.profile.skills = skills.split(",");
 
-        if (req.file) {
-            const fileUri = getDataUri(req.file);
+        // Handle profile photo upload
+        if (req.files && req.files.profilePhoto) {
+            const fileUri = getDataUri(req.files.profilePhoto[0]);
+            const upload = await cloudinary.uploader.upload(fileUri.content);
+            user.profile.profilePhoto = upload.secure_url;
+        }
+
+        // Handle resume upload
+        if (req.files && req.files.file) {
+            const fileUri = getDataUri(req.files.file[0]);
             const upload = await cloudinary.uploader.upload(fileUri.content);
             user.profile.resume = upload.secure_url;
-            user.profile.resumeOriginalName = req.file.originalname;
+            user.profile.resumeOriginalName = req.files.file[0].originalname;
         }
 
         await user.save();
