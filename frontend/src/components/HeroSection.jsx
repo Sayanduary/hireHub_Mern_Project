@@ -1,50 +1,102 @@
-import React, { useState } from "react";
+import { ArrowRight, Search } from "lucide-react";
 import { Button } from "./ui/button";
-import { Search } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { setSearchedQuery } from "@/redux/jobSlice";
 import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
-  const [query, setQuery] = useState("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const searchJobHandler = () => {
-    dispatch(setSearchedQuery(query));
-    navigate("/jobs");
-  };
-
   return (
-    <div className="text-center py-8 md:py-12 lg:py-16 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-950 px-4">
-      <div className="flex flex-col gap-4 md:gap-5 my-6 md:my-10 max-w-4xl mx-auto">
-        <span className="mx-auto px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm rounded-full bg-[#e8f3ff] dark:bg-[#0a66c2]/20 text-[#0a66c2] dark:text-[#70b5f9] font-medium shadow-sm">
-          🏆 No. 1 Job Hunt Website
-        </span>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 leading-tight px-4">
-          Search, Apply & <br className="hidden sm:block" /> Get Your{" "}
-          <span className="text-[#0a66c2] dark:text-[#70b5f9]">Dream Jobs</span>
-        </h1>
-        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 px-4">
-          Join millions of professionals finding their perfect career
-          opportunity
-        </p>
-        <div className="flex w-full max-w-2xl shadow-lg border border-gray-200 dark:border-gray-700 rounded-full items-center gap-2 md:gap-4 mx-auto bg-white dark:bg-gray-800 overflow-hidden">
-          <input
-            type="text"
-            placeholder="Search jobs..."
-            onChange={(e) => setQuery(e.target.value)}
-            className="outline-none border-none w-full px-4 md:px-6 py-2.5 md:py-3 bg-transparent text-sm md:text-base text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-          />
-          <Button
-            onClick={searchJobHandler}
-            className="rounded-full bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] mr-1 px-4 md:px-8 h-9 md:h-10"
-          >
-            <Search className="h-4 w-4 md:h-5 md:w-5" />
-          </Button>
+    <section className="relative overflow-hidden border-b border-neutral-200/80 bg-[#F8F7F3] text-neutral-900 transition-colors dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-50">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.45),_transparent_55%)] opacity-60 dark:bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.08),_transparent_60%)]" />
+
+      <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 pt-36 pb-24 md:pt-40 md:pb-32 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+        <div className="space-y-10">
+          <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200/80 px-4 py-1 text-xs font-medium uppercase tracking-[0.22em] text-neutral-500 transition-colors dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
+            Trusted talent marketplace
+          </span>
+
+          <div className="space-y-6">
+            <h1 className="text-4xl font-semibold leading-tight tracking-tight text-neutral-900 md:text-5xl xl:text-6xl dark:text-neutral-50">
+              Build momentum for the next chapter in your career
+            </h1>
+            <p className="max-w-lg text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+              Discover vetted opportunities, stay aligned with hiring teams, and
+              keep every application organized from a single, streamlined
+              workspace.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <Button
+              onClick={() => navigate("/jobs")}
+              className="h-11 rounded-xl border border-neutral-900/80 bg-neutral-900 px-6 text-sm font-medium tracking-tight text-neutral-100 transition-colors hover:bg-neutral-800 focus-visible:ring-0 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
+            >
+              Browse open roles
+              <Search className="ml-2 h-4 w-4" />
+            </Button>
+
+            <button
+              onClick={() => navigate("/signup")}
+              className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-50"
+            >
+              Join as candidate
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="relative hidden lg:block">
+          <div className="absolute -top-10 -left-6 flex w-44 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/80 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+            <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
+              3M+
+            </p>
+            <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+              active members
+            </p>
+          </div>
+
+          <div className="absolute top-12 right-0 flex w-40 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/70 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+            <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
+              98%
+            </p>
+            <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+              hire success
+            </p>
+          </div>
+
+          <div className="relative ml-10 flex h-72 w-80 flex-col justify-between rounded-3xl border border-neutral-200/80 bg-white/80 p-8 text-left shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Spotlight search
+              </p>
+              <h3 className="mt-3 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
+                Senior Product Designer
+              </h3>
+              <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                Remote · Full-time · Global
+              </p>
+            </div>
+            <div className="space-y-3">
+              {[
+                "Product Foundation",
+                "Design Systems",
+                "Prototype Strategy",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center justify-between rounded-xl border border-neutral-200/80 px-3 py-2 text-sm text-neutral-600 dark:border-white/10 dark:text-neutral-300"
+                >
+                  <span>{item}</span>
+                  <span className="text-xs font-medium text-neutral-400 dark:text-neutral-500">
+                    Expert
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

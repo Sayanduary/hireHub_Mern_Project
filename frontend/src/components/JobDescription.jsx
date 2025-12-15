@@ -104,96 +104,148 @@ const JobDescription = () => {
   return (
     <>
       <Navbar />
-      <div className="max-w-7xl mx-auto my-10">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="font-bold text-xl">{singleJob?.title}</h1>
-            <div className="flex items-center gap-2 mt-4">
-              <Badge className={"text-blue-700 font-bold"} variant="ghost">
-                {singleJob?.postion} Positions
-              </Badge>
-              <Badge className={"text-[#F83002] font-bold"} variant="ghost">
-                {singleJob?.jobType}
-              </Badge>
-              <Badge className={"text-[#7209b7] font-bold"} variant="ghost">
-                {singleJob?.salary}LPA
-              </Badge>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              onClick={isSaved ? saveJobHandler : saveJobHandler}
-              variant="outline"
-              className={`rounded-lg ${
-                isSaved
-                  ? "bg-[#7209b7] text-white border-[#7209b7]"
-                  : "border-[#7209b7] text-[#7209b7]"
-              }`}
-            >
-              <Bookmark className="h-4 w-4 mr-2" />
-              {isSaved ? "Saved" : "Save for Later"}
-            </Button>
-            <Button
-              onClick={isApplied ? null : applyJobHandler}
-              disabled={isApplied}
-              className={`rounded-lg ${
-                isApplied
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-[#7209b7] hover:bg-[#5f32ad]"
-              }`}
-            >
-              {isApplied ? "Already Applied" : "Apply Now"}
-            </Button>
+      <section className="bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-neutral-950 dark:text-neutral-50">
+        <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+            <article className="rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90">
+              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                <div className="space-y-4">
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+                    Opportunity overview
+                  </p>
+                  <h1 className="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+                    {singleJob?.title}
+                  </h1>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge className="rounded-full border border-neutral-200/70 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/15 dark:text-neutral-200">
+                      {singleJob?.postion} roles
+                    </Badge>
+                    <Badge className="rounded-full border border-neutral-200/70 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/15 dark:text-neutral-200">
+                      {singleJob?.jobType}
+                    </Badge>
+                    <Badge className="rounded-full border border-neutral-200/70 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/15 dark:text-neutral-200">
+                      {singleJob?.salary} LPA
+                    </Badge>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-stretch gap-3 sm:flex-row md:flex-col md:items-end">
+                  <Button
+                    onClick={saveJobHandler}
+                    variant="ghost"
+                    className={`h-11 rounded-xl border text-sm font-medium transition-colors sm:w-40 md:w-48 ${
+                      isSaved
+                        ? "border-neutral-900 bg-neutral-900 text-neutral-100 hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
+                        : "border-neutral-200/70 bg-white/70 text-neutral-700 hover:border-neutral-400 hover:bg-neutral-50 dark:border-white/15 dark:bg-transparent dark:text-neutral-200 dark:hover:border-white/25 dark:hover:bg-white/10"
+                    }`}
+                  >
+                    <Bookmark className="mr-2 h-4 w-4" />
+                    {isSaved ? "Saved" : "Save for later"}
+                  </Button>
+                  <Button
+                    onClick={isApplied ? undefined : applyJobHandler}
+                    disabled={isApplied}
+                    className="h-11 rounded-xl border border-neutral-900 bg-neutral-900 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800 disabled:border-neutral-200 disabled:bg-neutral-200 disabled:text-neutral-500 disabled:opacity-100 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100 dark:disabled:bg-white/10 dark:disabled:text-neutral-500"
+                  >
+                    {isApplied ? "Already applied" : "Apply now"}
+                  </Button>
+                </div>
+              </div>
+
+              <div className="mt-10 space-y-8">
+                <section>
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                    Description
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">
+                    {singleJob?.description}
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                    Role snapshot
+                  </h2>
+                  <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
+                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                        Title
+                      </dt>
+                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                        {singleJob?.title}
+                      </dd>
+                    </div>
+                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
+                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                        Location
+                      </dt>
+                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                        {singleJob?.location}
+                      </dd>
+                    </div>
+                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
+                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                        Experience
+                      </dt>
+                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                        {singleJob?.experience} yrs
+                      </dd>
+                    </div>
+                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
+                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                        Total applicants
+                      </dt>
+                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                        {singleJob?.applications?.length}
+                      </dd>
+                    </div>
+                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
+                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                        Salary
+                      </dt>
+                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                        {singleJob?.salary} LPA
+                      </dd>
+                    </div>
+                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
+                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                        Posted
+                      </dt>
+                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                        {singleJob?.createdAt.split("T")[0]}
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
+              </div>
+            </article>
+
+            <aside className="flex flex-col gap-6">
+              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90 dark:text-neutral-300">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                  Application status
+                </h3>
+                <p className="mt-3 text-neutral-600 dark:text-neutral-300">
+                  {isApplied
+                    ? "You have already submitted your application for this role."
+                    : "Complete your profile and apply to share your portfolio with the hiring team."}
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90 dark:text-neutral-300">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                  Why this role
+                </h3>
+                <ul className="mt-3 space-y-2 text-neutral-600 dark:text-neutral-300">
+                  <li>• Collaborate with teams operating at global scale.</li>
+                  <li>• Build within a product-first organization.</li>
+                  <li>• Access a streamlined hiring workflow.</li>
+                </ul>
+              </div>
+            </aside>
           </div>
         </div>
-        <h1 className="border-b-2 border-b-gray-300 font-medium py-4">
-          Job Description
-        </h1>
-        <div className="my-4">
-          <h1 className="font-bold my-1">
-            Role:{" "}
-            <span className="pl-4 font-normal text-gray-800">
-              {singleJob?.title}
-            </span>
-          </h1>
-          <h1 className="font-bold my-1">
-            Location:{" "}
-            <span className="pl-4 font-normal text-gray-800">
-              {singleJob?.location}
-            </span>
-          </h1>
-          <h1 className="font-bold my-1">
-            Description:{" "}
-            <span className="pl-4 font-normal text-gray-800">
-              {singleJob?.description}
-            </span>
-          </h1>
-          <h1 className="font-bold my-1">
-            Experience:{" "}
-            <span className="pl-4 font-normal text-gray-800">
-              {singleJob?.experience} yrs
-            </span>
-          </h1>
-          <h1 className="font-bold my-1">
-            Salary:{" "}
-            <span className="pl-4 font-normal text-gray-800">
-              {singleJob?.salary}LPA
-            </span>
-          </h1>
-          <h1 className="font-bold my-1">
-            Total Applicants:{" "}
-            <span className="pl-4 font-normal text-gray-800">
-              {singleJob?.applications?.length}
-            </span>
-          </h1>
-          <h1 className="font-bold my-1">
-            Posted Date:{" "}
-            <span className="pl-4 font-normal text-gray-800">
-              {singleJob?.createdAt.split("T")[0]}
-            </span>
-          </h1>
-        </div>
-      </div>
+      </section>
     </>
   );
 };

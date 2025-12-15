@@ -1,26 +1,52 @@
-import React, { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Button } from "../ui/button";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { LogOut, User2, Moon, Sun, Briefcase, Menu, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useMemo } from "react";
+import {
+  LogOut,
+  User2,
+  Moon,
+  Sun,
+  Briefcase,
+  Menu,
+  X,
+} from "lucide-react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { toast } from "sonner";
+
+import { Button } from "../ui/button";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from "../ui/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ui/popover";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
-import { toast } from "sonner";
 import { useTheme } from "../theme-provider";
 
 const Navbar = () => {
-  const { user } = useSelector((store) => store.auth);
+  const { user } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleLogoClick = () => {
-    navigate("/");
-  };
+  const navItems = useMemo(() => {
+    if (user?.role === "recruiter") {
+      return [
+        { label: "Companies", to: "/admin/companies" },
+        { label: "Jobs", to: "/admin/jobs" },
+      ];
+    }
+    return [
+      { label: "Home", to: "/" },
+      { label: "Jobs", to: "/jobs" },
+    ];
+  }, [user]);
 
   const logoutHandler = async () => {
     try {
@@ -30,265 +56,201 @@ const Navbar = () => {
       if (res.data.success) {
         dispatch(setUser(null));
         navigate("/");
-        toast.success(res.data.message);
+        toast.success("Logged out");
       }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+    } catch {
+      toast.error("Logout failed");
     }
   };
 
+  const avatarInitials =
+    user?.fullname
+      ?.split(" ")
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "U";
+
   return (
-    <div className="bg-white dark:bg-gray-900 border-b dark:border-gray-800 sticky top-0 z-50 shadow-sm">
-      <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-4 md:px-6">
+    <header className="sticky top-4 z-50">
+      {/* Floating glass background */}
+      <div
+        className="
+          absolute inset-0 mx-auto max-w-7xl
+          rounded-2xl
+          bg-gradient-to-r
+          from-[#fffdf5]/80 via-[#fff8e7]/70 to-[#fffdf5]/80
+          dark:from-black/70 dark:via-black/60 dark:to-black/70
+          backdrop-blur-xl
+          border border-black/5 dark:border-white/10
+          shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+        "
+      />
+
+      <div className="relative mx-auto max-w-7xl h-20 px-10 flex items-center justify-between">
         {/* Logo */}
         <div
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={handleLogoClick}
+          onClick={() => navigate("/")}
+          className="flex items-center gap-4 cursor-pointer"
         >
-          <Briefcase className="h-6 w-6 md:h-8 md:w-8 text-[#0a66c2]" />
-          <h1 className="text-xl md:text-2xl font-bold text-[#0a66c2] dark:text-[#70b5f9]">
-            careerX
-          </h1>
+          <div className="h-10 w-10 rounded-xl bg-black dark:bg-white flex items-center justify-center">
+            <Briefcase className="h-4 w-4 text-white dark:text-black" />
+          </div>
+          <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+            SKILLIO
+          </span>
         </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
-          <ul className="flex font-medium items-center gap-5 lg:gap-6 text-gray-700 dark:text-gray-300">
-            {user && user.role === "recruiter" ? (
-              <>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link to="/admin/companies">Companies</Link>
-                </li>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link to="/admin/jobs">Jobs</Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link to="/">Home</Link>
-                </li>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link to="/jobs">Jobs</Link>
-                </li>
-              </>
-            )}
-          </ul>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-2">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `
+                px-6 py-2.5 rounded-full
+                text-base font-semibold
+                transition-all
+                ${
+                  isActive
+                    ? "bg-black text-white dark:bg-white dark:text-black"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10"
+                }
+              `
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Right section */}
+        <div className="flex items-center gap-3">
+          {/* Theme toggle */}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="h-10 w-10 rounded-full"
           >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-            ) : (
-              <Moon className="h-5 w-5 text-gray-600" />
-            )}
+            {theme === "dark" ? <Sun /> : <Moon />}
           </Button>
+
+          {/* Auth */}
           {!user ? (
-            <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2">
               <Link to="/login">
-                <Button
-                  variant="ghost"
-                  className="text-[#0a66c2] hover:bg-[#e8f3ff] dark:text-[#70b5f9] dark:hover:bg-gray-800 font-semibold"
-                >
-                  Sign In
-                </Button>
+                <button className="px-6 py-2.5 rounded-full text-base font-semibold text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10">
+                  Sign in
+                </button>
               </Link>
               <Link to="/signup">
-                <Button className="bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] text-white font-semibold rounded-full px-6">
+                <button className="px-6 py-2.5 rounded-full text-base font-semibold bg-black text-white dark:bg-white dark:text-black">
                   Join now
-                </Button>
+                </button>
               </Link>
             </div>
           ) : (
             <Popover>
               <PopoverTrigger asChild>
-                <Avatar className="cursor-pointer">
+                <Avatar className="h-10 w-10 cursor-pointer rounded-full border border-black/10 dark:border-white/10 hover:ring-2 hover:ring-black/10 dark:hover:ring-white/20 transition">
                   <AvatarImage
-                    src={
-                      user?.profile?.profilePhoto ||
-                      "https://github.com/shadcn.png"
-                    }
-                    alt="@shadcn"
+                    src={user?.profile?.profilePhoto || ""}
+                    alt={user?.fullname || "User"}
+                    className="object-cover"
                   />
+                  <AvatarFallback className="bg-black text-white dark:bg-white dark:text-black font-semibold">
+                    {avatarInitials}
+                  </AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
-              <PopoverContent className="w-80">
-                <div className="">
-                  <div className="flex gap-2 space-y-2">
-                    <Avatar className="cursor-pointer">
+
+              <PopoverContent className="w-72 rounded-xl p-0">
+                <div className="p-4">
+                  <div className="flex gap-3 pb-3 border-b">
+                    <Avatar className="h-11 w-11 rounded-full border border-black/10 dark:border-white/10">
                       <AvatarImage
-                        src={
-                          user?.profile?.profilePhoto ||
-                          "https://github.com/shadcn.png"
-                        }
-                        alt="@shadcn"
+                        src={user?.profile?.profilePhoto || ""}
+                        alt={user?.fullname || "User"}
+                        className="object-cover"
                       />
+                      <AvatarFallback className="bg-black text-white dark:bg-white dark:text-black text-base font-semibold">
+                        {avatarInitials}
+                      </AvatarFallback>
                     </Avatar>
-                    <div>
-                      <h4 className="font-medium">{user?.fullname}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {user?.profile?.bio}
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold truncate">
+                        {user?.fullname}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {user?.profile?.bio || "No bio"}
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col my-2 text-gray-600">
-                    {user && user.role === "student" && (
-                      <div className="flex w-fit items-center gap-2 cursor-pointer">
-                        <User2 />
-                        <Button variant="link">
-                          <Link to="/profile">View Profile</Link>
-                        </Button>
-                      </div>
+
+                  <div className="pt-3 space-y-1">
+                    {user?.role === "student" && (
+                      <Link to="/profile">
+                        <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-white/10">
+                          <User2 className="h-4 w-4" />
+                          Profile
+                        </button>
+                      </Link>
                     )}
-                    <div className="flex w-fit items-center gap-2 cursor-pointer">
-                      <LogOut />
-                      <Button onClick={logoutHandler} variant="link">
-                        Logout
-                      </Button>
-                    </div>
+                    <button
+                      onClick={logoutHandler}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Logout
+                    </button>
                   </div>
                 </div>
               </PopoverContent>
             </Popover>
           )}
-        </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex md:hidden items-center gap-2">
+          {/* Mobile menu */}
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden h-10 w-10"
           >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-            ) : (
-              <Moon className="h-5 w-5 text-gray-600" />
-            )}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6 text-gray-600 dark:text-gray-300" />
-            ) : (
-              <Menu className="h-6 w-6 text-gray-600 dark:text-gray-300" />
-            )}
+            {mobileOpen ? <X /> : <Menu />}
           </Button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-900 border-t dark:border-gray-800 px-4 py-4">
-          <ul className="flex flex-col gap-4 text-gray-700 dark:text-gray-300 font-medium">
-            {user && user.role === "recruiter" ? (
-              <>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link
-                    to="/admin/companies"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Companies
-                  </Link>
-                </li>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link
-                    to="/admin/jobs"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Jobs
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link to="/" onClick={() => setMobileMenuOpen(false)}>
-                    Home
-                  </Link>
-                </li>
-                <li className="hover:text-[#0a66c2] dark:hover:text-[#70b5f9] cursor-pointer transition-colors">
-                  <Link to="/jobs" onClick={() => setMobileMenuOpen(false)}>
-                    Jobs
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-          <div className="mt-4 pt-4 border-t dark:border-gray-800">
-            {!user ? (
-              <div className="flex flex-col gap-3">
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                  <Button
-                    variant="outline"
-                    className="w-full text-[#0a66c2] dark:text-[#70b5f9] font-semibold"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] text-white font-semibold">
-                    Join now
-                  </Button>
-                </Link>
-              </div>
-            ) : (
-              <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <Avatar className="cursor-pointer">
-                  <AvatarImage
-                    src={
-                      user?.profile?.profilePhoto ||
-                      "https://github.com/shadcn.png"
-                    }
-                    alt="@shadcn"
-                  />
-                </Avatar>
-                <div className="flex-1">
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100">
-                    {user?.fullname}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {user?.profile?.bio || "No bio"}
-                  </p>
-                </div>
-              </div>
-            )}
-            {user && (
-              <div className="flex flex-col gap-2 mt-3">
-                {user.role === "student" && (
-                  <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full justify-start">
-                      <User2 className="mr-2 h-4 w-4" />
-                      View Profile
-                    </Button>
-                  </Link>
-                )}
-                <Button
-                  variant="outline"
-                  className="w-full justify-start text-red-600 dark:text-red-400"
-                  onClick={() => {
-                    logoutHandler();
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </Button>
-              </div>
-            )}
+      {mobileOpen && (
+        <div className="md:hidden mt-2 mx-4 rounded-2xl bg-white/90 dark:bg-black/80 backdrop-blur-xl border dark:border-white/10">
+          <div className="p-4 space-y-2">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={() => setMobileOpen(false)}
+                className={({ isActive }) =>
+                  `
+                  block px-5 py-3 rounded-xl
+                  text-base font-semibold
+                  ${
+                    isActive
+                      ? "bg-black text-white dark:bg-white dark:text-black"
+                      : "hover:bg-black/5 dark:hover:bg-white/10"
+                  }
+                `
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
           </div>
         </div>
       )}
-    </div>
+    </header>
   );
 };
 

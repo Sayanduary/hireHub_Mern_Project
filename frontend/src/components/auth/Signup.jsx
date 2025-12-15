@@ -66,133 +66,152 @@ const Signup = () => {
     }
   }, []);
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-neutral-950 dark:text-neutral-100">
       <Navbar />
-      <div className="flex items-center justify-center max-w-7xl mx-auto px-4 py-6">
+      <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-12">
         <form
           onSubmit={submitHandler}
-          className="w-full max-w-md border border-gray-200 dark:border-gray-800 rounded-xl shadow-lg p-6 md:p-8 my-4 bg-white dark:bg-gray-900"
+          className="w-full max-w-2xl rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90"
         >
-          <h1 className="font-bold text-2xl md:text-3xl mb-4 text-center text-gray-900 dark:text-gray-100">
-            Create Account
-          </h1>
-          <p className="text-center text-gray-600 dark:text-gray-400 mb-6">
-            Join us to find your dream job
-          </p>
-          <div className="my-3">
-            <Label className="text-gray-700 dark:text-gray-300 font-medium">
-              Full Name
-            </Label>
-            <Input
-              type="text"
-              value={input.fullname}
-              name="fullname"
-              onChange={changeEventHandler}
-              placeholder="John Doe"
-              className="mt-1.5 dark:bg-gray-800 dark:border-gray-700"
-            />
+          <div className="space-y-3 text-center">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+              Join the network
+            </p>
+            <h1 className="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+              Create your profile
+            </h1>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+              Set up a workspace to apply, hire, and collaborate seamlessly.
+            </p>
           </div>
-          <div className="my-3">
-            <Label className="text-gray-700 dark:text-gray-300 font-medium">
-              Email
-            </Label>
-            <Input
-              type="email"
-              value={input.email}
-              name="email"
-              onChange={changeEventHandler}
-              placeholder="john.doe@example.com"
-              className="mt-1.5 dark:bg-gray-800 dark:border-gray-700"
-            />
-          </div>
-          <div className="my-3">
-            <Label className="text-gray-700 dark:text-gray-300 font-medium">
-              Phone Number
-            </Label>
-            <Input
-              type="text"
-              value={input.phoneNumber}
-              name="phoneNumber"
-              onChange={changeEventHandler}
-              placeholder="+91 9876543210"
-              className="mt-1.5 dark:bg-gray-800 dark:border-gray-700"
-            />
-          </div>
-          <div className="my-3">
-            <Label className="text-gray-700 dark:text-gray-300 font-medium">
-              Password
-            </Label>
-            <Input
-              type="password"
-              value={input.password}
-              name="password"
-              onChange={changeEventHandler}
-              placeholder="Create a strong password"
-              className="mt-1.5 dark:bg-gray-800 dark:border-gray-700"
-            />
-          </div>
-          <div className="my-4">
-            <Label className="text-gray-700 dark:text-gray-300 font-medium mb-3 block">
-              I am a
-            </Label>
-            <div className="flex items-center gap-3 flex-wrap">
-              <Button
-                type="button"
-                onClick={() => setInput({ ...input, role: "student" })}
-                variant={input.role === "student" ? "default" : "outline"}
-                className={`flex-1 min-w-[140px] h-11 ${
-                  input.role === "student"
-                    ? "bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] text-white"
-                    : "border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
-                }`}
-              >
-                Student
-              </Button>
-              <Button
-                type="button"
-                onClick={() => setInput({ ...input, role: "recruiter" })}
-                variant={input.role === "recruiter" ? "default" : "outline"}
-                className={`flex-1 min-w-[140px] h-11 ${
-                  input.role === "recruiter"
-                    ? "bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] text-white"
-                    : "border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
-                }`}
-              >
-                Recruiter
-              </Button>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Full name
+              </Label>
+              <Input
+                type="text"
+                value={input.fullname}
+                name="fullname"
+                onChange={changeEventHandler}
+                placeholder="Jamie Rivera"
+                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Email
+              </Label>
+              <Input
+                type="email"
+                value={input.email}
+                name="email"
+                onChange={changeEventHandler}
+                placeholder="jamie@studio.com"
+                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Phone number
+              </Label>
+              <Input
+                type="text"
+                value={input.phoneNumber}
+                name="phoneNumber"
+                onChange={changeEventHandler}
+                placeholder="+91 98765 43210"
+                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Password
+              </Label>
+              <Input
+                type="password"
+                value={input.password}
+                name="password"
+                onChange={changeEventHandler}
+                placeholder="Create a password"
+                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
             </div>
           </div>
-          <div className="my-4">
-            <Label className="text-gray-700 dark:text-gray-300 font-medium">
-              Profile Picture (Optional)
-            </Label>
-            <Input
-              accept="image/*"
-              type="file"
-              onChange={changeFileHandler}
-              className="cursor-pointer mt-1.5 dark:bg-gray-800 dark:border-gray-700"
-            />
+
+          <div className="mt-6 grid gap-5 md:grid-cols-2">
+            <div className="space-y-3">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                I am a
+              </Label>
+              <div className="grid gap-2">
+                <Button
+                  type="button"
+                  onClick={() => setInput({ ...input, role: "student" })}
+                  variant="ghost"
+                  className={`h-11 rounded-xl border transition-colors ${
+                    input.role === "student"
+                      ? "border-neutral-900 bg-neutral-900 text-neutral-100 dark:border-white dark:bg-white dark:text-neutral-950"
+                      : "border-neutral-200/70 text-neutral-600 hover:border-neutral-400 hover:bg-white/70 dark:border-white/10 dark:text-neutral-300 dark:hover:border-white/20 dark:hover:bg-white/5"
+                  }`}
+                >
+                  Student
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => setInput({ ...input, role: "recruiter" })}
+                  variant="ghost"
+                  className={`h-11 rounded-xl border transition-colors ${
+                    input.role === "recruiter"
+                      ? "border-neutral-900 bg-neutral-900 text-neutral-100 dark:border-white dark:bg-white dark:text-neutral-950"
+                      : "border-neutral-200/70 text-neutral-600 hover:border-neutral-400 hover:bg-white/70 dark:border-white/10 dark:text-neutral-300 dark:hover:border-white/20 dark:hover:bg-white/5"
+                  }`}
+                >
+                  Recruiter
+                </Button>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Profile image (optional)
+              </Label>
+              <div>
+                <Input
+                  accept="image/*"
+                  type="file"
+                  onChange={changeFileHandler}
+                  className="h-11 cursor-pointer rounded-xl border border-dashed border-neutral-200/80 bg-transparent text-sm text-neutral-600 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:font-medium file:text-neutral-100 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-300 dark:file:bg-white dark:file:text-neutral-950 dark:focus:border-white/20"
+                />
+                <p className="mt-2 text-xs text-neutral-400 dark:text-neutral-500">
+                  PNG or JPG up to 5MB.
+                </p>
+              </div>
+            </div>
           </div>
+
           {loading ? (
-            <Button className="w-full my-5 bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] h-11">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+            <Button className="mt-8 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Please wait
             </Button>
           ) : (
             <Button
               type="submit"
-              className="w-full my-5 bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] h-11"
+              className="mt-8 h-11 w-full rounded-xl bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
             >
-              Sign Up
+              Create account
             </Button>
           )}
-          <div className="text-center">
-            <span className="text-sm text-gray-600 dark:text-gray-400">
+
+          <div className="mt-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
+            <span>
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-[#0a66c2] dark:text-[#70b5f9] font-semibold hover:underline"
+                className="font-medium text-neutral-800 underline-offset-4 hover:underline dark:text-neutral-200"
               >
-                Login
+                Sign in
               </Link>
             </span>
           </div>

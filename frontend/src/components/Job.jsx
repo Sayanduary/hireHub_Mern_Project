@@ -18,11 +18,10 @@ const Job = ({ job }) => {
   const daysAgo = daysAgoFunction(job?.createdAt);
 
   return (
-    <div className="p-4 md:p-5 rounded-lg shadow-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:border-[#0a66c2] dark:hover:border-[#70b5f9] transition-all duration-200 h-full flex flex-col">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-          <Clock className="h-3.5 w-3.5" />
+    <article className="flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-white/80 p-6 transition-colors duration-200 hover:border-neutral-400 dark:border-white/10 dark:bg-neutral-950/80 dark:hover:border-white/20">
+      <div className="flex items-start justify-between text-xs text-neutral-500 dark:text-neutral-400">
+        <div className="inline-flex items-center gap-2">
+          <Clock className="h-3.5 w-3.5" aria-hidden />
           <span>
             {daysAgo === 0
               ? "Today"
@@ -33,74 +32,71 @@ const Job = ({ job }) => {
         </div>
         <Button
           variant="ghost"
-          className="rounded-full h-8 w-8 p-0 hover:bg-blue-50 dark:hover:bg-gray-800"
           size="icon"
+          className="h-8 w-8 rounded-full border border-transparent text-neutral-500 transition-colors hover:border-neutral-300 hover:bg-white/70 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-white/10 dark:hover:bg-white/5 dark:hover:text-neutral-100"
+          aria-label="Save job"
         >
-          <Bookmark className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+          <Bookmark className="h-4 w-4" />
         </Button>
       </div>
 
-      {/* Company Info */}
-      <div className="flex items-center gap-3 mb-3">
-        <Avatar className="h-12 w-12 border-2 border-gray-100 dark:border-gray-800">
+      <div className="mt-5 flex items-center gap-3">
+        <Avatar className="h-12 w-12 border border-neutral-200/80 bg-white/70 dark:border-white/10 dark:bg-white/5">
           <AvatarImage
             src={
               job?.company?.logo ||
               "https://via.placeholder.com/150?text=Company"
             }
-            alt={job?.company?.name}
+            alt={job?.company?.name || "Company"}
           />
         </Avatar>
-        <div className="flex-1 min-w-0">
-          <h2 className="font-semibold text-base text-gray-900 dark:text-gray-100 truncate">
+        <div className="min-w-0 flex-1">
+          <h2 className="truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100">
             {job?.company?.name}
           </h2>
-          <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-            <MapPin className="h-3.5 w-3.5" />
-            <span className="truncate">{job?.location || "India"}</span>
+          <div className="mt-1 inline-flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
+            <MapPin className="h-3.5 w-3.5" aria-hidden />
+            <span className="truncate">{job?.location || "Remote"}</span>
           </div>
         </div>
       </div>
 
-      {/* Job Title & Description */}
-      <div className="flex-1 mb-4">
-        <h3 className="font-bold text-lg mb-2 text-[#0a66c2] dark:text-[#70b5f9] line-clamp-2">
+      <div className="mt-6 flex flex-1 flex-col gap-3">
+        <h3 className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
           {job?.title}
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+        <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400 line-clamp-3">
           {job?.description}
         </p>
+
+        <div className="flex flex-wrap gap-2 pt-2">
+          <Badge className="flex items-center gap-1 rounded-full border border-neutral-200/80 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/10 dark:text-neutral-300">
+            <Briefcase className="h-3 w-3" aria-hidden />
+            {job?.position} roles
+          </Badge>
+          <Badge className="rounded-full border border-neutral-200/80 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/10 dark:text-neutral-300">
+            {job?.jobType}
+          </Badge>
+          <Badge className="flex items-center gap-1 rounded-full border border-neutral-200/80 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/10 dark:text-neutral-300">
+            <DollarSign className="h-3 w-3" aria-hidden />
+            {job?.salary} LPA
+          </Badge>
+        </div>
       </div>
 
-      {/* Badges */}
-      <div className="flex items-center gap-2 flex-wrap mb-4">
-        <Badge className="text-xs bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 font-semibold border-none px-2 py-1">
-          <Briefcase className="h-3 w-3 mr-1" />
-          {job?.position} Positions
-        </Badge>
-        <Badge className="text-xs bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 font-semibold border-none px-2 py-1">
-          {job?.jobType}
-        </Badge>
-        <Badge className="text-xs bg-purple-50 text-purple-700 dark:bg-purple-900/20 dark:text-purple-400 font-semibold border-none px-2 py-1">
-          <DollarSign className="h-3 w-3 mr-1" />
-          {job?.salary} LPA
-        </Badge>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+      <div className="mt-8 flex items-center gap-2 border-t border-neutral-200/80 pt-4 dark:border-white/10">
         <Button
           onClick={() => navigate(`/description/${job?._id}`)}
-          variant="outline"
-          className="flex-1 text-sm border-[#0a66c2] text-[#0a66c2] hover:bg-[#e8f3ff] dark:border-[#70b5f9] dark:text-[#70b5f9] dark:hover:bg-gray-800"
+          variant="ghost"
+          className="h-11 flex-1 rounded-xl border border-neutral-200/80 text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-400 hover:bg-white dark:border-white/10 dark:text-neutral-200 dark:hover:border-white/20 dark:hover:bg-white/5"
         >
-          View Details
+          View details
         </Button>
-        <Button className="flex-1 text-sm bg-[#0a66c2] hover:bg-[#004182] dark:bg-[#70b5f9] dark:hover:bg-[#5a9ad8] text-white">
-          Apply Now
+        <Button className="h-11 flex-1 rounded-xl border border-neutral-900 bg-neutral-900 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100">
+          Apply now
         </Button>
       </div>
-    </div>
+    </article>
   );
 };
 

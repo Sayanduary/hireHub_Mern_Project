@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,29 +20,34 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((store) => store.auth);
 
+  const initialSkills = useMemo(() => {
+    if (!user?.profile?.skills?.length) return "";
+    return user.profile.skills.join(", ");
+  }, [user]);
+
   const [input, setInput] = useState({
     fullname: user?.fullname || "",
     email: user?.email || "",
     phoneNumber: user?.phoneNumber || "",
     bio: user?.profile?.bio || "",
-    skills: user?.profile?.skills?.map((skill) => skill) || "",
+    skills: initialSkills,
     file: user?.profile?.resume || "",
     profilePhoto: null,
   });
   const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const fileChangeHandler = (e) => {
     const file = e.target.files?.[0];
-    setInput({ ...input, file });
+    setInput((prev) => ({ ...prev, file }));
   };
 
   const profilePhotoChangeHandler = (e) => {
     const file = e.target.files?.[0];
-    setInput({ ...input, profilePhoto: file });
+    setInput((prev) => ({ ...prev, profilePhoto: file }));
   };
 
   const submitHandler = async (e) => {
@@ -59,6 +64,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     if (input.profilePhoto) {
       formData.append("profilePhoto", input.profilePhoto);
     }
+
     try {
       setLoading(true);
       const res = await axios.post(
@@ -76,132 +82,145 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      console.error(error);
+      toast.error(error.response?.data?.message || "Update failed");
     } finally {
       setLoading(false);
+      setOpen(false);
     }
-    setOpen(false);
-    console.log(input);
   };
 
   return (
-    <div>
-      <Dialog open={open}>
-        <DialogContent
-          className="sm:max-w-[425px]"
-          onInteractOutside={() => setOpen(false)}
-        >
-          <DialogHeader>
-            <DialogTitle>Update Profile</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={submitHandler}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name
-                </Label>
-                <Input
-                  id="name"
-                  name="fullname"
-                  type="text"
-                  value={input.fullname}
-                  onChange={changeEventHandler}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" className="text-right">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={input.email}
-                  onChange={changeEventHandler}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="number" className="text-right">
-                  Number
-                </Label>
-                <Input
-                  id="number"
-                  name="phoneNumber"
-                  value={input.phoneNumber}
-                  onChange={changeEventHandler}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="bio" className="text-right">
-                  Bio
-                </Label>
-                <Input
-                  id="bio"
-                  name="bio"
-                  value={input.bio}
-                  onChange={changeEventHandler}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="skills" className="text-right">
-                  Skills
-                </Label>
-                <Input
-                  id="skills"
-                  name="skills"
-                  value={input.skills}
-                  onChange={changeEventHandler}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="profilePhoto" className="text-right">
-                  Profile Photo
-                </Label>
-                <Input
-                  id="profilePhoto"
-                  name="profilePhoto"
-                  type="file"
-                  accept="image/*"
-                  onChange={profilePhotoChangeHandler}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="file" className="text-right">
-                  Resume
-                </Label>
-                <Input
-                  id="file"
-                  name="file"
-                  type="file"
-                  accept="application/pdf"
-                  onChange={fileChangeHandler}
-                  className="col-span-3"
-                />
-              </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="sm:max-w-[520px] rounded-3xl border border-neutral-200/70 bg-[#F9F9F5]/95 px-0 pb-0 pt-0 shadow-[0_24px_60px_-20px_rgba(15,15,15,0.28)] transition-colors dark:border-white/10 dark:bg-neutral-900/95">
+        <DialogHeader className="space-y-2 px-8 pb-6 pt-8">
+          <p className="text-xs font-medium uppercase tracking-[0.22em] text-neutral-400 dark:text-neutral-500">
+            Profile
+          </p>
+          <DialogTitle className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+            Update workspace details
+          </DialogTitle>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            Keep your contact, narrative, and resume current so recruiters can
+            respond without friction.
+          </p>
+        </DialogHeader>
+
+        <form onSubmit={submitHandler} className="space-y-8 px-8 pb-8">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Full name
+              </Label>
+              <Input
+                name="fullname"
+                type="text"
+                value={input.fullname}
+                onChange={changeEventHandler}
+                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
             </div>
-            <DialogFooter>
-              {loading ? (
-                <Button className="w-full my-4">
-                  {" "}
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
-                </Button>
-              ) : (
-                <Button type="submit" className="w-full my-4">
-                  Update
-                </Button>
-              )}
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Email
+              </Label>
+              <Input
+                name="email"
+                type="email"
+                value={input.email}
+                onChange={changeEventHandler}
+                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Phone number
+              </Label>
+              <Input
+                name="phoneNumber"
+                value={input.phoneNumber}
+                onChange={changeEventHandler}
+                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Skills (comma separated)
+              </Label>
+              <Input
+                name="skills"
+                value={input.skills}
+                onChange={changeEventHandler}
+                placeholder="Product design, Figma, Systems"
+                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              Bio
+            </Label>
+            <textarea
+              name="bio"
+              value={input.bio}
+              onChange={changeEventHandler}
+              rows={4}
+              placeholder="Craft a succinct overview of your experience and focus."
+              className="w-full rounded-xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+            />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Profile photo
+              </Label>
+              <Input
+                name="profilePhoto"
+                type="file"
+                accept="image/*"
+                onChange={profilePhotoChangeHandler}
+                className="h-11 cursor-pointer rounded-xl border border-dashed border-neutral-200/70 bg-white/60 text-sm text-neutral-600 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:font-medium file:text-neutral-100 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/15 dark:bg-transparent dark:text-neutral-300 dark:file:bg-white dark:file:text-neutral-950 dark:focus:border-white/20"
+              />
+              <p className="text-xs text-neutral-400 dark:text-neutral-500">
+                PNG or JPG up to 5MB.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Resume (PDF)
+              </Label>
+              <Input
+                name="file"
+                type="file"
+                accept="application/pdf"
+                onChange={fileChangeHandler}
+                className="h-11 cursor-pointer rounded-xl border border-dashed border-neutral-200/70 bg-white/60 text-sm text-neutral-600 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:font-medium file:text-neutral-100 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/15 dark:bg-transparent dark:text-neutral-300 dark:file:bg-white dark:file:text-neutral-950 dark:focus:border-white/20"
+              />
+              <p className="text-xs text-neutral-400 dark:text-neutral-500">
+                Upload the latest version so teams have accurate context.
+              </p>
+            </div>
+          </div>
+
+          <DialogFooter className="pt-4">
+            {loading ? (
+              <Button className="h-11 w-full rounded-xl border border-neutral-900 bg-neutral-900 text-neutral-100 hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="h-11 w-full rounded-xl border border-neutral-900 bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
+              >
+                Save changes
+              </Button>
+            )}
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

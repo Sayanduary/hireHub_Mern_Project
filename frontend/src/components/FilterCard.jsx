@@ -171,10 +171,10 @@ const FilterCard = () => {
   ]);
 
   return (
-    <div className="w-full bg-white dark:bg-gray-900 p-3 rounded-md border border-gray-100 dark:border-gray-800 shadow-md max-h-[85vh] overflow-y-auto">
-      <div className="flex justify-between items-center mb-3">
-        <h1 className="font-bold text-lg text-gray-900 dark:text-gray-100">
-          Filter Jobs
+    <div className="w-full max-h-[85vh] overflow-y-auto rounded-2xl border border-neutral-200/70 bg-[#F9F9F5] p-6 text-neutral-900 shadow-none transition-colors dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-100">
+      <div className="flex items-center justify-between">
+        <h1 className="text-base font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+          Refine Search
         </h1>
         {(selectedLocation ||
           selectedIndustry ||
@@ -184,167 +184,168 @@ const FilterCard = () => {
           searchText ||
           selectedSkills.length > 0) && (
           <button
+            type="button"
             onClick={handleClearFilters}
-            className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-xs font-medium text-neutral-500 transition-colors hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-50"
           >
-            Clear All
+            Clear all
           </button>
         )}
       </div>
-      <hr className="mb-3 border-gray-200 dark:border-gray-700" />
 
-      {/* Search Box */}
-      <div className="mb-4">
-        <Label className="text-gray-700 dark:text-gray-300 font-semibold mb-2 block text-sm">
-          Search by Company or Role
-        </Label>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
-          <Input
-            type="text"
-            placeholder="e.g., Google, Developer..."
-            value={searchText}
-            onChange={handleSearchChange}
-            className="pl-10 text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100"
-          />
-        </div>
-      </div>
-
-      <hr className="my-3 border-gray-200 dark:border-gray-700" />
-
-      {/* Skills Filter */}
-      <div className="mb-4">
-        <button
-          onClick={() => toggleSection("skills")}
-          className="flex items-center justify-between w-full font-bold text-gray-900 dark:text-gray-100 text-sm mb-2 hover:text-blue-600 dark:hover:text-blue-400"
-        >
-          <span>Skills</span>
-          <ChevronDown
-            size={16}
-            className={`transform transition ${
-              expandedSections.skills ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-        {expandedSections.skills && (
-          <div className="space-y-2 mb-3">
-            {skillsData.slice(0, 8).map((skill) => (
-              <div key={skill} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id={`skill-${skill}`}
-                  checked={selectedSkills.includes(skill)}
-                  onChange={() => handleSkillToggle(skill)}
-                  className="w-4 h-4 accent-blue-600 dark:accent-blue-400 cursor-pointer"
-                />
-                <Label
-                  htmlFor={`skill-${skill}`}
-                  className="text-gray-700 dark:text-gray-300 text-sm cursor-pointer"
-                >
-                  {skill}
-                </Label>
-              </div>
-            ))}
-            <details className="text-gray-600 dark:text-gray-400 cursor-pointer">
-              <summary className="text-xs hover:text-blue-600 dark:hover:text-blue-400">
-                View More Skills
-              </summary>
-              <div className="space-y-2 mt-2">
-                {skillsData.slice(8).map((skill) => (
-                  <div key={skill} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={`skill-${skill}`}
-                      checked={selectedSkills.includes(skill)}
-                      onChange={() => handleSkillToggle(skill)}
-                      className="w-4 h-4 accent-blue-600 dark:accent-blue-400 cursor-pointer"
-                    />
-                    <Label
-                      htmlFor={`skill-${skill}`}
-                      className="text-gray-700 dark:text-gray-300 text-sm cursor-pointer"
-                    >
-                      {skill}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </details>
+      <div className="mt-6 space-y-8">
+        <section>
+          <Label className="mb-3 block text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+            Search by company or role
+          </Label>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
+            <Input
+              type="text"
+              placeholder="Search teams, roles, or companies"
+              value={searchText}
+              onChange={handleSearchChange}
+              className="h-11 w-full rounded-xl border border-neutral-200/80 bg-transparent pl-10 pr-4 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+            />
           </div>
-        )}
-        <hr className="my-3 border-gray-200 dark:border-gray-700" />
-      </div>
+        </section>
 
-      {/* Other Radio Filters */}
-      {filterData.map((data, index) => {
-        const sectionKey = data.filterType.toLowerCase().replace(" ", "");
+        <section className="border-t border-neutral-200/80 pt-6 dark:border-white/5">
+          <button
+            type="button"
+            onClick={() => toggleSection("skills")}
+            className="flex w-full items-center justify-between text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-50"
+          >
+            <span>Skills</span>
+            <ChevronDown
+              size={16}
+              className={`h-4 w-4 transition-transform duration-200 ${
+                expandedSections.skills ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          {expandedSections.skills && (
+            <div className="mt-4 space-y-2">
+              {skillsData.slice(0, 8).map((skill) => (
+                <label
+                  key={skill}
+                  htmlFor={`skill-${skill}`}
+                  className="flex items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 text-sm text-neutral-600 transition-colors hover:border-neutral-200 hover:bg-white/60 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/5"
+                >
+                  <input
+                    type="checkbox"
+                    id={`skill-${skill}`}
+                    checked={selectedSkills.includes(skill)}
+                    onChange={() => handleSkillToggle(skill)}
+                    className="h-4 w-4 accent-neutral-900 transition-[accent-color] dark:accent-neutral-50"
+                  />
+                  <span>{skill}</span>
+                </label>
+              ))}
+              <details className="group text-sm text-neutral-500 transition-colors dark:text-neutral-400">
+                <summary className="flex cursor-pointer items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-neutral-400 transition-colors hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-200">
+                  More skills
+                </summary>
+                <div className="mt-3 space-y-2">
+                  {skillsData.slice(8).map((skill) => (
+                    <label
+                      key={skill}
+                      htmlFor={`skill-${skill}`}
+                      className="flex items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 text-sm text-neutral-600 transition-colors hover:border-neutral-200 hover:bg-white/60 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/5"
+                    >
+                      <input
+                        type="checkbox"
+                        id={`skill-${skill}`}
+                        checked={selectedSkills.includes(skill)}
+                        onChange={() => handleSkillToggle(skill)}
+                        className="h-4 w-4 accent-neutral-900 transition-[accent-color] dark:accent-neutral-50"
+                      />
+                      <span>{skill}</span>
+                    </label>
+                  ))}
+                </div>
+              </details>
+            </div>
+          )}
+        </section>
 
-        // Determine which state value to use based on filter type
-        let currentValue = "";
-        switch (data.filterType) {
-          case "Location":
-            currentValue = selectedLocation;
-            break;
-          case "Industry":
-            currentValue = selectedIndustry;
-            break;
-          case "Job Type":
-            currentValue = selectedJobType;
-            break;
-          case "Experience Level":
-            currentValue = selectedExperience;
-            break;
-          case "Salary Range":
-            currentValue = selectedSalary;
-            break;
-          default:
-            currentValue = "";
-        }
+        {filterData.map((data, index) => {
+          const sectionKey = data.filterType.toLowerCase().replace(" ", "");
 
-        return (
-          <div key={index} className="mb-4">
-            <button
-              onClick={() => toggleSection(sectionKey)}
-              className="flex items-center justify-between w-full font-bold text-gray-900 dark:text-gray-100 text-sm mb-2 hover:text-blue-600 dark:hover:text-blue-400"
+          let currentValue = "";
+          switch (data.filterType) {
+            case "Location":
+              currentValue = selectedLocation;
+              break;
+            case "Industry":
+              currentValue = selectedIndustry;
+              break;
+            case "Job Type":
+              currentValue = selectedJobType;
+              break;
+            case "Experience Level":
+              currentValue = selectedExperience;
+              break;
+            case "Salary Range":
+              currentValue = selectedSalary;
+              break;
+            default:
+              currentValue = "";
+          }
+
+          return (
+            <section
+              key={data.filterType}
+              className="border-t border-neutral-200/80 pt-6 dark:border-white/5"
             >
-              <span>{data.filterType}</span>
-              <ChevronDown
-                size={16}
-                className={`transform transition ${
-                  expandedSections[sectionKey] ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            {expandedSections[sectionKey] && (
-              <RadioGroup
-                value={currentValue}
-                onValueChange={(value) => changeHandler(data.filterType, value)}
+              <button
+                type="button"
+                onClick={() => toggleSection(sectionKey)}
+                className="flex w-full items-center justify-between text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-50"
               >
-                <div className="space-y-2 mb-2">
+                <span>{data.filterType}</span>
+                <ChevronDown
+                  size={16}
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    expandedSections[sectionKey] ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {expandedSections[sectionKey] && (
+                <RadioGroup
+                  value={currentValue}
+                  onValueChange={(value) =>
+                    changeHandler(data.filterType, value)
+                  }
+                  className="mt-4 space-y-2"
+                >
                   {data.array.map((item, idx) => {
                     const itemId = `id${index}-${idx}`;
                     return (
-                      <div key={itemId} className="flex items-center space-x-2">
+                      <div
+                        key={itemId}
+                        className="flex items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 text-sm text-neutral-600 transition-colors hover:border-neutral-200 hover:bg-white/60 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/5"
+                      >
                         <RadioGroupItem
                           value={item}
                           id={itemId}
-                          className="dark:border-gray-600"
+                          className="text-neutral-900 transition-colors data-[state=checked]:border-neutral-900 data-[state=checked]:bg-neutral-900 dark:text-neutral-100 dark:data-[state=checked]:border-neutral-50 dark:data-[state=checked]:bg-neutral-50"
                         />
                         <Label
                           htmlFor={itemId}
-                          className="text-gray-700 dark:text-gray-300 text-sm cursor-pointer"
+                          className="cursor-pointer text-sm font-normal text-neutral-600 dark:text-neutral-300"
                         >
                           {item}
                         </Label>
                       </div>
                     );
                   })}
-                </div>
-              </RadioGroup>
-            )}
-            <hr className="my-3 border-gray-200 dark:border-gray-700" />
-          </div>
-        );
-      })}
+                </RadioGroup>
+              )}
+            </section>
+          );
+        })}
+      </div>
     </div>
   );
 };
