@@ -9,7 +9,7 @@ import {
 import { Button } from "./ui/button";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setSearchedQuery } from "@/redux/jobSlice";
+import { setFilters, setSearchedQuery } from "@/redux/jobSlice";
 
 const categories = [
   "Frontend Developer",
@@ -27,6 +27,7 @@ const CategoryCarousel = () => {
   const navigate = useNavigate();
 
   const searchJobHandler = (query) => {
+    dispatch(setFilters({ searchText: query }));
     dispatch(setSearchedQuery(query));
     navigate("/jobs");
   };
