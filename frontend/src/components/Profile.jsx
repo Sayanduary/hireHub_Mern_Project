@@ -15,10 +15,14 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 
 const Profile = () => {
-  useGetAppliedJobs();
+  const { user } = useSelector((store) => store.auth);
+  const isStudent = user?.role === "student";
+  useGetAppliedJobs(isStudent);
   const [open, setOpen] = useState(false);
   const [savedJobs, setSavedJobs] = useState([]);
-  const { user } = useSelector((store) => store.auth);
+  const workspaceLabel = isStudent
+    ? "Student workspace"
+    : "Recruiter workspace";
 
   useEffect(() => {
     const fetchSavedJobs = async () => {
@@ -33,8 +37,8 @@ const Profile = () => {
         toast.error("Failed to fetch saved jobs");
       }
     };
-    if (user?.role === "student") fetchSavedJobs();
-  }, [user]);
+    if (isStudent) fetchSavedJobs();
+  }, [isStudent]);
 
   const handleRemoveSavedJob = (jobId) => {
     setSavedJobs((prev) => prev.filter((job) => job._id !== jobId));
@@ -59,7 +63,7 @@ const Profile = () => {
 
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-                  Student workspace
+                  {workspaceLabel}
                 </p>
                 <h1 className="mt-2 text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
                   {user?.fullname}
@@ -73,10 +77,10 @@ const Profile = () => {
             <Button
               onClick={() => setOpen(true)}
               variant="ghost"
-              size="icon"
-              className="h-10 w-10 rounded-xl border border-neutral-200/80 bg-white text-neutral-900 transition-colors hover:border-neutral-400 hover:bg-neutral-50 dark:border-white/10 dark:bg-white/5 dark:text-neutral-50 dark:hover:border-white/20 dark:hover:bg-white/10"
+              className="inline-flex items-center gap-2 rounded-xl border border-neutral-200/80 bg-white px-4 py-2 text-sm font-medium text-neutral-900 transition-colors hover:border-neutral-400 hover:bg-neutral-50 dark:border-white/10 dark:bg-white/5 dark:text-neutral-50 dark:hover:border-white/20 dark:hover:bg-white/10"
             >
               <Pen className="h-4 w-4" />
+              <span className="hidden sm:inline">Edit profile</span>
             </Button>
           </div>
 
@@ -134,7 +138,7 @@ const Profile = () => {
           </div>
         </div>
 
-        {user?.role === "student" && user?.notifications?.length > 0 && (
+        {isStudent && user?.notifications?.length > 0 && (
           <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white/70 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
             <div className="mb-5 flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200/80 bg-white dark:border-white/10 dark:bg-white/10">
@@ -168,21 +172,34 @@ const Profile = () => {
           </div>
         )}
 
-        <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white/80 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
-              Applied Jobs
-            </h2>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
-              Recent activity
+        {isStudent ? (
+          <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white/80 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
+                Applied Jobs
+              </h2>
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+                Recent activity
+              </p>
+            </div>
+            <div className="mt-6 overflow-x-auto">
+              <AppliedJobTable />
+            </div>
+          </div>
+        ) : (
+          <div className="mt-10 rounded-3xl border border-dashed border-neutral-200/80 bg-white/40 p-8 text-sm leading-6 text-neutral-500 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.03] dark:text-neutral-400">
+            <p className="font-medium text-neutral-700 dark:text-neutral-200">
+              Manage openings from your admin dashboard
+            </p>
+            <p className="mt-2">
+              Recruiter actions like posting jobs, reviewing applicants, and
+              editing company details live inside the admin workspace. Use the
+              navigation above to jump back when needed.
             </p>
           </div>
-          <div className="mt-6 overflow-x-auto">
-            <AppliedJobTable />
-          </div>
-        </div>
+        )}
 
-        {user?.role === "student" && (
+        {isStudent && (
           <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white/80 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
             <div className="flex items-center justify-between gap-4">
               <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">

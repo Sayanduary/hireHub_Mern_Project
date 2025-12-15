@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,21 +20,31 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((store) => store.auth);
 
-  const initialSkills = useMemo(() => {
-    if (!user?.profile?.skills?.length) return "";
-    return user.profile.skills.join(", ");
-  }, [user]);
-
   const [input, setInput] = useState({
-    fullname: user?.fullname || "",
-    email: user?.email || "",
-    phoneNumber: user?.phoneNumber || "",
-    bio: user?.profile?.bio || "",
-    skills: initialSkills,
-    file: user?.profile?.resume || "",
+    fullname: "",
+    email: "",
+    phoneNumber: "",
+    bio: "",
+    skills: "",
+    file: null,
     profilePhoto: null,
   });
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!open || !user) return;
+    setInput({
+      fullname: user.fullname || "",
+      email: user.email || "",
+      phoneNumber: user.phoneNumber || "",
+      bio: user.profile?.bio || "",
+      skills: user.profile?.skills?.length
+        ? user.profile.skills.join(", ")
+        : "",
+      file: null,
+      profilePhoto: null,
+    });
+  }, [open, user]);
 
   const changeEventHandler = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -58,10 +68,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
     formData.append("skills", input.skills);
-    if (input.file) {
+    if (input.file instanceof File) {
       formData.append("file", input.file);
     }
-    if (input.profilePhoto) {
+    if (input.profilePhoto instanceof File) {
       formData.append("profilePhoto", input.profilePhoto);
     }
 

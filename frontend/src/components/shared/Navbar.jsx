@@ -174,14 +174,12 @@ const Navbar = () => {
                   </div>
 
                   <div className="pt-3 space-y-1">
-                    {user?.role === "student" && (
-                      <Link to="/profile">
-                        <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-white/10">
-                          <User2 className="h-4 w-4" />
-                          Profile
-                        </button>
-                      </Link>
-                    )}
+                    <Link to="/profile">
+                      <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-white/10">
+                        <User2 className="h-4 w-4" />
+                        Manage profile
+                      </button>
+                    </Link>
                     <button
                       onClick={logoutHandler}
                       className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"

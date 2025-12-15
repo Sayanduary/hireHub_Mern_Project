@@ -4,10 +4,11 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const useGetAppliedJobs = () => {
+const useGetAppliedJobs = (shouldFetch = true) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!shouldFetch) return;
     const fetchAppliedJobs = async () => {
       try {
         const res = await axios.get(`${APPLICATION_API_END_POINT}/get`, {
@@ -23,6 +24,6 @@ const useGetAppliedJobs = () => {
       }
     };
     fetchAppliedJobs();
-  }, [dispatch]);
+  }, [dispatch, shouldFetch]);
 };
 export default useGetAppliedJobs;
