@@ -18,7 +18,7 @@ const Signup = () => {
     phoneNumber: "",
     password: "",
     role: "",
-    file: "",
+    profilePhoto: null,
   });
   const { loading, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const Signup = () => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
   const changeFileHandler = (e) => {
-    setInput({ ...input, file: e.target.files?.[0] });
+    setInput({ ...input, profilePhoto: e.target.files?.[0] || null });
   };
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -38,8 +38,8 @@ const Signup = () => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("password", input.password);
     formData.append("role", input.role);
-    if (input.file) {
-      formData.append("file", input.file);
+    if (input.profilePhoto) {
+      formData.append("profilePhoto", input.profilePhoto);
     }
 
     try {
@@ -64,7 +64,7 @@ const Signup = () => {
     if (user) {
       navigate("/");
     }
-  }, []);
+  }, [navigate, user]);
   return (
     <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-neutral-950 dark:text-neutral-100">
       <Navbar />

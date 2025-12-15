@@ -1,29 +1,13 @@
 import React, { useState, useMemo } from "react";
-import {
-  LogOut,
-  User2,
-  Moon,
-  Sun,
-  Briefcase,
-  Menu,
-  X,
-} from "lucide-react";
+import { LogOut, User2, Moon, Sun, Briefcase, Menu, X } from "lucide-react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "sonner";
 
 import { Button } from "../ui/button";
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from "../ui/avatar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
 import { useTheme } from "../theme-provider";
