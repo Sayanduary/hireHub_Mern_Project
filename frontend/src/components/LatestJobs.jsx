@@ -6,7 +6,7 @@ const LatestJobs = () => {
   const { jobs } = useSelector((store) => store.job);
 
   return (
-    <section className="bg-gray-50 dark:bg-black py-20">
+    <section className="bg-gray-50 dark:bg-[#0a0a0a] py-20">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="mb-10 max-w-3xl">

@@ -40,7 +40,7 @@ const SavedJobsTable = ({ savedJobs, onRemove, className = "" }) => {
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border border-neutral-200/80 bg-white/60 shadow-none transition-colors dark:border-white/10 dark:bg-neutral-950/60 ${className}`}
+      className={`overflow-hidden rounded-2xl border border-neutral-200/80 bg-white/60 shadow-none transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/60 ${className}`}
     >
       <Table className="min-w-[640px]">
         <TableCaption className="px-6 pb-6 text-left text-xs uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">

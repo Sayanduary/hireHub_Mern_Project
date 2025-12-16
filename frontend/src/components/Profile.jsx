@@ -45,11 +45,11 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-neutral-950 dark:text-neutral-50">
+    <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-[#0a0a0a] dark:text-neutral-50">
       <Navbar />
 
       <section className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-        <div className="rounded-3xl border border-neutral-200/80 bg-white/80 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
+        <div className="rounded-3xl border border-neutral-200/80 bg-white/80 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-[#0a0a0a]/90">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-5">
               <Avatar className="h-20 w-20 border border-neutral-200/80 bg-white/70 dark:border-white/10 dark:bg-white/5">
@@ -139,7 +139,7 @@ const Profile = () => {
         </div>
 
         {isStudent && user?.notifications?.length > 0 && (
-          <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white/70 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
+          <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white/70 p-8 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-[#0a0a0a]/90">
             <div className="mb-5 flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200/80 bg-white dark:border-white/10 dark:bg-white/10">
                 <Bell className="h-4 w-4 text-neutral-600 dark:text-neutral-200" />

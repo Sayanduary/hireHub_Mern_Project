@@ -102,7 +102,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[520px] rounded-3xl border border-neutral-200/70 bg-[#F9F9F5]/95 px-0 pb-0 pt-0 shadow-[0_24px_60px_-20px_rgba(15,15,15,0.28)] transition-colors dark:border-white/10 dark:bg-neutral-900/95">
+      <DialogContent className="sm:max-w-[520px] rounded-3xl border border-neutral-200/70 bg-[#F9F9F5]/95 px-0 pb-0 pt-0 shadow-[0_24px_60px_-20px_rgba(15,15,15,0.28)] transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/95">
         <DialogHeader className="space-y-2 px-8 pb-6 pt-8">
           <p className="text-xs font-medium uppercase tracking-[0.22em] text-neutral-400 dark:text-neutral-500">
             Profile

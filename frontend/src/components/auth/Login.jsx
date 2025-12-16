@@ -53,12 +53,12 @@ const Login = () => {
     }
   }, []);
   return (
-    <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-neutral-950 dark:text-neutral-100">
+    <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-[#0a0a0a] dark:text-neutral-100">
       <Navbar />
       <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-12">
         <form
           onSubmit={submitHandler}
-          className="w-full max-w-lg rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90"
+          className="w-full max-w-lg rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90"
         >
           <div className="space-y-3 text-center">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">

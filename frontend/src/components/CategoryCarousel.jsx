@@ -35,7 +35,7 @@ const CategoryCarousel = () => {
   return (
     <section className="relative py-20">
       {/* background */}
-      <div className="absolute inset-0 bg-white dark:bg-black" />
+      <div className="absolute inset-0 bg-white dark:bg-[#0a0a0a]" />
 
       <div className="relative mx-auto max-w-7xl px-4 md:px-6">
         {/* Header */}
@@ -63,7 +63,7 @@ const CategoryCarousel = () => {
                     w-full h-10
                     rounded-lg
                     border border-gray-200 dark:border-white/10
-                    bg-white dark:bg-black
+                    bg-white dark:bg-[#0a0a0a]
                     text-sm font-medium
                     text-gray-700 dark:text-gray-300
                     hover:bg-gray-50 dark:hover:bg-white/5
@@ -78,8 +78,8 @@ const CategoryCarousel = () => {
           </CarouselContent>
 
           {/* Controls */}
-          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-white/10 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-white/5" />
-          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-white/10 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-white/5" />
+          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] hover:bg-gray-50 dark:hover:bg-white/5" />
+          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] hover:bg-gray-50 dark:hover:bg-white/5" />
         </Carousel>
       </div>
     </section>

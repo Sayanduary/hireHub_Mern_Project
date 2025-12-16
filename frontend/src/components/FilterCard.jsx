@@ -222,7 +222,7 @@ const FilterCard = () => {
   ]);
 
   return (
-    <div className="relative w-full max-h-[85vh] overflow-y-auto rounded-3xl border border-neutral-200/70 bg-[#F9F9F5] p-6 text-neutral-900 shadow-[0_20px_45px_-30px_rgba(15,23,42,0.35)] transition-colors dark:border-white/10 dark:bg-neutral-950/95 dark:text-neutral-100 lg:sticky lg:top-28">
+    <div className="relative w-full max-h-[85vh] overflow-y-auto rounded-3xl border border-neutral-200/70 bg-[#F9F9F5] p-6 text-neutral-900 shadow-[0_20px_45px_-30px_rgba(15,23,42,0.35)] transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/95 dark:text-neutral-100 lg:sticky lg:top-28">
       <div className="pointer-events-none absolute inset-x-0 -top-32 h-48 bg-[radial-gradient(circle_at_top,_rgba(44,44,42,0.08),_transparent_65%)] dark:bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_60%)]" />
 
       <div className="relative flex items-start justify-between gap-4">

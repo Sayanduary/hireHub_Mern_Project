@@ -8,6 +8,8 @@ export const applyJob = async (req, res) => {
         const userId = req.id;
         const jobId = req.params.id;
 
+        console.log("Apply Job - User ID:", userId, "Job ID:", jobId);
+
         // Validate ObjectId
         if (!mongoose.Types.ObjectId.isValid(jobId)) {
             return res.status(400).json({ message: "Invalid Job ID", success: false });
@@ -20,6 +22,7 @@ export const applyJob = async (req, res) => {
         });
 
         if (existingApplication) {
+            console.log("Duplicate application found:", existingApplication._id);
             return res.status(400).json({
                 message: "You have already applied for this job",
                 success: false
@@ -40,12 +43,17 @@ export const applyJob = async (req, res) => {
             applicant: userId
         });
 
+        console.log("New application created:", newApplication._id);
+
         // Add application to Job
         job.applications.push(newApplication._id);
         await job.save();
 
+        console.log("Application added to job. Total applications:", job.applications.length);
+
         return res.status(201).json({
             message: "Job applied successfully",
+            application: { _id: newApplication._id, applicant: userId, status: "pending" },
             success: true
         });
 

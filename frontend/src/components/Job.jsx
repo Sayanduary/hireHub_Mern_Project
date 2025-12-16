@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { Bookmark, MapPin, Briefcase, DollarSign, Clock } from "lucide-react";
+import { Bookmark, MapPin, Briefcase, Clock } from "lucide-react";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "sonner";
+import { APPLICATION_API_END_POINT } from "@/utils/constant";
 
 const Job = ({ job }) => {
   const navigate = useNavigate();
+  const { user } = useSelector((store) => store.auth);
+  const [isLoading, setIsLoading] = useState(false);
 
   const daysAgoFunction = (mongodbTime) => {
     const createdAt = new Date(mongodbTime);
@@ -17,8 +23,33 @@ const Job = ({ job }) => {
 
   const daysAgo = daysAgoFunction(job?.createdAt);
 
+  const handleApply = async (e) => {
+    e.stopPropagation();
+    if (!user) {
+      toast.error("Please login to apply for this job");
+      navigate("/login");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `${APPLICATION_API_END_POINT}/apply/${job._id}`,
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message);
+        navigate(`/description/${job._id}`);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to apply");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-white/80 p-6 transition-colors duration-200 hover:border-neutral-400 dark:border-white/10 dark:bg-neutral-950/80 dark:hover:border-white/20">
+    <article className="flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-white/80 p-6 transition-colors duration-200 hover:border-neutral-400 dark:border-white/10 dark:bg-[#0a0a0a]/80 dark:hover:border-white/20">
       <div className="flex items-start justify-between text-xs text-neutral-500 dark:text-neutral-400">
         <div className="inline-flex items-center gap-2">
           <Clock className="h-3.5 w-3.5" aria-hidden />
@@ -70,16 +101,15 @@ const Job = ({ job }) => {
         </p>
 
         <div className="flex flex-wrap gap-2 pt-2">
-          <Badge className="flex items-center gap-1 rounded-full border border-neutral-200/80 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/10 dark:text-neutral-300">
+          <Badge className="flex items-center gap-1 rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100 pointer-events-none">
             <Briefcase className="h-3 w-3" aria-hidden />
             {job?.position} roles
           </Badge>
-          <Badge className="rounded-full border border-neutral-200/80 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/10 dark:text-neutral-300">
+          <Badge className="rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100 pointer-events-none">
             {job?.jobType}
           </Badge>
-          <Badge className="flex items-center gap-1 rounded-full border border-neutral-200/80 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/10 dark:text-neutral-300">
-            <DollarSign className="h-3 w-3" aria-hidden />
-            {job?.salary} LPA
+          <Badge className="flex items-center gap-1 rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100 pointer-events-none">
+            ₹ {job?.salary} LPA
           </Badge>
         </div>
       </div>
@@ -92,8 +122,12 @@ const Job = ({ job }) => {
         >
           View details
         </Button>
-        <Button className="h-11 flex-1 rounded-xl border border-neutral-900 bg-neutral-900 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100">
-          Apply now
+        <Button
+          onClick={handleApply}
+          disabled={isLoading}
+          className="h-11 flex-1 rounded-xl border border-neutral-900 bg-neutral-900 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800 disabled:opacity-50 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
+        >
+          {isLoading ? "Applying..." : "Apply now"}
         </Button>
       </div>
     </article>

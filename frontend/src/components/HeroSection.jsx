@@ -6,7 +6,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative overflow-hidden border-b border-neutral-200/80 bg-[#F8F7F3] text-neutral-900 transition-colors dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-50">
+    <section className="relative overflow-hidden border-b border-neutral-200/80 bg-[#F8F7F3] text-neutral-900 transition-colors dark:border-white/10 dark:bg-[#0a0a0a] dark:text-neutral-50">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.45),_transparent_55%)] opacity-60 dark:bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.08),_transparent_60%)]" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 pt-36 pb-24 md:pt-40 md:pb-32 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
@@ -46,7 +46,7 @@ const HeroSection = () => {
         </div>
 
         <div className="relative hidden lg:block">
-          <div className="absolute -top-10 -left-6 flex w-44 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/80 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+          <div className="absolute -top-40 -left-6 flex w-44 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/80 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
             <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
               3M+
             </p>
@@ -55,7 +55,7 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="absolute top-12 right-0 flex w-40 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/70 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+          <div className="absolute top-10 right-0 flex w-40 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/70 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
             <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
               98%
             </p>

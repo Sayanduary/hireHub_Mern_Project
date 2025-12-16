@@ -19,7 +19,7 @@ const Home = () => {
     }
   }, [user, navigate]);
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen">
+    <div className=" min-h-screen">
       <Navbar />
       <HeroSection />
       <CategoryCarousel />

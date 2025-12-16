@@ -10,7 +10,7 @@ const LatestJobCards = ({ job }) => {
     <div
       onClick={() => navigate(`/description/${job._id}`)}
       className="
-        bg-white dark:bg-neutral-900
+        bg-white dark:bg-[#0a0a0a]
         rounded-2xl
         border border-gray-200 dark:border-white/10
         p-5
@@ -46,10 +46,10 @@ const LatestJobCards = ({ job }) => {
 
       {/* Tags */}
       <div className="mt-4 flex flex-wrap gap-2">
-        <span className="px-3 py-1 text-xs rounded-md bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300">
+        <span className="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-900 dark:bg-white/15 dark:text-white">
           {job?.jobType}
         </span>
-        <span className="px-3 py-1 text-xs rounded-md bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300">
+        <span className="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-900 dark:bg-white/15 dark:text-white">
           {job?.experienceLevel || "Senior level"}
         </span>
       </div>

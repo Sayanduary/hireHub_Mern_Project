@@ -56,22 +56,21 @@ const Navbar = () => {
       .toUpperCase() || "U";
 
   return (
-    <header className="sticky top-4 z-50">
+    <header className="sticky top-0 z-50 w-full">
       {/* Floating glass background */}
       <div
         className="
-          absolute inset-0 mx-auto max-w-7xl
-          rounded-2xl
+          absolute inset-0
           bg-gradient-to-r
           from-[#fffdf5]/80 via-[#fff8e7]/70 to-[#fffdf5]/80
-          dark:from-black/70 dark:via-black/60 dark:to-black/70
+          dark:from-[#0a0a0a]/70 dark:via-[#0a0a0a]/60 dark:to-[#0a0a0a]/70
           backdrop-blur-xl
-          border border-black/5 dark:border-white/10
+          border-b border-black/5 dark:border-white/10
           shadow-[0_10px_40px_rgba(0,0,0,0.08)]
         "
       />
 
-      <div className="relative mx-auto max-w-7xl h-20 px-10 flex items-center justify-between">
+      <div className="relative w-full h-20 px-6 md:px-10 flex items-center justify-between">
         {/* Logo */}
         <div
           onClick={() => navigate("/")}
@@ -207,7 +206,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden mt-2 mx-4 rounded-2xl bg-white/90 dark:bg-black/80 backdrop-blur-xl border dark:border-white/10">
+        <div className="md:hidden mt-2 mx-4 rounded-2xl bg-white/90 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border dark:border-white/10">
           <div className="p-4 space-y-2">
             {navItems.map((item) => (
               <NavLink

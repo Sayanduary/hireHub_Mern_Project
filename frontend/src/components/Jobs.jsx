@@ -105,7 +105,7 @@ const Jobs = () => {
   }, [jobs, filters]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a]">
       <Navbar />
 
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-10">
@@ -133,7 +133,7 @@ const Jobs = () => {
               onClick={() => setShowMobileFilter(false)}
             >
               <div
-                className="absolute left-0 top-0 h-full w-80 bg-white dark:bg-black p-5 overflow-y-auto"
+                className="absolute left-0 top-0 h-full w-80 bg-white dark:bg-[#0a0a0a] p-5 overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center justify-between mb-4">

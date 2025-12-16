@@ -17,10 +17,18 @@ import { Bookmark } from "lucide-react";
 const JobDescription = () => {
   const { singleJob } = useSelector((store) => store.job);
   const { user } = useSelector((store) => store.auth);
+
+  // Check if user has already applied - handle both populated and non-populated applications
   const isIntiallyApplied =
-    singleJob?.applications?.some(
-      (application) => application.applicant === user?._id
-    ) || false;
+    singleJob?.applications?.some((application) => {
+      if (typeof application === "string") {
+        // Application is just an ID
+        return false; // Can't check without applicant info
+      }
+      // Application is an object with applicant property
+      return application.applicant === user?._id;
+    }) || false;
+
   const [isApplied, setIsApplied] = useState(isIntiallyApplied);
   const [isSaved, setIsSaved] = useState(false);
 
@@ -36,23 +44,33 @@ const JobDescription = () => {
       return;
     }
     try {
+      console.log("Applying for job:", jobId, "User ID:", user?._id);
       const res = await axios.get(
         `${APPLICATION_API_END_POINT}/apply/${jobId}`,
         { withCredentials: true }
       );
 
+      console.log("Apply response:", res.data);
       if (res.data.success) {
         setIsApplied(true); // Update the local state
+
+        // Update the singleJob in Redux with the new application
+        // We add just the ID for now, but on next fetch it will be fully populated
+        const newAppObj = res.data.application || {
+          _id: res.data._id,
+          applicant: user?._id,
+          status: "pending",
+        };
         const updatedSingleJob = {
           ...singleJob,
-          applications: [...singleJob.applications, { applicant: user?._id }],
+          applications: [...(singleJob.applications || []), newAppObj],
         };
-        dispatch(setSingleJob(updatedSingleJob)); // helps us to real time UI update
+        dispatch(setSingleJob(updatedSingleJob));
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      console.error("Apply job error:", error);
+      toast.error(error.response?.data?.message || "Failed to apply for job");
     }
   };
 
@@ -86,11 +104,20 @@ const JobDescription = () => {
         });
         if (res.data.success) {
           dispatch(setSingleJob(res.data.job));
-          setIsApplied(
-            res.data.job.applications.some(
-              (application) => application.applicant === user?._id
-            )
-          ); // Ensure the state is in sync with fetched data
+          console.log("Fetched job applications:", res.data.job.applications);
+
+          // Check if user has applied - applications might be IDs or objects
+          const hasApplied = res.data.job.applications.some((application) => {
+            if (typeof application === "string") {
+              // If it's just an ID, we can't determine if the user applied
+              return false;
+            }
+            // If it's an object with applicant property
+            return application.applicant === user?._id;
+          });
+
+          setIsApplied(hasApplied);
+
           // Check if job is saved
           setIsSaved(user?.savedJobs?.includes(jobId) || false);
         }
@@ -104,10 +131,10 @@ const JobDescription = () => {
   return (
     <>
       <Navbar />
-      <section className="bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-neutral-950 dark:text-neutral-50">
+      <section className="bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-[#0a0a0a] dark:text-neutral-50">
         <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-            <article className="rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90">
+            <article className="rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90">
               <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                 <div className="space-y-4">
                   <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
@@ -117,14 +144,14 @@ const JobDescription = () => {
                     {singleJob?.title}
                   </h1>
                   <div className="flex flex-wrap gap-2">
-                    <Badge className="rounded-full border border-neutral-200/70 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/15 dark:text-neutral-200">
-                      {singleJob?.postion} roles
+                    <Badge className="rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100">
+                      {singleJob?.position} roles
                     </Badge>
-                    <Badge className="rounded-full border border-neutral-200/70 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/15 dark:text-neutral-200">
+                    <Badge className="rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100">
                       {singleJob?.jobType}
                     </Badge>
-                    <Badge className="rounded-full border border-neutral-200/70 bg-transparent px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/15 dark:text-neutral-200">
-                      {singleJob?.salary} LPA
+                    <Badge className="rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100">
+                      ₹ {singleJob?.salary} LPA
                     </Badge>
                   </div>
                 </div>
@@ -188,7 +215,7 @@ const JobDescription = () => {
                         Experience
                       </dt>
                       <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
-                        {singleJob?.experience} yrs
+                        {singleJob?.experienceLevel} yrs
                       </dd>
                     </div>
                     <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
@@ -221,7 +248,7 @@ const JobDescription = () => {
             </article>
 
             <aside className="flex flex-col gap-6">
-              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90 dark:text-neutral-300">
+              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90 dark:text-neutral-300">
                 <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
                   Application status
                 </h3>
@@ -232,7 +259,7 @@ const JobDescription = () => {
                 </p>
               </div>
 
-              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-neutral-900/90 dark:text-neutral-300">
+              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90 dark:text-neutral-300">
                 <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
                   Why this role
                 </h3>
