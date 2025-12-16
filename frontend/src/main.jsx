@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider defaultTheme="light" storageKey="careerx-theme">
+        <ThemeProvider defaultTheme="light" storageKey="hirehub-theme">
           <App />
           <Toaster />
         </ThemeProvider>

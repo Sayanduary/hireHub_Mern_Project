@@ -28,8 +28,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              careerX
+            <h2 className="text-lg font-black tracking-widest bg-gradient-to-r from-black to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+              HIREHUB
             </h2>
             <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 max-w-xs">
               A modern job platform connecting professionals with verified
@@ -118,7 +118,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="mt-16 pt-6 border-t border-gray-200 dark:border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © {new Date().getFullYear()} careerX. All rights reserved.
+            © {new Date().getFullYear()} HIREHUB. All rights reserved.
           </p>
 
           <p className="text-sm text-gray-500">
