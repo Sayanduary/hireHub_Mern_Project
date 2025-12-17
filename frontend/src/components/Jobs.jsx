@@ -83,7 +83,7 @@ const Jobs = () => {
 
     if (filters.experience) {
       data = data.filter((job) => {
-        const exp = job.experience || 0;
+        const exp = job.experienceLevel || 0;
         switch (filters.experience) {
           case "Fresher":
             return exp === 0;
@@ -101,23 +101,22 @@ const Jobs = () => {
       });
     }
 
-    if (filters.salary) {
+    if (filters.salaryRange) {
       data = data.filter((job) => {
         const s = job.salary || 0;
-        switch (filters.salary) {
-          case "0-40k":
-            return s <= 40000;
-          case "40k-1lakh":
-            return s > 40000 && s <= 100000;
-          case "1lakh-5lakh":
-            return s > 100000 && s <= 500000;
-          case "5lakh-10lakh":
-            return s > 500000 && s <= 1000000;
-          case "10lakh+":
-            return s > 1000000;
-          default:
-            return true;
+        // Convert salary to LPA (assuming job.salary is in LPA)
+        const salaryInLPA = s;
+
+        if (
+          filters.salaryRange.min !== undefined &&
+          filters.salaryRange.max !== undefined
+        ) {
+          return (
+            salaryInLPA >= filters.salaryRange.min &&
+            salaryInLPA <= filters.salaryRange.max
+          );
         }
+        return true;
       });
     }
 

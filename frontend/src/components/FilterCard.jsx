@@ -45,7 +45,7 @@ const filterData = [
   },
   {
     filterType: "Salary Range",
-    array: ["0-40k", "40k-1lakh", "1lakh-5lakh", "5lakh-10lakh", "10lakh+"],
+    array: ["0-3 LPA", "3-6 LPA", "6-10 LPA", "10-15 LPA", "15+ LPA"],
   },
 ];
 
@@ -72,12 +72,27 @@ const skillsData = [
   "Flask",
 ];
 
+/* ======================= HELPERS ======================= */
+
+// Convert "3-6 LPA" → { min: 3, max: 6 }
+// Convert "15+ LPA" → { min: 15, max: Infinity }
+const parseSalaryLPA = (range) => {
+  if (!range) return null;
+
+  if (range.includes("+")) {
+    const min = Number(range.replace("+ LPA", ""));
+    return { min, max: Infinity };
+  }
+
+  const [min, max] = range.replace(" LPA", "").split("-").map(Number);
+  return { min, max };
+};
+
 /* ======================= COMPONENT ======================= */
 
 const FilterCard = () => {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
-  const closeTimeoutRef = useRef(null);
 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -94,14 +109,20 @@ const FilterCard = () => {
 
   const activeFilterChips = useMemo(() => {
     const chips = [];
-    if (selectedLocation) chips.push({ type: "location", label: selectedLocation });
-    if (selectedIndustry) chips.push({ type: "industry", label: selectedIndustry });
-    if (selectedJobType) chips.push({ type: "jobType", label: selectedJobType });
-    if (selectedExperience) chips.push({ type: "experience", label: selectedExperience });
+    if (searchText) chips.push({ type: "search", label: searchText });
+    if (selectedLocation)
+      chips.push({ type: "location", label: selectedLocation });
+    if (selectedIndustry)
+      chips.push({ type: "industry", label: selectedIndustry });
+    if (selectedJobType)
+      chips.push({ type: "jobType", label: selectedJobType });
+    if (selectedExperience)
+      chips.push({ type: "experience", label: selectedExperience });
     if (selectedSalary) chips.push({ type: "salary", label: selectedSalary });
     selectedSkills.forEach((s) => chips.push({ type: "skill", label: s }));
     return chips;
   }, [
+    searchText,
     selectedLocation,
     selectedIndustry,
     selectedJobType,
@@ -134,6 +155,7 @@ const FilterCard = () => {
 
   const handleRemoveChip = (type, value) => {
     const map = {
+      search: () => setSearchText(""),
       location: () => setSelectedLocation(""),
       industry: () => setSelectedIndustry(""),
       jobType: () => setSelectedJobType(""),
@@ -165,7 +187,7 @@ const FilterCard = () => {
         industry: selectedIndustry,
         jobType: selectedJobType,
         experience: selectedExperience,
-        salary: selectedSalary,
+        salaryRange: parseSalaryLPA(selectedSalary),
         skills: selectedSkills,
       })
     );
@@ -190,13 +212,15 @@ const FilterCard = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  /* ======================= UI ======================= */
+  /* ======================= UI CLASSES ======================= */
 
   const filterBtn =
     "h-10 px-4 rounded-lg border border-gray-300 bg-white text-sm font-medium text-gray-800 hover:bg-gray-100 transition dark:border-[#2a2a2a] dark:bg-[#121212] dark:text-[#d0d0d0] dark:hover:bg-[#1e1e1e]";
 
   const dropdownBox =
     "absolute top-full left-0 mt-2 w-64 rounded-xl border border-gray-200 bg-white shadow-xl z-50 dark:border-[#2a2a2a] dark:bg-[#121212]";
+
+  /* ======================= RENDER ======================= */
 
   return (
     <>
@@ -215,15 +239,27 @@ const FilterCard = () => {
           </div>
 
           {/* Skills */}
-          <div className="relative" ref={openDropdown === "skills" ? dropdownRef : null}>
-            <button className={filterBtn} onClick={() => setOpenDropdown(openDropdown === "skills" ? null : "skills")}>
+          <div
+            className="relative"
+            ref={openDropdown === "skills" ? dropdownRef : null}
+          >
+            <button
+              className={filterBtn}
+              onClick={() =>
+                setOpenDropdown(openDropdown === "skills" ? null : "skills")
+              }
+            >
               Skills <ChevronDown className="ml-2 h-4 w-4 inline" />
             </button>
+
             {openDropdown === "skills" && (
               <div className={dropdownBox}>
                 <div className="p-4 grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
                   {skillsData.map((s) => (
-                    <label key={s} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <label
+                      key={s}
+                      className="flex items-center gap-2 text-sm cursor-pointer"
+                    >
                       <input
                         type="checkbox"
                         checked={selectedSkills.includes(s)}
@@ -239,14 +275,23 @@ const FilterCard = () => {
 
           {/* Other Filters */}
           {filterData.map((f) => (
-            <div key={f.filterType} className="relative" ref={openDropdown === f.filterType ? dropdownRef : null}>
+            <div
+              key={f.filterType}
+              className="relative"
+              ref={openDropdown === f.filterType ? dropdownRef : null}
+            >
               <button
                 className={filterBtn}
-                onClick={() => setOpenDropdown(openDropdown === f.filterType ? null : f.filterType)}
+                onClick={() =>
+                  setOpenDropdown(
+                    openDropdown === f.filterType ? null : f.filterType
+                  )
+                }
               >
                 {f.filterType}
                 <ChevronDown className="ml-2 h-4 w-4 inline" />
               </button>
+
               {openDropdown === f.filterType && (
                 <div className={dropdownBox}>
                   <div className="p-4">
@@ -278,7 +323,7 @@ const FilterCard = () => {
           ))}
         </div>
 
-        {/* Chips */}
+        {/* Active Chips */}
         {hasActiveFilters && (
           <div className="px-4 pb-4 flex flex-wrap gap-2">
             {activeFilterChips.map((c) => (
@@ -291,6 +336,7 @@ const FilterCard = () => {
                 <X className="h-3 w-3" />
               </button>
             ))}
+
             <button
               onClick={handleClearFilters}
               className="inline-flex items-center gap-2 rounded-full border border-red-300 bg-red-50 px-3 py-1.5 text-xs text-red-700"
@@ -303,27 +349,14 @@ const FilterCard = () => {
 
       {/* ================= MOBILE ================= */}
       <div className="md:hidden p-4">
-        <Button className="w-full" variant="outline" onClick={() => setShowMobileFilters(true)}>
+        <Button
+          className="w-full"
+          variant="outline"
+          onClick={() => setShowMobileFilters(true)}
+        >
           <Filter className="h-4 w-4 mr-2" /> Filters
         </Button>
       </div>
-
-      {showMobileFilters && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowMobileFilters(false)} />
-          <div className="absolute bottom-0 inset-x-0 max-h-[90vh] rounded-t-3xl bg-white dark:bg-[#121212] p-4 overflow-y-auto">
-            <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-gray-300 dark:bg-gray-700" />
-            <h3 className="text-lg font-semibold mb-4">Filters</h3>
-
-            {/* reuse same controls */}
-            {/* (intentionally simple for mobile clarity) */}
-
-            <Button className="w-full mt-6" onClick={() => setShowMobileFilters(false)}>
-              Apply Filters
-            </Button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
