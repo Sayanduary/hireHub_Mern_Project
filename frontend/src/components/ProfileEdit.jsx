@@ -398,7 +398,7 @@ const ProfileEdit = () => {
                     type="file"
                     accept="image/*"
                     onChange={profilePhotoChangeHandler}
-                    className="h-11 cursor-pointer rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-[#3362d3] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#2851b8] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:file:bg-[#E0E0E0] dark:file:text-[#121212] dark:hover:file:bg-[#888888] transition-all duration-200"
+                    className="h-11 cursor-pointer rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-gray-800 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:file:bg-[#E0E0E0] dark:file:text-[#121212] dark:hover:file:bg-[#888888] transition-all duration-200"
                   />
                   <p className="text-xs text-gray-500 dark:text-[#888888]">
                     PNG or JPG up to 5MB
@@ -413,7 +413,7 @@ const ProfileEdit = () => {
                     type="file"
                     accept="application/pdf"
                     onChange={fileChangeHandler}
-                    className="h-11 cursor-pointer rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-[#3362d3] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#2851b8] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:file:bg-[#E0E0E0] dark:file:text-[#121212] dark:hover:file:bg-[#888888] transition-all duration-200"
+                    className="h-11 cursor-pointer rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-gray-800 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:file:bg-[#E0E0E0] dark:file:text-[#121212] dark:hover:file:bg-[#888888] transition-all duration-200"
                   />
                   <p className="text-xs text-gray-500 dark:text-[#888888]">
                     Upload your latest resume
@@ -427,21 +427,21 @@ const ProfileEdit = () => {
                 type="button"
                 onClick={() => navigate("/profile")}
                 variant="outline"
-                className="h-11 rounded-lg border-2 border-[#3362d3] bg-white px-6 text-sm font-semibold text-[#3362d3] hover:bg-[#3362d3]/10 hover:border-[#2851b8] dark:border-[#3362d3] dark:bg-transparent dark:text-[#3362d3] dark:hover:bg-[#3362d3]/10 transition-all duration-200"
+                className="h-11 rounded-lg border-2 border-gray-900 bg-white px-6 text-sm font-semibold text-gray-900 hover:bg-gray-900/10 hover:border-gray-800 dark:border-gray-900 dark:bg-transparent dark:text-gray-900 dark:hover:bg-gray-900/10 transition-all duration-200"
               >
                 Cancel
               </Button>
               {loading ? (
                 <Button
                   disabled
-                  className="h-11 rounded-lg bg-[#3362d3] px-6 text-sm font-semibold text-white hover:bg-[#2851b8] shadow-sm dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] transition-all duration-200"
+                  className="h-11 rounded-lg bg-gray-900 px-6 text-sm font-semibold text-white hover:bg-gray-800 shadow-sm dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] transition-all duration-200"
                 >
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
                 </Button>
               ) : (
                 <Button
                   type="submit"
-                  className="h-11 rounded-lg bg-[#3362d3] px-6 text-sm font-semibold text-white hover:bg-[#2851b8] hover:scale-[1.02] shadow-sm dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] transition-all duration-200"
+                  className="h-11 rounded-lg bg-gray-900 px-6 text-sm font-semibold text-white hover:bg-gray-800 hover:scale-[1.02] shadow-sm dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] transition-all duration-200"
                 >
                   Save changes
                 </Button>

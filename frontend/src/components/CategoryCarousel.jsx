@@ -57,10 +57,10 @@ const categories = [
 
 const colorMap = {
   blue: {
-    bg: "bg-blue-50 dark:bg-blue-950/30",
-    iconBg: "bg-blue-100 dark:bg-blue-900/40",
-    text: "text-blue-700 dark:text-blue-300",
-    hover: "hover:border-blue-600",
+    bg: "bg-gray-900 dark:bg-gray-950/30",
+    iconBg: "bg-gray-800 dark:bg-gray-900/40",
+    text: "text-white dark:text-gray-300",
+    hover: "hover:border-gray-600",
   },
   emerald: {
     bg: "bg-emerald-50 dark:bg-emerald-950/30",

@@ -191,10 +191,10 @@ const Job = ({ job }) => {
           variant="ghost"
           className="
             h-11 flex-1 rounded-lg
-            border-2 border-[#3362d3]
-            text-sm font-semibold text-[#3362d3]
+            border-2 border-gray-900
+            text-sm font-semibold text-gray-900
             transition-all duration-200
-            hover:bg-[#3362d3]/10 hover:border-[#2851b8]
+            hover:bg-gray-900/10 hover:border-gray-800
             dark:border-[#444444]
             dark:text-[#B0B0B0]
             dark:hover:bg-[#1a1a1a]
@@ -209,14 +209,14 @@ const Job = ({ job }) => {
           disabled={isLoading || isApplied}
           className="
             h-11 flex-1 rounded-lg
-            bg-[#3362d3] text-white
+            bg-gray-900 text-white
             text-sm font-semibold
 
             transition-all duration-300
             ease-[cubic-bezier(0.22,1,0.36,1)]
             hover:scale-[1.04]
             active:scale-[0.97]
-            hover:bg-[#2851b8]
+            hover:bg-gray-800
             disabled:scale-100
 
             dark:bg-[#E0E0E0]
