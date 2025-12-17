@@ -85,7 +85,7 @@ const Navbar = () => {
               to={item.to}
               className={({ isActive }) =>
                 `
-                px-6 py-2.5 rounded-full
+                px-6 py-2.5 rounded-md
                 text-base font-medium
                 transition
                 ${
