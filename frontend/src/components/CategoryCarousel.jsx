@@ -27,41 +27,49 @@ const colorMap = {
     bg: "bg-blue-50 dark:bg-blue-950/30",
     iconBg: "bg-blue-100 dark:bg-blue-900/40",
     iconText: "text-blue-700 dark:text-blue-300",
+    hover: "hover:border-blue-600",
   },
   emerald: {
     bg: "bg-emerald-50 dark:bg-emerald-950/30",
     iconBg: "bg-emerald-100 dark:bg-emerald-900/40",
     iconText: "text-emerald-700 dark:text-emerald-300",
+    hover: "hover:border-emerald-600",
   },
   violet: {
     bg: "bg-violet-50 dark:bg-violet-950/30",
     iconBg: "bg-violet-100 dark:bg-violet-900/40",
     iconText: "text-violet-700 dark:text-violet-300",
+    hover: "hover:border-violet-600",
   },
   amber: {
     bg: "bg-amber-50 dark:bg-amber-950/30",
     iconBg: "bg-amber-100 dark:bg-amber-900/40",
     iconText: "text-amber-700 dark:text-amber-300",
+    hover: "hover:border-amber-600",
   },
   rose: {
     bg: "bg-rose-50 dark:bg-rose-950/30",
     iconBg: "bg-rose-100 dark:bg-rose-900/40",
     iconText: "text-rose-700 dark:text-rose-300",
+    hover: "hover:border-rose-600",
   },
   cyan: {
     bg: "bg-cyan-50 dark:bg-cyan-950/30",
     iconBg: "bg-cyan-100 dark:bg-cyan-900/40",
     iconText: "text-cyan-700 dark:text-cyan-300",
+    hover: "hover:border-cyan-600",
   },
   pink: {
     bg: "bg-pink-50 dark:bg-pink-950/30",
     iconBg: "bg-pink-100 dark:bg-pink-900/40",
     iconText: "text-pink-700 dark:text-pink-300",
+    hover: "hover:border-pink-600",
   },
   indigo: {
     bg: "bg-indigo-50 dark:bg-indigo-950/30",
     iconBg: "bg-indigo-100 dark:bg-indigo-900/40",
     iconText: "text-indigo-700 dark:text-indigo-300",
+    hover: "hover:border-indigo-600",
   },
 };
 
@@ -98,6 +106,10 @@ const CategorySection = () => {
                   rounded-lg border border-gray-200 dark:border-[#2a2a2a]
                   ${c.bg}
                   px-4 py-5
+                  cursor-pointer transition-all duration-300
+                  ${c.hover}
+                  hover:shadow-lg hover:scale-105
+                  hover:-translate-y-1
                 `}
               >
                 {/* Inner Rectangle Icon */}
