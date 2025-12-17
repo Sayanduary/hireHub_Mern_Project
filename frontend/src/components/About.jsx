@@ -22,7 +22,7 @@ const About = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-[#E0E0E0] mb-4">
               About HIREHUB
             </h1>
-            <div className="mx-auto w-16 h-1 bg-[#3362d3] dark:bg-[#E0E0E0] rounded-full"></div>
+            <div className="mx-auto w-16 h-1 bg-gray-900 dark:bg-[#E0E0E0] rounded-full"></div>
           </div>
 
           {/* Description */}

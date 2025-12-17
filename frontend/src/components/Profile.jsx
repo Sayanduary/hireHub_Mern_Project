@@ -210,7 +210,7 @@ const Profile = () => {
                           href={user.profile.companyWebsite}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline dark:text-blue-400"
+                          className="text-gray-900 hover:underline dark:text-gray-400"
                         >
                           Company Website
                         </a>
@@ -242,7 +242,7 @@ const Profile = () => {
                   href={user.profile.linkedinUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline dark:text-blue-400"
+                  className="text-gray-900 hover:underline dark:text-gray-400"
                 >
                   LinkedIn Profile
                 </a>
@@ -266,7 +266,7 @@ const Profile = () => {
                     href={user.profile.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline dark:text-blue-400"
+                    className="text-gray-900 hover:underline dark:text-gray-400"
                   >
                     GitHub Profile
                   </a>

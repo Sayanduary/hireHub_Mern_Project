@@ -25,8 +25,8 @@ const HeroSection = () => {
           </>
         ) : (
           <>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-gray-50" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(59,130,246,0.08)_0%,_transparent_40%)]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(0,0,0,0.08)_0%,_transparent_40%)]" />
           </>
         )}
       </div>
@@ -40,7 +40,7 @@ const HeroSection = () => {
               className={`inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs font-medium backdrop-blur ${
                 theme === "dark"
                   ? "bg-white/10 border-white/10 text-white"
-                  : "bg-blue-50 border-blue-200 text-blue-700"
+                  : "bg-gray-900 border-gray-900 text-white"
               }`}
             >
               ✨ Trusted hiring platform
@@ -97,8 +97,8 @@ const HeroSection = () => {
               <div
                 className={`h-48 w-48 rounded-full blur-3xl ${
                   theme === "dark"
-                    ? "bg-blue-800/30"
-                    : "bg-blue-300/40"
+                    ? "bg-gray-800/30"
+                    : "bg-gray-300/40"
                 }`}
               />
             </div>

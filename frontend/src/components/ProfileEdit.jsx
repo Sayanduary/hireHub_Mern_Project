@@ -145,7 +145,7 @@ const ProfileEdit = () => {
           <Button
             onClick={() => navigate("/profile")}
             variant="ghost"
-            className="inline-flex items-center gap-2 rounded-lg border-2 border-[#3362d3] bg-white px-4 py-2.5 text-sm font-semibold text-[#3362d3] hover:bg-[#3362d3]/10 hover:border-[#2851b8] dark:border-[#3362d3] dark:bg-transparent dark:text-[#3362d3] dark:hover:bg-[#3362d3]/10 transition-all duration-200"
+            className="inline-flex items-center gap-2 rounded-lg border-2 border-gray-900 bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-900/10 hover:border-gray-800 dark:border-gray-300 dark:bg-transparent dark:text-gray-300 dark:hover:bg-gray-300/10 transition-all duration-200"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Profile
@@ -173,7 +173,7 @@ const ProfileEdit = () => {
                   type="text"
                   value={input.fullname}
                   onChange={changeEventHandler}
-                  className="h-11 rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-gray-500 dark:focus:border-[#3362d3] transition-colors duration-200"
+                  className="h-11 rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-gray-500 dark:focus:border-gray-300 transition-colors duration-200"
                 />
               </div>
               <div className="space-y-2">
@@ -185,7 +185,7 @@ const ProfileEdit = () => {
                   type="email"
                   value={input.email}
                   onChange={changeEventHandler}
-                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-gray-500 dark:focus:border-[#3362d3]"
+                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-gray-500 dark:focus:border-gray-900"
                 />
               </div>
               <div className="space-y-2">
@@ -196,7 +196,7 @@ const ProfileEdit = () => {
                   name="phoneNumber"
                   value={input.phoneNumber}
                   onChange={changeEventHandler}
-                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                 />
               </div>
               {user?.role !== "recruiter" && (
@@ -209,7 +209,7 @@ const ProfileEdit = () => {
                     value={input.skills}
                     onChange={changeEventHandler}
                     placeholder="React, Node.js, Python"
-                    className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                    className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                   />
                 </div>
               )}
@@ -225,7 +225,7 @@ const ProfileEdit = () => {
                   value={input.location}
                   onChange={changeEventHandler}
                   placeholder="City, Country"
-                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                 />
               </div>
             )}
@@ -248,7 +248,7 @@ const ProfileEdit = () => {
                         value={input.designation}
                         onChange={changeEventHandler}
                         placeholder="HR Manager, Recruiter, etc."
-                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                       />
                     </div>
                     <div className="space-y-2">
@@ -261,7 +261,7 @@ const ProfileEdit = () => {
                         value={input.yearsOfExperience}
                         onChange={changeEventHandler}
                         placeholder="5"
-                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                       />
                     </div>
                   </div>
@@ -282,7 +282,7 @@ const ProfileEdit = () => {
                         value={input.companyName}
                         onChange={changeEventHandler}
                         placeholder="Acme Inc."
-                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                       />
                     </div>
                     <div className="space-y-2">
@@ -295,7 +295,7 @@ const ProfileEdit = () => {
                         value={input.companyWebsite}
                         onChange={changeEventHandler}
                         placeholder="https://company.com"
-                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                       />
                     </div>
                     <div className="space-y-2">
@@ -308,7 +308,7 @@ const ProfileEdit = () => {
                         value={input.companyEmail}
                         onChange={changeEventHandler}
                         placeholder="contact@company.com"
-                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                       />
                     </div>
                     <div className="space-y-2">
@@ -321,7 +321,7 @@ const ProfileEdit = () => {
                         value={input.companyLocation}
                         onChange={changeEventHandler}
                         placeholder="City, Country"
-                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                        className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                       />
                     </div>
                   </div>
@@ -335,7 +335,7 @@ const ProfileEdit = () => {
                       onChange={changeEventHandler}
                       rows={3}
                       placeholder="Brief overview of the company"
-                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:outline-none focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:outline-none focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                     />
                   </div>
                 </div>
@@ -353,7 +353,7 @@ const ProfileEdit = () => {
                   value={input.linkedinUrl}
                   onChange={changeEventHandler}
                   placeholder="https://linkedin.com/in/username"
-                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                  className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                 />
               </div>
               {user?.role !== "recruiter" && (
@@ -367,7 +367,7 @@ const ProfileEdit = () => {
                     value={input.githubUrl}
                     onChange={changeEventHandler}
                     placeholder="https://github.com/username"
-                    className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                    className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
                   />
                 </div>
               )}
@@ -383,7 +383,7 @@ const ProfileEdit = () => {
                 onChange={changeEventHandler}
                 rows={4}
                 placeholder="Brief overview of your experience and expertise"
-                className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#3362d3] focus-visible:outline-none focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#3362d3]"
+                className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:outline-none focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-gray-900"
               />
             </div>
 
