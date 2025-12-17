@@ -338,7 +338,7 @@ const ApplicantsTable = () => {
           <div className="mt-3 flex items-center gap-2 text-xs text-gray-600 dark:text-[#888888]">
             <span className="font-medium">Active filters:</span>
             {debouncedSearch && (
-              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-md">
+              <span className="px-2 py-1 bg-gray-900 dark:bg-gray-900/30 text-white dark:text-gray-400 rounded-md">
                 Search: "{debouncedSearch}"
               </span>
             )}
@@ -427,7 +427,7 @@ const ApplicantsTable = () => {
                         onClick={() => openCandidateDrawer(item)}
                         variant="ghost"
                         size="sm"
-                        className="h-7 px-2 text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-900/20"
+                        className="h-7 px-2 text-xs font-medium text-gray-900 hover:text-gray-800 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-900/20"
                       >
                         View More
                       </Button>
@@ -589,7 +589,7 @@ const ApplicantsTable = () => {
                           >
                             <FileText className="h-4 w-4 text-gray-400" />
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                              <p className="text-sm font-medium text-gray-900 dark:text-gray-400">
                                 View Resume
                               </p>
                             </div>
@@ -602,7 +602,7 @@ const ApplicantsTable = () => {
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 hover:bg-gray-100 dark:border-[#444444] dark:bg-[#1a1a1a] dark:hover:bg-[#222222]"
                           >
-                            <Linkedin className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            <Linkedin className="h-4 w-4 text-gray-900 dark:text-gray-400" />
                             <div className="flex-1">
                               <p className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">
                                 LinkedIn Profile

@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        ubuntu: ['Ubuntu', 'sans-serif'],
+        ubuntu: ['Times New Roman', 'Times', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
