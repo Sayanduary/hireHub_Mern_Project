@@ -1,10 +1,23 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Bookmark } from "lucide-react";
 
 const LatestJobCards = ({ job }) => {
   const navigate = useNavigate();
+
+  // ✅ US Date format: MM/DD/YYYY
+  const formattedDate = job?.createdAt
+    ? new Date(job.createdAt).toLocaleDateString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+    : "Few days ago";
 
   return (
     <div
@@ -21,10 +34,11 @@ const LatestJobCards = ({ job }) => {
     >
       {/* Top row */}
       <div className="flex items-center justify-between">
-        <Avatar className="h-9 w-9">
+        <Avatar className="h-11 w-11  rounded-full border border-black dark:border-white p-1.5">
           <AvatarImage
             src={job?.company?.logo || "https://via.placeholder.com/40"}
             alt={job?.company?.name}
+            className="rounded-full object-cover"
           />
         </Avatar>
 
@@ -36,7 +50,7 @@ const LatestJobCards = ({ job }) => {
 
       {/* Company + time */}
       <p className="mt-3 text-sm text-gray-500">
-        {job?.company?.name} · {job?.createdAt || "Few days ago"}
+        {job?.company?.name} · {formattedDate}
       </p>
 
       {/* Job title */}
@@ -60,7 +74,6 @@ const LatestJobCards = ({ job }) => {
       {/* Footer */}
       <div className="mt-auto flex items-center justify-between">
         <div>
-          {/* ✅ EXACT LPA (NO /hr) */}
           <p className="font-semibold text-gray-900 dark:text-white">
             ₹ {job?.salary} LPA
           </p>
@@ -74,11 +87,27 @@ const LatestJobCards = ({ job }) => {
           }}
           className="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-900 transition"
         >
-          Apply now
+          View Details
         </button>
       </div>
     </div>
   );
+};
+
+LatestJobCards.propTypes = {
+  job: PropTypes.shape({
+    _id: PropTypes.string,
+    title: PropTypes.string,
+    salary: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    location: PropTypes.string,
+    jobType: PropTypes.string,
+    experienceLevel: PropTypes.string,
+    createdAt: PropTypes.string,
+    company: PropTypes.shape({
+      name: PropTypes.string,
+      logo: PropTypes.string,
+    }),
+  }),
 };
 
 export default LatestJobCards;
