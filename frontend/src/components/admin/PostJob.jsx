@@ -49,11 +49,11 @@ const PostJob = () => {
                 withCredentials:true
             });
             if(res.data.success){
-                toast.success(res.data.message, { duration: 1000 });
+                toast.success(res.data.message, { duration: 1500 });
                 navigate("/admin/jobs");
             }
         } catch (error) {
-            toast.error(error.response.data.message, { duration: 1000 });
+            toast.error(error.response.data.message, { duration: 2000 });
         } finally{
             setLoading(false);
         }

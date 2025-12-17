@@ -53,12 +53,12 @@ const CompanySetup = () => {
                 withCredentials: true
             });
             if (res.data.success) {
-                toast.success(res.data.message, { duration: 1000 });
+                toast.success(res.data.message, { duration: 1500 });
                 navigate("/admin/companies");
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message, { duration: 1000 });
+            toast.error(error.response.data.message, { duration: 2000 });
         } finally {
             setLoading(false);
         }

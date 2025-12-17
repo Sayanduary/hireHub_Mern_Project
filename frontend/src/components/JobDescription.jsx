@@ -35,7 +35,7 @@ const JobDescription = () => {
 
   const applyJobHandler = async () => {
     if (!user) {
-      toast.error("Please login to apply for this job", { duration: 1000 });
+      toast.error("Please login to apply for this job", { duration: 2000 });
       navigate("/login");
       return;
     }
@@ -62,7 +62,7 @@ const JobDescription = () => {
           applications: [...(singleJob.applications || []), newAppObj],
         };
         dispatch(setSingleJob(updatedSingleJob));
-        toast.success(res.data.message, { duration: 1000 });
+        toast.success(res.data.message, { duration: 1500 });
       }
     } catch (error) {
       console.error("Apply job error:", error);
@@ -70,12 +70,12 @@ const JobDescription = () => {
       
       // Check if profile is incomplete
       if (errorData?.profileIncomplete) {
-        toast.error(errorData.message || "Complete your profile to apply for jobs", { duration: 1000 });
+        toast.error(errorData.message || "Complete your profile to apply for jobs", { duration: 2500 });
         
         // Show missing fields
         if (errorData.missingFields && errorData.missingFields.length > 0) {
           setTimeout(() => {
-            toast.info(`Missing: ${errorData.missingFields.join(", ")}`, { duration: 1000 });
+            toast.info(`Missing: ${errorData.missingFields.join(", ")}`, { duration: 2500 });
           }, 500);
         }
         
@@ -84,14 +84,14 @@ const JobDescription = () => {
           navigate("/profile");
         }, 1500);
       } else {
-        toast.error(errorData?.message || "Failed to apply for job", { duration: 1000 });
+        toast.error(errorData?.message || "Failed to apply for job", { duration: 2000 });
       }
     }
   };
 
   const saveJobHandler = async () => {
     if (!user) {
-      toast.error("Please login to save this job", { duration: 1000 });
+      toast.error("Please login to save this job", { duration: 2000 });
       navigate("/login");
       return;
     }
@@ -103,11 +103,11 @@ const JobDescription = () => {
       );
       if (res.data.success) {
         setIsSaved(!isSaved);
-        toast.success(res.data.message, { duration: 1000 });
+        toast.success(res.data.message, { duration: 1500 });
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "Error saving job", { duration: 1000 });
+      toast.error(error.response?.data?.message || "Error saving job", { duration: 2000 });
     }
   };
 

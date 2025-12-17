@@ -50,11 +50,11 @@ const Signup = () => {
       });
       if (res.data.success) {
         navigate("/login");
-        toast.success(res.data.message, { duration: 1000 });
+        toast.success(res.data.message, { duration: 1500 });
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message, { duration: 1000 });
+      toast.error(error.response.data.message, { duration: 2000 });
     } finally {
       dispatch(setLoading(false));
     }

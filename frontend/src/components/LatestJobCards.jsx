@@ -33,7 +33,7 @@ const LatestJobCards = ({ job }) => {
         flex flex-col h-full
 
         transition-all duration-200 ease-out
-        hover:-translate-y-
+        hover:-translate-y-1
         hover:shadow-md
         hover:border-gray-300 dark:hover:border-[#888888]
 

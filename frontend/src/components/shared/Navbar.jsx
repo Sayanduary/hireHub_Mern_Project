@@ -59,7 +59,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200/50 bg-transparent backdrop-blur-md dark:border-[#444444]/30 transition-colors">
-      <div className="relative w-full h-16 px-md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
+      <div className="relative w-full h-16 px-4 md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <Link
           to="/"
@@ -88,13 +88,13 @@ const Navbar = () => {
               to={item.to}
               className={({ isActive }) =>
                 `
-                px-6 py-2 rounded-full
-                text-sm font-medium
-                transition
+                px-4 py-2 rounded-lg
+                text-sm font-semibold
+                transition-all duration-200
                 ${
                   isActive
-                    ? "bg-blue-600 text-white dark:bg-[#E0E0E0] dark:text-[#121212]"
-                    : "text-gray-600 hover:bg-blue-600 hover:text-white dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a]"
+                    ? "bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212] shadow-sm scale-[1.02]"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a]"
                 }
               `
               }
@@ -113,11 +113,7 @@ const Navbar = () => {
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="h-9 w-9 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 hover:scale-105 dark:text-[#888888] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] transition-all duration-200"
           >
-            {theme === "dark" ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
 
           {/* Auth */}

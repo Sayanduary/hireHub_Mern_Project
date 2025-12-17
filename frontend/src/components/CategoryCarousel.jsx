@@ -81,8 +81,8 @@ const CategoryCarousel = () => {
           </CarouselContent>
 
           {/* Controls */}
-          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-[#444444] bg-white dark:bg-[#121212] hover:bg-gray-50 dark:hover:bg-[#1a1a1a] text-gray-700 dark:text-[#B0B0B0]" />
-          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-[#444444] bg-white dark:bg-[#121212] hover:bg-gray-50 dark:hover:bg-[#1a1a1a] text-gray-700 dark:text-[#B0B0B0]" />
+          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" />
+          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" />
         </Carousel>
       </div>
     </section>

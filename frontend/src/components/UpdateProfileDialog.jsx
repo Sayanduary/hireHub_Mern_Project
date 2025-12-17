@@ -95,11 +95,11 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
       );
       if (res.data.success) {
         dispatch(setUser(res.data.user));
-        toast.success(res.data.message, { duration: 1000 });
+        toast.success(res.data.message, { duration: 1500 });
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message || "Update failed", { duration: 1000 });
+      toast.error(error.response?.data?.message || "Update failed", { duration: 2000 });
     } finally {
       setLoading(false);
       setOpen(false);
