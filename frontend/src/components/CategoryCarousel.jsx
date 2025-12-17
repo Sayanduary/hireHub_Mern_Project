@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Code,
   Server,
@@ -8,7 +7,6 @@ import {
   Smartphone,
   Cloud,
   PenTool,
-  Briefcase,
 } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
