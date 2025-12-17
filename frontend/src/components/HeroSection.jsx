@@ -1,48 +1,80 @@
 import { ArrowRight, Search } from "lucide-react";
-import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "./theme-provider";
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   return (
-    <section className="relative min-h-screen border-b border-gray-200 bg-gray-50 dark:border-[#444444] dark:bg-[#121212] overflow-hidden flex items-center">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat"
-        }}
-      >
-        {/* Subtle dark gradient overlay for text readability only */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent dark:from-[#121212]/60 dark:via-[#121212]/35 dark:to-transparent"></div>
+    <section
+      className={`relative min-h-screen overflow-hidden flex items-center border-b ${
+        theme === "dark"
+          ? "bg-black border-white/5"
+          : "bg-white border-gray-200"
+      }`}
+    >
+      {/* ===== Background ===== */}
+      <div className="absolute inset-0 z-0">
+        {theme === "dark" ? (
+          <>
+            {/* Dark theme - Premium spotlight */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.12)_0%,_rgba(255,255,255,0.06)_18%,_rgba(0,0,0,0.85)_45%,_#000_70%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_40%,_rgba(0,0,0,0.9)_100%)]" />
+          </>
+        ) : (
+          <>
+            {/* Light theme - Subtle gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-gray-50" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(59,130,246,0.08)_0%,_transparent_40%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(59,130,246,0.05)_0%,_transparent_40%)]" />
+          </>
+        )}
       </div>
-      
-      {/* Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8 w-full py-12">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 bg-transparent backdrop-blur-sm px-5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition-all duration-200 dark:bg-black dark:border-black dark:text-white dark:hover:bg-[#1a1a1a]">
-              Trusted talent marketplace
-            </div>
 
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white" style={{ textShadow: '0 6px 24px rgba(0,0,0,0.55)' }}>
-                Build momentum for your career
+      {/* ===== Content ===== */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8 w-full py-24">
+        <div className="grid lg:grid-cols-2 gap-14 items-center">
+          {/* Left */}
+          <div className="space-y-8">
+            <span
+              className={`inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs font-medium backdrop-blur ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-blue-50 border-blue-200 text-blue-700"
+              }`}
+            >
+              ✨ Latest component
+            </span>
+
+            <div className="space-y-5">
+              <h1
+                className={`text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight ${
+                  theme === "dark" ? "text-white" : "text-gray-900"
+                }`}
+              >
+                Build momentum for <br /> your career
               </h1>
-              <p className="text-xl font-medium leading-relaxed max-w-xl" style={{ color: '#F9FAFB', textShadow: '0 3px 12px rgba(0,0,0,0.45)', lineHeight: '1.7' }}>
-                Discover vetted opportunities, stay aligned with hiring teams, and
-                keep every application organized from a single platform.
+
+              <p
+                className={`max-w-xl text-base md:text-lg leading-relaxed ${
+                  theme === "dark" ? "text-white/65" : "text-gray-600"
+                }`}
+              >
+                Discover vetted opportunities, stay aligned with hiring teams,
+                and keep every application organized from a single platform.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start gap-3">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 onClick={() => navigate("/jobs")}
-                className="inline-flex items-center gap-2 h-11 px-6 rounded-full border-2 border-white/80 bg-transparent text-white font-semibold hover:bg-white/15 transition-all duration-200 backdrop-blur-sm dark:bg-black dark:border-black dark:text-white dark:hover:bg-[#1a1a1a]"
+                className={`inline-flex items-center gap-2 h-11 px-6 rounded-full font-medium transition ${
+                  theme === "dark"
+                    ? "bg-white text-black hover:bg-white/90"
+                    : "bg-blue-600 text-white hover:bg-blue-700"
+                }`}
               >
                 Browse jobs
                 <Search className="h-4 w-4" />
@@ -50,8 +82,11 @@ const HeroSection = () => {
 
               <button
                 onClick={() => navigate("/signup")}
-                className="inline-flex items-center gap-2 h-11 px-6 text-sm font-medium text-white hover:text-gray-100 transition-colors"
-                style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+                className={`inline-flex items-center gap-2 h-11 px-4 text-sm transition ${
+                  theme === "dark"
+                    ? "text-white/80 hover:text-white"
+                    : "text-gray-700 hover:text-gray-900"
+                }`}
               >
                 Get started
                 <ArrowRight className="h-4 w-4" />
@@ -59,40 +94,86 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="relative hidden lg:block">
+          {/* Right */}
+          <div className="hidden lg:block space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-6 dark:border-[#444444] dark:bg-[#121212]">
-                <p className="text-3xl font-bold text-gray-900 dark:text-[#E0E0E0]">
+              <div
+                className={`rounded-xl border p-6 text-center backdrop-blur ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10"
+                    : "bg-gray-50 border-gray-200"
+                }`}
+              >
+                <p
+                  className={`text-3xl font-semibold ${
+                    theme === "dark" ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   3M+
                 </p>
-                <p className="text-xs text-gray-500 dark:text-[#B0B0B0] text-center">
+                <p
+                  className={`text-xs mt-1 ${
+                    theme === "dark" ? "text-white/60" : "text-gray-600"
+                  }`}
+                >
                   Active members
                 </p>
               </div>
 
-              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-6 dark:border-[#444444] dark:bg-[#121212]">
-                <p className="text-3xl font-bold text-gray-900 dark:text-[#E0E0E0]">
+              <div
+                className={`rounded-xl border p-6 text-center backdrop-blur ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10"
+                    : "bg-gray-50 border-gray-200"
+                }`}
+              >
+                <p
+                  className={`text-3xl font-semibold ${
+                    theme === "dark" ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   98%
                 </p>
-                <p className="text-xs text-gray-500 dark:text-[#B0B0B0] text-center">
+                <p
+                  className={`text-xs mt-1 ${
+                    theme === "dark" ? "text-white/60" : "text-gray-600"
+                  }`}
+                >
                   Hire success
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 rounded-lg border border-gray-200 bg-white p-6 dark:border-[#444444] dark:bg-[#121212]">
-              <div className="mb-4">
-                <p className="text-xs font-medium text-gray-500 dark:text-[#888888] mb-2">
-                  Featured role
-                </p>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-[#E0E0E0]">
-                  Senior Product Designer
-                </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-[#B0B0B0]">
-                  Remote · Full-time · Global
-                </p>
-              </div>
-              <div className="space-y-2">
+            <div
+              className={`rounded-xl border p-6 backdrop-blur ${
+                theme === "dark"
+                  ? "bg-white/5 border-white/10"
+                  : "bg-gray-50 border-gray-200"
+              }`}
+            >
+              <p
+                className={`text-xs mb-2 ${
+                  theme === "dark" ? "text-white/50" : "text-gray-500"
+                }`}
+              >
+                Featured role
+              </p>
+              <h3
+                className={`text-lg font-medium ${
+                  theme === "dark" ? "text-white" : "text-gray-900"
+                }`}
+              >
+                Senior Product Designer
+              </h3>
+              <p
+                className={`text-sm mt-1 ${
+                  theme === "dark" ? "text-white/60" : "text-gray-600"
+                }`}
+              >
+                Remote · Full-time · Global
+              </p>
+
+              <div className="mt-4 space-y-2">
                 {[
                   "Product Foundation",
                   "Design Systems",
@@ -100,10 +181,18 @@ const HeroSection = () => {
                 ].map((item) => (
                   <div
                     key={item}
-                    className="flex items-center justify-between rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0]"
+                    className={`flex items-center justify-between rounded-lg border px-4 py-2 text-sm ${
+                      theme === "dark"
+                        ? "bg-black/40 border-white/10 text-white/80"
+                        : "bg-white border-gray-200 text-gray-700"
+                    }`}
                   >
                     <span>{item}</span>
-                    <span className="text-xs font-medium text-gray-500 dark:text-[#888888]">
+                    <span
+                      className={`text-xs ${
+                        theme === "dark" ? "text-white/40" : "text-gray-400"
+                      }`}
+                    >
                       Expert
                     </span>
                   </div>
