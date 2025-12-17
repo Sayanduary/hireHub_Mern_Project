@@ -25,7 +25,7 @@ const LatestJobCards = ({ job }) => {
       tabIndex={0}
       className="
         group
-        bg-white dark:bg-[#121212]
+        bg-white dark:bg-[#0d0d0d]
         rounded-2xl
         border border-gray-200 dark:border-[#444444]
         p-5
@@ -33,12 +33,12 @@ const LatestJobCards = ({ job }) => {
         flex flex-col h-full
 
         transition-all duration-200 ease-out
-        hover:-translate-y-
+        hover:-translate-y-1
         hover:shadow-md
-        hover:border-gray-300 dark:hover:border-[#888888]
+        hover:border-[#3362d3] dark:hover:border-[#888888]
 
         focus-within:ring-2
-        focus-within:ring-black/10 dark:focus-within:ring-[#888888]/20
+        focus-within:ring-[#3362d3]/10 dark:focus-within:ring-[#888888]/20
       "
     >
       {/* Top row */}
@@ -119,12 +119,12 @@ const LatestJobCards = ({ job }) => {
             navigate(`/description/${job._id}`);
           }}
           className="
-            bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212]
+            bg-[#3362d3] text-white dark:bg-[#E0E0E0] dark:text-[#121212]
             px-5 py-2.5 rounded-lg
             text-sm font-semibold
 
             transition-all duration-200 ease-out
-            hover:bg-black dark:hover:bg-[#888888]
+            hover:bg-[#2851b8] dark:hover:bg-[#888888]
             hover:scale-105
             focus-visible:outline-none
             focus-visible:ring-2

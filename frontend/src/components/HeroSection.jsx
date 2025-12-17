@@ -14,29 +14,27 @@ const HeroSection = () => {
           : "bg-white border-gray-200"
       }`}
     >
-      {/* ===== Background ===== */}
+      {/* ================= BACKGROUND ================= */}
       <div className="absolute inset-0 z-0">
         {theme === "dark" ? (
           <>
-            {/* Dark theme - Premium spotlight */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.12)_0%,_rgba(255,255,255,0.06)_18%,_rgba(0,0,0,0.85)_45%,_#000_70%)]" />
+            {/* Black + dark blue glow */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(30,64,175,0.18)_0%,_rgba(30,64,175,0.08)_22%,_rgba(0,0,0,0.9)_48%,_#000_72%)]" />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_40%,_rgba(0,0,0,0.9)_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_42%,_rgba(0,0,0,0.95)_100%)]" />
           </>
         ) : (
           <>
-            {/* Light theme - Subtle gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-gray-50" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(59,130,246,0.08)_0%,_transparent_40%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(59,130,246,0.05)_0%,_transparent_40%)]" />
           </>
         )}
       </div>
 
-      {/* ===== Content ===== */}
+      {/* ================= CONTENT ================= */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8 w-full py-24">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
-          {/* Left */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* ================= LEFT ================= */}
           <div className="space-y-8">
             <span
               className={`inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs font-medium backdrop-blur ${
@@ -45,27 +43,25 @@ const HeroSection = () => {
                   : "bg-blue-50 border-blue-200 text-blue-700"
               }`}
             >
-              ✨ Latest component
+              ✨ Trusted hiring platform
             </span>
 
-            <div className="space-y-5">
-              <h1
-                className={`text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight ${
-                  theme === "dark" ? "text-white" : "text-gray-900"
-                }`}
-              >
-                Build momentum for <br /> your career
-              </h1>
+            <h1
+              className={`text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
+              Build momentum <br /> for your career
+            </h1>
 
-              <p
-                className={`max-w-xl text-base md:text-lg leading-relaxed ${
-                  theme === "dark" ? "text-white/65" : "text-gray-600"
-                }`}
-              >
-                Discover vetted opportunities, stay aligned with hiring teams,
-                and keep every application organized from a single platform.
-              </p>
-            </div>
+            <p
+              className={`max-w-xl text-base md:text-lg leading-relaxed ${
+                theme === "dark" ? "text-white/65" : "text-gray-600"
+              }`}
+            >
+              Discover verified roles, track applications, and connect directly
+              with hiring teams — all in one place.
+            </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
@@ -94,112 +90,82 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right */}
-          <div className="hidden lg:block space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          {/* ================= RIGHT (FLOATING CARDS) ================= */}
+          <div className="relative hidden lg:block h-[520px]">
+            {/* Glow core */}
+            <div className="absolute inset-0 flex items-center justify-center">
               <div
-                className={`rounded-xl border p-6 text-center backdrop-blur ${
+                className={`h-48 w-48 rounded-full blur-3xl ${
                   theme === "dark"
-                    ? "bg-white/5 border-white/10"
-                    : "bg-gray-50 border-gray-200"
+                    ? "bg-blue-800/30"
+                    : "bg-blue-300/40"
                 }`}
-              >
-                <p
-                  className={`text-3xl font-semibold ${
-                    theme === "dark" ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  3M+
-                </p>
-                <p
-                  className={`text-xs mt-1 ${
-                    theme === "dark" ? "text-white/60" : "text-gray-600"
-                  }`}
-                >
-                  Active members
-                </p>
-              </div>
-
-              <div
-                className={`rounded-xl border p-6 text-center backdrop-blur ${
-                  theme === "dark"
-                    ? "bg-white/5 border-white/10"
-                    : "bg-gray-50 border-gray-200"
-                }`}
-              >
-                <p
-                  className={`text-3xl font-semibold ${
-                    theme === "dark" ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  98%
-                </p>
-                <p
-                  className={`text-xs mt-1 ${
-                    theme === "dark" ? "text-white/60" : "text-gray-600"
-                  }`}
-                >
-                  Hire success
-                </p>
-              </div>
+              />
             </div>
 
+            {/* Card 1 */}
             <div
-              className={`rounded-xl border p-6 backdrop-blur ${
+              className={`absolute top-6 left-4 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
                 theme === "dark"
-                  ? "bg-white/5 border-white/10"
-                  : "bg-gray-50 border-gray-200"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
               }`}
             >
-              <p
-                className={`text-xs mb-2 ${
-                  theme === "dark" ? "text-white/50" : "text-gray-500"
-                }`}
-              >
-                Featured role
-              </p>
-              <h3
-                className={`text-lg font-medium ${
-                  theme === "dark" ? "text-white" : "text-gray-900"
-                }`}
-              >
-                Senior Product Designer
-              </h3>
-              <p
-                className={`text-sm mt-1 ${
-                  theme === "dark" ? "text-white/60" : "text-gray-600"
-                }`}
-              >
-                Remote · Full-time · Global
-              </p>
+              <p className="text-sm font-semibold">Frontend Developer</p>
+              <p className="text-xs opacity-70">React · Full-time</p>
+            </div>
 
-              <div className="mt-4 space-y-2">
-                {[
-                  "Product Foundation",
-                  "Design Systems",
-                  "Prototype Strategy",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className={`flex items-center justify-between rounded-lg border px-4 py-2 text-sm ${
-                      theme === "dark"
-                        ? "bg-black/40 border-white/10 text-white/80"
-                        : "bg-white border-gray-200 text-gray-700"
-                    }`}
-                  >
-                    <span>{item}</span>
-                    <span
-                      className={`text-xs ${
-                        theme === "dark" ? "text-white/40" : "text-gray-400"
-                      }`}
-                    >
-                      Expert
-                    </span>
-                  </div>
-                ))}
-              </div>
+            {/* Card 2 */}
+            <div
+              className={`absolute top-24 right-6 w-60 rounded-xl border p-4 backdrop-blur shadow-lg ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
+              }`}
+            >
+              <p className="text-sm font-semibold">Backend Engineer</p>
+              <p className="text-xs opacity-70">Node.js · Remote</p>
+            </div>
+
+            {/* Card 3 */}
+            <div
+              className={`absolute bottom-24 left-10 w-56 rounded-xl border p-4 backdrop-blur shadow-lg ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
+              }`}
+            >
+              <p className="text-sm font-semibold">UI / UX Designer</p>
+              <p className="text-xs opacity-70">Figma · Contract</p>
+            </div>
+
+            {/* Card 4 */}
+            <div
+              className={`absolute bottom-6 right-12 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
+              }`}
+            >
+              <p className="text-sm font-semibold">DevOps Engineer</p>
+              <p className="text-xs opacity-70">AWS · Kubernetes</p>
+            </div>
+
+            {/* Center stats card */}
+            <div
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 rounded-xl border p-5 backdrop-blur shadow-xl ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
+              }`}
+            >
+              <p className="text-2xl font-semibold">1200+</p>
+              <p className="mt-1 text-xs opacity-70">
+                Active job openings
+              </p>
             </div>
           </div>
+          {/* ========================================================= */}
         </div>
       </div>
     </section>

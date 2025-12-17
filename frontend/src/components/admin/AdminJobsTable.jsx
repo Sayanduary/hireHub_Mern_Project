@@ -57,7 +57,7 @@ const AdminJobsTable = () => {
                     <PopoverTrigger>
                       <MoreHorizontal />
                     </PopoverTrigger>
-                    <PopoverContent className="w-32 rounded-md border-gray-200 bg-white dark:border-[#444444] dark:bg-[#121212]">
+                    <PopoverContent className="w-32 rounded-md border-gray-200 bg-white dark:border-[#444444] dark:bg-[#0d0d0d]">
                       <div
                         onClick={() => navigate(`/admin/jobs/${job._id}`)}
                         className="flex items-center gap-2 w-fit cursor-pointer text-sm text-gray-700 hover:text-gray-900 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0]"

@@ -87,8 +87,8 @@ const Navbar = () => {
                 `px-4 py-2 rounded-md text-sm font-medium transition-colors
                 ${
                   isActive
-                    ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-[#121212]"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#b0b0b0] dark:hover:text-white dark:hover:bg-[#1a1a1a]"
+                    ? "bg-[#3362d3] text-white dark:bg-gray-100 dark:text-[#121212]"
+                    : "text-gray-600 hover:text-[#3362d3] hover:bg-transparent dark:text-[#b0b0b0] dark:hover:text-white dark:hover:bg-[#1a1a1a]"
                 }`
               }
             >
@@ -118,13 +118,13 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-2">
               <Link
                 to="/login"
-                className="px-4 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 dark:text-[#b0b0b0] dark:hover:bg-[#1a1a1a]"
+                className="px-4 py-2 text-sm font-medium rounded-md text-[#3362d3] hover:bg-[#3362d3]/10 dark:text-[#b0b0b0] dark:hover:bg-[#1a1a1a]"
               >
                 Sign in
               </Link>
               <Link
                 to="/signup"
-                className="px-4 py-2 text-sm font-medium rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212]"
+                className="px-4 py-2 text-sm font-medium rounded-md bg-[#3362d3] text-white hover:bg-[#2851b8] dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
               >
                 Sign up
               </Link>

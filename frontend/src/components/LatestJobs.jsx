@@ -47,7 +47,7 @@ const LatestJobs = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 bg-gray-50 dark:bg-[#121212] overflow-hidden"
+      className="relative py-24 bg-gray-50 dark:bg-[#0a0a0a] overflow-hidden"
     >
       <motion.div
         style={{ scale, opacity }}
