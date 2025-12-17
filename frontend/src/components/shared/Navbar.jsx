@@ -61,17 +61,24 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 w-full border-b border-gray-200/50 bg-transparent backdrop-blur-md dark:border-[#444444]/30 transition-colors">
       <div className="relative w-full h-16 px-4 md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
-        <div
-          onClick={() => navigate("/")}
+        <Link
+          to="/"
           className="flex items-center gap-3 cursor-pointer group"
         >
-          <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-[#E0E0E0] flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
-            <Briefcase className="h-5 w-5 text-white dark:text-[#121212]" />
+          <div className="h-9 w-9 flex items-center justify-center transition-transform duration-200 group-hover:scale-105 overflow-hidden rounded-lg">
+            <video 
+              src="/logo.webm" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              className="h-9 w-9 object-cover"
+            />
           </div>
           <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
             HIREHUB
           </span>
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1">
@@ -81,13 +88,13 @@ const Navbar = () => {
               to={item.to}
               className={({ isActive }) =>
                 `
-                px-4 py-2 rounded-lg
-                text-sm font-semibold
-                transition-all duration-200
+                px-6 py-2 rounded-full
+                text-sm font-medium
+                transition
                 ${
                   isActive
-                    ? "bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212] shadow-sm scale-[1.02]"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a]"
+                    ? "bg-blue-600 text-white dark:bg-[#E0E0E0] dark:text-[#121212]"
+                    : "text-gray-600 hover:bg-blue-600 hover:text-white dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a]"
                 }
               `
               }

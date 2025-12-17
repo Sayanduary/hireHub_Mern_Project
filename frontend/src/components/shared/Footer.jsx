@@ -68,7 +68,7 @@ const Footer = () => {
                   <a
                     href={link.href}
                     className="text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-[#E0E0E0] transition-colors">
-                  >
+                  
                     {link.name}
                   </a>
                 </li>
