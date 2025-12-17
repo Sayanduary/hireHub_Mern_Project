@@ -59,23 +59,20 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200/50 bg-transparent backdrop-blur-md dark:border-[#444444]/30 transition-colors">
-      <div className="relative w-full h-16 px-md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
+      <div className="relative w-full h-20 px-md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
-        <Link
-          to="/"
-          className="flex items-center gap-3 cursor-pointer group"
-        >
-          <div className="h-9 w-9 flex items-center justify-center transition-transform duration-200 group-hover:scale-105 overflow-hidden rounded-lg">
-            <video 
-              src="/logo.webm" 
-              autoPlay 
-              loop 
-              muted 
+        <Link to="/" className="flex items-center gap-3 cursor-pointer group">
+          <div className="h-11 w-11 flex items-center justify-center transition-transform duration-200 group-hover:scale-105 overflow-hidden rounded-lg">
+            <video
+              src="/logo.webm"
+              autoPlay
+              loop
+              muted
               playsInline
-              className="h-9 w-9 object-cover"
+              className="h-11 w-11 object-cover"
             />
           </div>
-          <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+          <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             HIREHUB
           </span>
         </Link>
@@ -88,8 +85,8 @@ const Navbar = () => {
               to={item.to}
               className={({ isActive }) =>
                 `
-                px-6 py-2 rounded-full
-                text-sm font-medium
+                px-6 py-2.5 rounded-full
+                text-base font-medium
                 transition
                 ${
                   isActive
@@ -111,12 +108,12 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="h-9 w-9 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 hover:scale-105 dark:text-[#888888] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] transition-all duration-200"
+            className="h-10 w-10 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 hover:scale-105 dark:text-[#888888] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] transition-all duration-200"
           >
             {theme === "dark" ? (
-              <Sun className="h-4 w-4" />
+              <Sun className="h-5 w-5" />
             ) : (
-              <Moon className="h-4 w-4" />
+              <Moon className="h-5 w-5" />
             )}
           </Button>
 
@@ -124,12 +121,12 @@ const Navbar = () => {
           {!user ? (
             <div className="hidden md:flex items-center gap-2">
               <Link to="/login">
-                <button className="px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] transition-colors">
+                <button className="px-5 py-2.5 rounded-md text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] transition-colors">
                   Sign in
                 </button>
               </Link>
               <Link to="/signup">
-                <button className="px-4 py-2 rounded-md text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] transition-colors">
+                <button className="px-5 py-2.5 rounded-md text-base font-medium bg-gray-900 text-white hover:bg-gray-800 dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] transition-colors">
                   Sign up
                 </button>
               </Link>
@@ -137,13 +134,13 @@ const Navbar = () => {
           ) : (
             <Popover>
               <PopoverTrigger asChild>
-                <Avatar className="h-8 w-8 cursor-pointer rounded-full border border-gray-200 dark:border-[#444444] hover:border-gray-300 dark:hover:border-[#888888] transition-colors">
+                <Avatar className="h-10 w-10 cursor-pointer rounded-full border border-gray-200 dark:border-[#444444] hover:border-gray-300 dark:hover:border-[#888888] transition-colors">
                   <AvatarImage
                     src={user?.profile?.profilePhoto || ""}
                     alt={user?.fullname || "User"}
                     className="object-cover"
                   />
-                  <AvatarFallback className="bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212] text-xs font-semibold">
+                  <AvatarFallback className="bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212] text-sm font-semibold">
                     {avatarInitials}
                   </AvatarFallback>
                 </Avatar>

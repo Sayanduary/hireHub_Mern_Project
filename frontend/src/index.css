@@ -1,8 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply font-lexend;
+  }
   :root {
     --background: 0 0% 98%;
     --foreground: 0 0% 9%;
@@ -73,13 +78,13 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-  
+
   /* Hide scrollbar */
   * {
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  
+
   *::-webkit-scrollbar {
     display: none;
   }
