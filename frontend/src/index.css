@@ -38,6 +38,9 @@
     --ring: 0 0% 9%;
 
     --radius: 0.5rem;
+    
+    /* Logo color filter */
+    --logo-filter: brightness(0) saturate(100%);
   }
 
   .dark {
@@ -68,6 +71,9 @@
     --border: 0 0% 15%;
     --input: 0 0% 15%;
     --ring: 0 0% 83%;
+    
+    /* Logo color filter for dark mode */
+    --logo-filter: brightness(0) saturate(100%) invert(100%);
   }
 }
 

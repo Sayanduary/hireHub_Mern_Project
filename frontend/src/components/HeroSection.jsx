@@ -38,16 +38,6 @@ const HeroSection = () => {
         <div className="grid lg:grid-cols-2 gap-14 items-center">
           {/* Left */}
           <div className="space-y-8">
-            <span
-              className={`inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs font-medium backdrop-blur ${
-                theme === "dark"
-                  ? "bg-white/10 border-white/10 text-white"
-                  : "bg-blue-50 border-blue-200 text-blue-700"
-              }`}
-            >
-              ✨ Latest component
-            </span>
-
             <div className="space-y-5">
               <h1
                 className={`text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight ${
@@ -70,10 +60,10 @@ const HeroSection = () => {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 onClick={() => navigate("/jobs")}
-                className={`inline-flex items-center gap-2 h-11 px-6 rounded-full font-medium transition ${
+                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ease-in-out ${
                   theme === "dark"
-                    ? "bg-white text-black hover:bg-white/90"
-                    : "bg-blue-600 text-white hover:bg-blue-700"
+                    ? "bg-[#E0E0E0] text-[#121212] border border-[#E0E0E0] hover:bg-white hover:scale-[1.02] shadow-sm"
+                    : "bg-gray-900 text-white border border-gray-900 hover:bg-gray-800 hover:scale-[1.02] shadow-sm"
                 }`}
               >
                 Browse jobs
@@ -82,10 +72,10 @@ const HeroSection = () => {
 
               <button
                 onClick={() => navigate("/signup")}
-                className={`inline-flex items-center gap-2 h-11 px-4 text-sm transition ${
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 ease-in-out ${
                   theme === "dark"
-                    ? "text-white/80 hover:text-white"
-                    : "text-gray-700 hover:text-gray-900"
+                    ? "text-white/80 hover:text-white hover:bg-white/5"
+                    : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
                 }`}
               >
                 Get started

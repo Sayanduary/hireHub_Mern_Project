@@ -61,17 +61,19 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 w-full border-b border-gray-200/50 bg-transparent backdrop-blur-md dark:border-[#444444]/30 transition-colors">
       <div className="relative w-full h-16 px-4 md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="h-10 w-10 rounded-lg overflow-hidden group-hover:scale-105 transition-transform">
-            <video
-              src="/logo.webm"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="h-full w-full object-cover"
-            />
-          </div>
+        <Link to="/" className="flex items-center gap-0.5 group">
+          <img 
+            src="/Logo Dark.png" 
+            alt="HIREHUB Logo" 
+            className="h-12 w-auto object-contain block dark:hidden group-hover:scale-105 transition-transform"
+            style={{ mixBlendMode: 'multiply' }}
+          />
+          <img 
+            src="/Logo Light.png" 
+            alt="HIREHUB Logo" 
+            className="h-12 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform"
+            style={{ mixBlendMode: 'screen' }}
+          />
           <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
             HIREHUB
           </span>
