@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        lexend: ['Lexend', 'sans-serif'],
+        ubuntu: ['Ubuntu', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
