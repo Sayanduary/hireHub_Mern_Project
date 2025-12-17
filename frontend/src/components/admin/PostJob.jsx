@@ -49,11 +49,11 @@ const PostJob = () => {
                 withCredentials:true
             });
             if(res.data.success){
-                toast.success(res.data.message);
+                toast.success(res.data.message, { duration: 1000 });
                 navigate("/admin/jobs");
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message, { duration: 1000 });
         } finally{
             setLoading(false);
         }
@@ -63,100 +63,100 @@ const PostJob = () => {
         <div>
             <Navbar />
             <div className='flex items-center justify-center w-screen my-5'>
-                <form onSubmit = {submitHandler} className='p-8 max-w-4xl border border-gray-200 bg-white rounded-md dark:border-gray-800 dark:bg-gray-950'>
+                <form onSubmit = {submitHandler} className='p-8 max-w-4xl border border-gray-200 bg-white rounded-md dark:border-[#444444] dark:bg-[#121212]'>
                     <div className='grid grid-cols-2 gap-4'>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">Title</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">Title</Label>
                             <Input
                                 type="text"
                                 name="title"
                                 value={input.title}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">Description</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">Description</Label>
                             <Input
                                 type="text"
                                 name="description"
                                 value={input.description}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">Requirements</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">Requirements</Label>
                             <Input
                                 type="text"
                                 name="requirements"
                                 value={input.requirements}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">Salary</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">Salary</Label>
                             <Input
                                 type="text"
                                 name="salary"
                                 value={input.salary}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">Location</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">Location</Label>
                             <Input
                                 type="text"
                                 name="location"
                                 value={input.location}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">Job Type</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">Job Type</Label>
                             <Input
                                 type="text"
                                 name="jobType"
                                 value={input.jobType}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">Experience Level</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">Experience Level</Label>
                             <Input
                                 type="text"
                                 name="experience"
                                 value={input.experience}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         <div>
-                            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">No of Position</Label>
+                            <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">No of Position</Label>
                             <Input
                                 type="number"
                                 name="position"
                                 value={input.position}
                                 onChange={changeEventHandler}
-                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-gray-800 mt-1"
+                                className="h-10 rounded-md border-gray-200 focus-visible:ring-0 dark:border-[#444444] mt-1"
                             />
                         </div>
                         {
                             companies.length > 0 && (
                                 <Select onValueChange={selectChangeHandler}>
-                                    <SelectTrigger className="h-10 rounded-md border-gray-200 dark:border-gray-800">
+                                    <SelectTrigger className="h-10 rounded-md border-gray-200 dark:border-[#444444]">
                                         <SelectValue placeholder="Select a Company" />
                                     </SelectTrigger>
-                                    <SelectContent className="rounded-md border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
+                                    <SelectContent className="rounded-md border-gray-200 bg-white dark:border-[#444444] dark:bg-[#121212]">
                                         <SelectGroup>
                                             {
                                                 companies.map((company) => {
                                                     return (
-                                                        <SelectItem key={company._id} value={company?.name?.toLowerCase()} className="text-gray-900 dark:text-gray-100">{company.name}</SelectItem>
+                                                        <SelectItem key={company._id} value={company?.name?.toLowerCase()} className="text-gray-900 dark:text-[#E0E0E0]">{company.name}</SelectItem>
                                                     )
                                                 })
                                             }
@@ -168,7 +168,7 @@ const PostJob = () => {
                         }
                     </div> 
                     {
-                        loading ? <Button className="w-full my-4 h-10 rounded-md bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4 h-10 rounded-md bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200">Post New Job</Button>
+                        loading ? <Button className="w-full my-4 h-10 rounded-md bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4 h-10 rounded-md bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200">Post New Job</Button>
                     }
                     {
                         companies.length === 0 && <p className='text-sm text-red-600 font-semibold text-center my-3'>Please register a company first before posting jobs</p>

@@ -9,6 +9,7 @@ const Toaster = ({ ...props }) => {
       theme={theme}
       position="top-center"
       className="toaster group"
+      duration={1000}
       toastOptions={{
         classNames: {
           toast:

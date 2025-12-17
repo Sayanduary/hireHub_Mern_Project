@@ -35,7 +35,7 @@ const JobDescription = () => {
 
   const applyJobHandler = async () => {
     if (!user) {
-      toast.error("Please login to apply for this job");
+      toast.error("Please login to apply for this job", { duration: 1000 });
       navigate("/login");
       return;
     }
@@ -62,7 +62,7 @@ const JobDescription = () => {
           applications: [...(singleJob.applications || []), newAppObj],
         };
         dispatch(setSingleJob(updatedSingleJob));
-        toast.success(res.data.message);
+        toast.success(res.data.message, { duration: 1000 });
       }
     } catch (error) {
       console.error("Apply job error:", error);
@@ -70,12 +70,12 @@ const JobDescription = () => {
       
       // Check if profile is incomplete
       if (errorData?.profileIncomplete) {
-        toast.error(errorData.message || "Complete your profile to apply for jobs");
+        toast.error(errorData.message || "Complete your profile to apply for jobs", { duration: 1000 });
         
         // Show missing fields
         if (errorData.missingFields && errorData.missingFields.length > 0) {
           setTimeout(() => {
-            toast.info(`Missing: ${errorData.missingFields.join(", ")}`);
+            toast.info(`Missing: ${errorData.missingFields.join(", ")}`, { duration: 1000 });
           }, 500);
         }
         
@@ -84,14 +84,14 @@ const JobDescription = () => {
           navigate("/profile");
         }, 1500);
       } else {
-        toast.error(errorData?.message || "Failed to apply for job");
+        toast.error(errorData?.message || "Failed to apply for job", { duration: 1000 });
       }
     }
   };
 
   const saveJobHandler = async () => {
     if (!user) {
-      toast.error("Please login to save this job");
+      toast.error("Please login to save this job", { duration: 1000 });
       navigate("/login");
       return;
     }
@@ -103,11 +103,11 @@ const JobDescription = () => {
       );
       if (res.data.success) {
         setIsSaved(!isSaved);
-        toast.success(res.data.message);
+        toast.success(res.data.message, { duration: 1000 });
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "Error saving job");
+      toast.error(error.response?.data?.message || "Error saving job", { duration: 1000 });
     }
   };
 
@@ -134,26 +134,26 @@ const JobDescription = () => {
   return (
     <>
       <Navbar />
-      <section className="bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gray-50 dark:bg-[#121212]">
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
           <div className="grid gap-6 lg:grid-cols-3">
-            <article className="lg:col-span-2 rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-950">
+            <article className="lg:col-span-2 rounded-lg border border-gray-200 bg-white p-8 dark:border-[#444444] dark:bg-[#121212]">
               <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                 <div className="space-y-4">
-                  <p className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <p className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-[#888888]">
                     Job Details
                   </p>
-                  <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+                  <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
                     {singleJob?.title}
                   </h1>
                   <div className="flex flex-wrap gap-2">
-                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0]">
                       {singleJob?.position} roles
                     </Badge>
-                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0]">
                       {singleJob?.jobType}
                     </Badge>
-                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0]">
                       ₹ {singleJob?.salary} LPA
                     </Badge>
                   </div>
@@ -165,8 +165,8 @@ const JobDescription = () => {
                     variant="ghost"
                     className={`h-10 rounded-md border text-sm font-medium transition-colors sm:w-40 md:w-48 ${
                       isSaved
-                        ? "border-gray-900 bg-gray-900 text-white hover:bg-gray-800 dark:border-gray-100 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
-                        : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300 dark:hover:bg-gray-900"
+                        ? "border-gray-900 bg-gray-900 text-white hover:bg-gray-800 dark:border-gray-100 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
+                        : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
                     }`}
                   >
                     <Bookmark className="mr-2 h-4 w-4" />
@@ -175,7 +175,7 @@ const JobDescription = () => {
                   <Button
                     onClick={isApplied ? undefined : applyJobHandler}
                     disabled={isApplied}
-                    className="h-10 rounded-md bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 dark:disabled:bg-gray-800 dark:disabled:text-gray-500"
+                    className="h-10 rounded-md bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200 dark:disabled:bg-gray-800 dark:disabled:text-gray-500"
                   >
                     {isApplied ? "Already applied" : "Apply now"}
                   </Button>
@@ -184,64 +184,64 @@ const JobDescription = () => {
 
               <div className="mt-8 space-y-8">
                 <section>
-                  <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
                     Description
                   </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                  <p className="mt-3 text-sm leading-relaxed text-gray-600 dark:text-[#888888]">
                     {singleJob?.description}
                   </p>
                 </section>
 
                 <section>
-                  <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
                     Job Overview
                   </h2>
                   <dl className="mt-4 grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
-                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-[#888888]">
                         Title
                       </dt>
-                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-[#E0E0E0]">
                         {singleJob?.title}
                       </dd>
                     </div>
-                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
-                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-[#888888]">
                         Location
                       </dt>
-                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-[#E0E0E0]">
                         {singleJob?.location}
                       </dd>
                     </div>
-                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
-                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-[#888888]">
                         Experience
                       </dt>
-                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-[#E0E0E0]">
                         {singleJob?.experienceLevel} yrs
                       </dd>
                     </div>
-                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
-                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-[#888888]">
                         Total applicants
                       </dt>
-                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-[#E0E0E0]">
                         {singleJob?.applications?.length}
                       </dd>
                     </div>
-                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
-                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-[#888888]">
                         Salary
                       </dt>
-                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-[#E0E0E0]">
                         {singleJob?.salary} LPA
                       </dd>
                     </div>
-                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
-                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-[#888888]">
                         Posted
                       </dt>
-                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-[#E0E0E0]">
                         {singleJob?.createdAt.split("T")[0]}
                       </dd>
                     </div>
@@ -251,22 +251,22 @@ const JobDescription = () => {
             </article>
 
             <aside className="flex flex-col gap-6">
-              <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300">
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
                   Application status
                 </h3>
-                <p className="mt-3 text-gray-600 dark:text-gray-400">
+                <p className="mt-3 text-gray-600 dark:text-[#888888]">
                   {isApplied
                     ? "You have already submitted your application for this role."
                     : "Complete your profile and apply to share your portfolio with the hiring team."}
                 </p>
               </div>
 
-              <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300">
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0]">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
                   Why this role
                 </h3>
-                <ul className="mt-3 space-y-2 text-gray-600 dark:text-gray-400">
+                <ul className="mt-3 space-y-2 text-gray-600 dark:text-[#888888]">
                   <li>• Collaborate with teams operating at global scale.</li>
                   <li>• Build within a product-first organization.</li>
                   <li>• Access a streamlined hiring workflow.</li>

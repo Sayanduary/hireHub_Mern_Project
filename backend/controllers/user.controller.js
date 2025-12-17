@@ -134,7 +134,7 @@ export const logout = async (req, res) => {
 // UPDATE PROFILE
 export const updateProfile = async (req, res) => {
     try {
-        const { fullname, email, phoneNumber, bio, skills, linkedinUrl, githubUrl } = req.body;
+        const { fullname, email, phoneNumber, bio, skills, location, linkedinUrl, githubUrl, designation, companyName, companyWebsite, companyEmail, companyLocation, companyDescription, yearsOfExperience } = req.body;
         const userId = req.id;
 
         let user = await User.findById(userId);
@@ -147,8 +147,20 @@ export const updateProfile = async (req, res) => {
         if (phoneNumber) user.phoneNumber = phoneNumber;
         if (bio) user.profile.bio = bio;
         if (skills) user.profile.skills = skills.split(",");
+        if (location !== undefined) user.profile.location = location;
         if (linkedinUrl !== undefined) user.profile.linkedinUrl = linkedinUrl;
         if (githubUrl !== undefined) user.profile.githubUrl = githubUrl;
+        
+        // Recruiter-specific fields
+        if (user.role === "recruiter") {
+            if (designation !== undefined) user.profile.designation = designation;
+            if (companyName !== undefined) user.profile.companyName = companyName;
+            if (companyWebsite !== undefined) user.profile.companyWebsite = companyWebsite;
+            if (companyEmail !== undefined) user.profile.companyEmail = companyEmail;
+            if (companyLocation !== undefined) user.profile.companyLocation = companyLocation;
+            if (companyDescription !== undefined) user.profile.companyDescription = companyDescription;
+            if (yearsOfExperience !== undefined) user.profile.yearsOfExperience = yearsOfExperience;
+        }
 
         // Handle profile photo upload
         if (req.files && req.files.profilePhoto) {

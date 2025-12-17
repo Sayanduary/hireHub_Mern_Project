@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
     profile: {
         bio: { type: String },
         skills: [{ type: String }],
+        location: { type: String },
         resume: { type: String }, // URL to resume file
         resumeOriginalName: { type: String },
         company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
@@ -34,7 +35,15 @@ const userSchema = new mongoose.Schema({
             default: ""
         },
         linkedinUrl: { type: String },
-        githubUrl: { type: String }
+        githubUrl: { type: String },
+        // Recruiter-specific fields
+        designation: { type: String },
+        companyName: { type: String },
+        companyWebsite: { type: String },
+        companyEmail: { type: String },
+        companyLocation: { type: String },
+        companyDescription: { type: String },
+        yearsOfExperience: { type: Number }
     },
     notifications: [{
         message: { type: String },

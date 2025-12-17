@@ -46,7 +46,7 @@ const LatestJobs = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-gray-50 dark:bg-[#0a0a0a] py-24 overflow-hidden"
+      className="relative bg-gray-50 dark:bg-[#121212] py-24 overflow-hidden"
     >
       <motion.div
         style={{ scale, opacity }}
@@ -54,21 +54,21 @@ const LatestJobs = () => {
       >
         {/* Header */}
         <div className="mb-16 max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
             Latest job openings
           </h2>
-          <p className="mt-2 text-base text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-base text-gray-600 dark:text-[#B0B0B0]">
             Discover recently posted roles from trusted companies
           </p>
         </div>
 
         {/* Content */}
         {jobs.length <= 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950 py-24 text-center">
-            <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 dark:border-[#444444] bg-white dark:bg-[#121212] py-24 text-center">
+            <p className="text-lg font-semibold text-gray-900 dark:text-[#E0E0E0]">
               No jobs available right now
             </p>
-            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-2 text-sm text-gray-500 dark:text-[#B0B0B0]">
               New opportunities will appear here soon
             </p>
           </div>

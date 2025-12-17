@@ -32,13 +32,13 @@ const Job = ({ job }) => {
   const handleApply = async (e) => {
     e.stopPropagation();
     if (!user) {
-      toast.error("Please login to apply for this job");
+      toast.error("Please login to apply for this job", { duration: 1000 });
       navigate("/login");
       return;
     }
 
     if (isApplied) {
-      toast.info("You have already applied to this job");
+      toast.info("You have already applied to this job", { duration: 1000 });
       return;
     }
 
@@ -51,7 +51,7 @@ const Job = ({ job }) => {
       if (res.data.success) {
         // Update centralized Redux state immediately
         dispatch(addAppliedJobId(job._id));
-        toast.success(res.data.message);
+        toast.success(res.data.message, { duration: 1000 });
         // Don't navigate - keep user on current page
       }
     } catch (error) {
@@ -59,12 +59,12 @@ const Job = ({ job }) => {
       
       // Check if profile is incomplete
       if (errorData?.profileIncomplete) {
-        toast.error(errorData.message || "Complete your profile to apply for jobs");
+        toast.error(errorData.message || "Complete your profile to apply for jobs", { duration: 1000 });
         
         // Show missing fields
         if (errorData.missingFields && errorData.missingFields.length > 0) {
           setTimeout(() => {
-            toast.info(`Missing: ${errorData.missingFields.join(", ")}`);
+            toast.info(`Missing: ${errorData.missingFields.join(", ")}`, { duration: 1000 });
           }, 500);
         }
         
@@ -73,7 +73,7 @@ const Job = ({ job }) => {
           navigate("/profile");
         }, 1500);
       } else {
-        toast.error(errorData?.message || "Failed to apply");
+        toast.error(errorData?.message || "Failed to apply", { duration: 1000 });
       }
     } finally {
       setIsLoading(false);
@@ -81,8 +81,8 @@ const Job = ({ job }) => {
   };
 
   return (
-    <article className="group flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg hover:border-gray-300 dark:border-gray-800/50 dark:bg-[#0a0a0a] dark:hover:border-gray-700">
-      <div className="flex items-start justify-between text-xs text-gray-500 dark:text-gray-400">
+    <article className="group flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg hover:border-gray-300 dark:border-[#444444] dark:bg-[#121212] dark:hover:border-[#888888]">
+      <div className="flex items-start justify-between text-xs text-gray-500 dark:text-[#888888]">
         <div className="inline-flex items-center gap-2">
           <Clock className="h-3.5 w-3.5" aria-hidden />
           <span>
@@ -96,7 +96,7 @@ const Job = ({ job }) => {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 hover:scale-105 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-all duration-200"
+          className="h-8 w-8 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 hover:scale-105 dark:text-[#888888] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] transition-all duration-200"
           aria-label="Save job"
         >
           <Bookmark className="h-4 w-4" />
@@ -104,7 +104,7 @@ const Job = ({ job }) => {
       </div>
 
       <div className="mt-5 flex items-center gap-3">
-        <Avatar className="h-12 w-12 rounded-xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900 p-2 transition-transform duration-200 group-hover:scale-105">
+        <Avatar className="h-12 w-12 rounded-xl border border-gray-200 bg-gray-50 dark:border-[#444444] dark:bg-[#1a1a1a] p-2 transition-transform duration-200 group-hover:scale-105">
           <AvatarImage
             src={
               job?.company?.logo ||
@@ -114,10 +114,10 @@ const Job = ({ job }) => {
           />
         </Avatar>
         <div className="min-w-0 flex-1">
-          <h2 className="truncate text-sm font-semibold text-gray-900 dark:text-gray-100">
+          <h2 className="truncate text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
             {job?.company?.name}
           </h2>
-          <div className="mt-1 inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+          <div className="mt-1 inline-flex items-center gap-1 text-xs text-gray-500 dark:text-[#888888]">
             <MapPin className="h-3.5 w-3.5" aria-hidden />
             <span className="truncate">{job?.location || "Remote"}</span>
           </div>
@@ -125,39 +125,39 @@ const Job = ({ job }) => {
       </div>
 
       <div className="mt-6 flex flex-1 flex-col gap-3">
-        <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
           {job?.title}
         </h3>
-        <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-3">
+        <p className="text-sm leading-relaxed text-gray-600 dark:text-[#B0B0B0] line-clamp-3">
           {job?.description}
         </p>
 
         <div className="flex flex-wrap gap-2 pt-2">
-          <Badge className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 pointer-events-none">
+          <Badge className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0] pointer-events-none">
             <Briefcase className="h-3 w-3" aria-hidden />
             {job?.position} roles
           </Badge>
-          <Badge className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 pointer-events-none">
+          <Badge className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0] pointer-events-none">
             {job?.jobType}
           </Badge>
-          <Badge className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 pointer-events-none">
+          <Badge className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0] pointer-events-none">
             ₹ {job?.salary} LPA
           </Badge>
         </div>
       </div>
 
-      <div className="mt-8 flex items-center gap-3 border-t border-gray-200 pt-5 dark:border-gray-800">
+      <div className="mt-8 flex items-center gap-3 border-t border-gray-200 pt-5 dark:border-[#444444]">
         <Button
           onClick={() => navigate(`/description/${job?._id}`)}
           variant="ghost"
-          className="h-11 flex-1 rounded-lg border-2 border-gray-200 text-sm font-semibold text-gray-700 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300 dark:border-gray-800 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-900 dark:hover:border-gray-700 transition-all duration-200"
+          className="h-11 flex-1 rounded-lg border-2 border-gray-200 text-sm font-semibold text-gray-700 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300 dark:border-[#444444] dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] dark:hover:border-[#888888] transition-all duration-200"
         >
           View details
         </Button>
         <Button
           onClick={handleApply}
           disabled={isLoading || isApplied}
-          className="h-11 flex-1 rounded-lg bg-gray-900 text-sm font-semibold text-white hover:bg-black hover:scale-[1.02] disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-500 transition-all duration-200 shadow-sm"
+          className="h-11 flex-1 rounded-lg bg-gray-900 text-sm font-semibold text-white hover:bg-black hover:scale-[1.02] disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] dark:disabled:bg-[#1a1a1a] dark:disabled:text-[#888888] transition-all duration-200 shadow-sm"
         >
           {isLoading ? "Applying..." : isApplied ? "Applied" : "Apply now"}
         </Button>

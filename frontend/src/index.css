@@ -74,36 +74,13 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
   
-  /* Custom scrollbar styles */
+  /* Hide scrollbar */
   * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
   
   *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  *::-webkit-scrollbar-thumb {
-    background-color: rgba(155, 155, 155, 0.5);
-    border-radius: 20px;
-    border: transparent;
-  }
-  
-  *::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(155, 155, 155, 0.7);
-  }
-  
-  .dark *::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .dark *::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    display: none;
   }
 }

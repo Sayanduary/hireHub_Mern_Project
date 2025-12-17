@@ -261,7 +261,7 @@ const FilterCard = () => {
                 placeholder="Search jobs..."
                 value={searchText}
                 onChange={handleSearchChange}
-                className="h-9 w-full rounded-md border border-gray-300 bg-white pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-500 focus:border-gray-400 focus-visible:ring-0 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                className="h-9 w-full rounded-md border border-gray-300 bg-white pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-500 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0]"
               />
             </div>
 
@@ -276,7 +276,7 @@ const FilterCard = () => {
                 type="button"
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'skills' ? null : 'skills')}
-                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
               >
                 Skills
                 <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'skills' ? "rotate-180" : ""}`} />
@@ -284,7 +284,7 @@ const FilterCard = () => {
 
               {openDropdown === 'skills' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-64 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  className="absolute top-full left-0 mt-2 w-64 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
                   <div className="p-3 max-h-64 overflow-y-auto">
@@ -296,11 +296,11 @@ const FilterCard = () => {
                             id={`desktop-${skill}`}
                             checked={selectedSkills.includes(skill)}
                             onChange={() => handleSkillToggle(skill)}
-                            className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-0 dark:border-gray-600"
+                            className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-0 dark:border-[#444444]"
                           />
                           <Label
                             htmlFor={`desktop-${skill}`}
-                            className="text-sm font-normal text-gray-700 cursor-pointer dark:text-gray-300"
+                            className="text-sm font-normal text-gray-700 cursor-pointer dark:text-[#B0B0B0]"
                           >
                             {skill}
                           </Label>
@@ -323,7 +323,7 @@ const FilterCard = () => {
                 type="button"
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'location' ? null : 'location')}
-                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
               >
                 Location
                 <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'location' ? "rotate-180" : ""}`} />
@@ -331,7 +331,7 @@ const FilterCard = () => {
 
               {openDropdown === 'location' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
                   <div className="p-3 max-h-64 overflow-y-auto">
@@ -342,7 +342,7 @@ const FilterCard = () => {
                             return data.array.map((loc) => (
                               <div key={loc} className="flex items-center space-x-2">
                                 <RadioGroupItem value={loc} id={`desktop-location-${loc}`} />
-                                <Label htmlFor={`desktop-location-${loc}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                <Label htmlFor={`desktop-location-${loc}`} className="text-sm text-gray-700 cursor-pointer dark:text-[#B0B0B0]">
                                   {loc}
                                 </Label>
                               </div>
@@ -368,7 +368,7 @@ const FilterCard = () => {
                 type="button"
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'industry' ? null : 'industry')}
-                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
               >
                 Industry
                 <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'industry' ? "rotate-180" : ""}`} />
@@ -376,7 +376,7 @@ const FilterCard = () => {
 
               {openDropdown === 'industry' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
                   <div className="p-3 max-h-64 overflow-y-auto">
@@ -387,7 +387,7 @@ const FilterCard = () => {
                             return data.array.map((ind) => (
                               <div key={ind} className="flex items-center space-x-2">
                                 <RadioGroupItem value={ind} id={`desktop-industry-${ind}`} />
-                                <Label htmlFor={`desktop-industry-${ind}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                <Label htmlFor={`desktop-industry-${ind}`} className="text-sm text-gray-700 cursor-pointer dark:text-[#B0B0B0]">
                                   {ind}
                                 </Label>
                               </div>
@@ -413,7 +413,7 @@ const FilterCard = () => {
                 type="button"
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'jobtype' ? null : 'jobtype')}
-                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
               >
                 Job Type
                 <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'jobtype' ? "rotate-180" : ""}`} />
@@ -421,7 +421,7 @@ const FilterCard = () => {
 
               {openDropdown === 'jobtype' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
                   <div className="p-3 max-h-64 overflow-y-auto">
@@ -432,7 +432,7 @@ const FilterCard = () => {
                             return data.array.map((type) => (
                               <div key={type} className="flex items-center space-x-2">
                                 <RadioGroupItem value={type} id={`desktop-jobtype-${type}`} />
-                                <Label htmlFor={`desktop-jobtype-${type}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                <Label htmlFor={`desktop-jobtype-${type}`} className="text-sm text-gray-700 cursor-pointer dark:text-[#B0B0B0]">
                                   {type}
                                 </Label>
                               </div>
@@ -458,7 +458,7 @@ const FilterCard = () => {
                 type="button"
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'experience' ? null : 'experience')}
-                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
               >
                 Experience
                 <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'experience' ? "rotate-180" : ""}`} />
@@ -466,7 +466,7 @@ const FilterCard = () => {
 
               {openDropdown === 'experience' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
                   <div className="p-3 max-h-64 overflow-y-auto">
@@ -477,7 +477,7 @@ const FilterCard = () => {
                             return data.array.map((exp) => (
                               <div key={exp} className="flex items-center space-x-2">
                                 <RadioGroupItem value={exp} id={`desktop-exp-${exp}`} />
-                                <Label htmlFor={`desktop-exp-${exp}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                <Label htmlFor={`desktop-exp-${exp}`} className="text-sm text-gray-700 cursor-pointer dark:text-[#B0B0B0]">
                                   {exp}
                                 </Label>
                               </div>
@@ -503,7 +503,7 @@ const FilterCard = () => {
                 type="button"
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'salary' ? null : 'salary')}
-                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
               >
                 Salary
                 <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'salary' ? "rotate-180" : ""}`} />
@@ -511,7 +511,7 @@ const FilterCard = () => {
 
               {openDropdown === 'salary' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
                   <div className="p-3 max-h-64 overflow-y-auto">
@@ -522,7 +522,7 @@ const FilterCard = () => {
                             return data.array.map((salary) => (
                               <div key={salary} className="flex items-center space-x-2">
                                 <RadioGroupItem value={salary} id={`desktop-salary-${salary}`} />
-                                <Label htmlFor={`desktop-salary-${salary}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                <Label htmlFor={`desktop-salary-${salary}`} className="text-sm text-gray-700 cursor-pointer dark:text-[#B0B0B0]">
                                   {salary}
                                 </Label>
                               </div>
@@ -543,7 +543,7 @@ const FilterCard = () => {
                 type="button"
                 variant="ghost"
                 onClick={handleClearFilters}
-                className="h-9 px-3 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800"
+                className="h-9 px-3 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#888888] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a]"
               >
                 Clear all
               </Button>
@@ -553,7 +553,7 @@ const FilterCard = () => {
           {/* Active Filter Chips */}
           {hasActiveFilters && (
             <div className="flex items-center gap-2 mt-3 flex-wrap">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
+              <span className="text-xs text-gray-500 dark:text-[#888888]">
                 Active:
               </span>
               {activeFilterChips.map((chip) => (
@@ -561,7 +561,7 @@ const FilterCard = () => {
                   key={`${chip.type}-${chip.label}`}
                   type="button"
                   onClick={() => handleRemoveChip(chip.type, chip.label)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a] transition-colors"
                 >
                   <span>{chip.label}</span>
                   <X className="h-3 w-3" />
@@ -572,13 +572,13 @@ const FilterCard = () => {
       </div>
 
       {/* Mobile Filter Button */}
-      <div className="md:hidden w-full bg-white border-b border-gray-200 dark:bg-gray-950 dark:border-gray-800">
+      <div className="md:hidden w-full bg-white border-b border-gray-200 dark:bg-[#121212] dark:border-[#444444]">
         <div className="px-4 py-3">
           <Button
             type="button"
             variant="outline"
             onClick={() => setShowMobileFilters(true)}
-            className="w-full justify-between h-10 border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="w-full justify-between h-10 border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-[#444444] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
           >
             <span className="flex items-center gap-2">
               <Filter className="h-4 w-4" />
@@ -598,7 +598,7 @@ const FilterCard = () => {
                   key={`mobile-chip-${chip.type}-${chip.label}`}
                   type="button"
                   onClick={() => handleRemoveChip(chip.type, chip.label)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
                 >
                   <span>{chip.label}</span>
                   <X className="h-3 w-3" />
@@ -613,15 +613,15 @@ const FilterCard = () => {
       {showMobileFilters && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="fixed inset-0 bg-black/50" onClick={() => setShowMobileFilters(false)} />
-          <div className="fixed inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-white dark:bg-gray-950 shadow-xl">
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-950">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <div className="fixed inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-white dark:bg-[#121212] shadow-xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-4 py-4 dark:border-[#444444] dark:bg-[#121212]">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-[#E0E0E0]">
                 Filters
               </h3>
               <button
                 type="button"
                 onClick={() => setShowMobileFilters(false)}
-                className="rounded-md p-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+                className="rounded-md p-1 text-gray-500 hover:bg-gray-100 dark:text-[#888888] dark:hover:bg-[#1a1a1a]"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -630,7 +630,7 @@ const FilterCard = () => {
             <div className="p-4 space-y-6">
               {/* Search */}
               <div>
-                <Label className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2 block">
+                <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0] mb-2 block">
                   Search
                 </Label>
                 <div className="relative">
@@ -640,14 +640,14 @@ const FilterCard = () => {
                     placeholder="Search jobs..."
                     value={searchText}
                     onChange={handleSearchChange}
-                    className="h-10 w-full pl-9 border-gray-300 dark:border-gray-700"
+                    className="h-10 w-full pl-9 border-gray-300 dark:border-[#444444]"
                   />
                 </div>
               </div>
 
               {/* Skills */}
               <div>
-                <Label className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3 block">
+                <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0] mb-3 block">
                   Skills
                 </Label>
                 <div className="space-y-2">
@@ -662,7 +662,7 @@ const FilterCard = () => {
                       />
                       <Label
                         htmlFor={`mobile-${skill}`}
-                        className="text-sm text-gray-700 cursor-pointer dark:text-gray-300"
+                        className="text-sm text-gray-700 cursor-pointer dark:text-[#B0B0B0]"
                       >
                         {skill}
                       </Label>
@@ -674,7 +674,7 @@ const FilterCard = () => {
               {/* Other Filter Sections */}
               {filterData.map((data) => (
                 <div key={data.filterType}>
-                  <Label className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3 block">
+                  <Label className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0] mb-3 block">
                     {data.filterType}
                   </Label>
                   <RadioGroup
@@ -691,7 +691,7 @@ const FilterCard = () => {
                       {data.array.map((option) => (
                         <div key={option} className="flex items-center space-x-2">
                           <RadioGroupItem value={option} id={`mobile-${data.filterType}-${option}`} />
-                          <Label htmlFor={`mobile-${data.filterType}-${option}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                          <Label htmlFor={`mobile-${data.filterType}-${option}`} className="text-sm text-gray-700 cursor-pointer dark:text-[#B0B0B0]">
                             {option}
                           </Label>
                         </div>
@@ -702,7 +702,7 @@ const FilterCard = () => {
               ))}
             </div>
 
-            <div className="sticky bottom-0 border-t border-gray-200 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-950">
+            <div className="sticky bottom-0 border-t border-gray-200 bg-white px-4 py-4 dark:border-[#444444] dark:bg-[#121212]">
               <div className="flex gap-3">
                 <Button
                   type="button"
@@ -715,7 +715,7 @@ const FilterCard = () => {
                 <Button
                   type="button"
                   onClick={() => setShowMobileFilters(false)}
-                  className="flex-1 bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
+                  className="flex-1 bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
                 >
                   Apply filters
                 </Button>

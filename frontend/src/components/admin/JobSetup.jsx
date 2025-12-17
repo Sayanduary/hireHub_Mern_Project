@@ -65,11 +65,11 @@ const JobSetup = () => {
         }
       );
       if (res.data.success) {
-        toast.success(res.data.message);
+        toast.success(res.data.message, { duration: 1000 });
         navigate("/admin/jobs");
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, { duration: 1000 });
     } finally {
       setLoading(false);
     }
@@ -97,7 +97,7 @@ const JobSetup = () => {
         }
       } catch (error) {
         console.log(error);
-        toast.error("Failed to fetch job details");
+        toast.error("Failed to fetch job details", { duration: 1000 });
       }
     };
     fetchSingleJob();

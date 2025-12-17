@@ -25,9 +25,9 @@ const LatestJobCards = ({ job }) => {
       tabIndex={0}
       className="
         group
-        bg-white dark:bg-[#0a0a0a]
+        bg-white dark:bg-[#121212]
         rounded-2xl
-        border border-gray-200 dark:border-white/10
+        border border-gray-200 dark:border-[#444444]
         p-5
         cursor-pointer
         flex flex-col h-full
@@ -35,10 +35,10 @@ const LatestJobCards = ({ job }) => {
         transition-all duration-200 ease-out
         hover:-translate-y-1
         hover:shadow-md
-        hover:border-gray-300 dark:hover:border-white/20
+        hover:border-gray-300 dark:hover:border-[#888888]
 
         focus-within:ring-2
-        focus-within:ring-black/10 dark:focus-within:ring-white/20
+        focus-within:ring-black/10 dark:focus-within:ring-[#888888]/20
       "
     >
       {/* Top row */}
@@ -47,8 +47,8 @@ const LatestJobCards = ({ job }) => {
           className="
             h-11 w-11
             rounded-full
-            border border-black/10 dark:border-white/20
-            bg-gray-50 dark:bg-white/5
+            border border-black/10 dark:border-[#444444]
+            bg-gray-50 dark:bg-[#1a1a1a]
             p-1.5
 
             transition-transform duration-200 ease-out
@@ -66,12 +66,12 @@ const LatestJobCards = ({ job }) => {
           onClick={(e) => e.stopPropagation()}
           className="
             flex items-center gap-1 text-xs px-2 py-1 rounded-md
-            border border-gray-200 dark:border-white/10
-            text-gray-500 dark:text-gray-400
+            border border-gray-200 dark:border-[#444444]
+            text-gray-500 dark:text-[#888888]
 
             transition-colors duration-150
-            hover:text-gray-900 dark:hover:text-white
-            hover:bg-gray-50 dark:hover:bg-white/5
+            hover:text-gray-900 dark:hover:text-[#E0E0E0]
+            hover:bg-gray-50 dark:hover:bg-[#1a1a1a]
           "
         >
           <Bookmark className="h-3.5 w-3.5" />
@@ -80,35 +80,35 @@ const LatestJobCards = ({ job }) => {
       </div>
 
       {/* Company + time */}
-      <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+      <p className="mt-3 text-sm text-gray-500 dark:text-[#B0B0B0]">
         {job?.company?.name} · {formattedDate}
       </p>
 
       {/* Job title */}
-      <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-white leading-snug">
+      <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-[#E0E0E0] leading-snug">
         {job?.title}
       </h3>
 
       {/* Tags */}
       <div className="mt-4 flex flex-wrap gap-2">
-        <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-700 dark:bg-white/10 dark:text-gray-200 transition-colors">
+        <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#B0B0B0] transition-colors">
           {job?.jobType}
         </span>
-        <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-700 dark:bg-white/10 dark:text-gray-200 transition-colors">
+        <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#B0B0B0] transition-colors">
           {job?.experienceLevel || "Senior level"}
         </span>
       </div>
 
       {/* Divider */}
-      <div className="my-5 h-px bg-gray-200 dark:bg-white/10" />
+      <div className="my-5 h-px bg-gray-200 dark:bg-[#444444]" />
 
       {/* Footer */}
       <div className="mt-auto flex items-center justify-between">
         <div>
-          <p className="font-semibold text-gray-900 dark:text-white">
+          <p className="font-semibold text-gray-900 dark:text-[#E0E0E0]">
             ₹ {job?.salary} LPA
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-gray-500 dark:text-[#B0B0B0]">
             {job?.location || "India"}
           </p>
         </div>
@@ -119,16 +119,16 @@ const LatestJobCards = ({ job }) => {
             navigate(`/description/${job._id}`);
           }}
           className="
-            bg-gray-900 text-white dark:bg-white dark:text-gray-900
+            bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212]
             px-5 py-2.5 rounded-lg
             text-sm font-semibold
 
             transition-all duration-200 ease-out
-            hover:bg-black dark:hover:bg-gray-100
+            hover:bg-black dark:hover:bg-[#888888]
             hover:scale-105
             focus-visible:outline-none
             focus-visible:ring-2
-            focus-visible:ring-black/20 dark:focus-visible:ring-white/20
+            focus-visible:ring-black/20 dark:focus-visible:ring-[#888888]/20
             shadow-sm
           "
         >

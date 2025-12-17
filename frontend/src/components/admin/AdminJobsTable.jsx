@@ -57,10 +57,10 @@ const AdminJobsTable = () => {
                     <PopoverTrigger>
                       <MoreHorizontal />
                     </PopoverTrigger>
-                    <PopoverContent className="w-32 rounded-md border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
+                    <PopoverContent className="w-32 rounded-md border-gray-200 bg-white dark:border-[#444444] dark:bg-[#121212]">
                       <div
                         onClick={() => navigate(`/admin/jobs/${job._id}`)}
-                        className="flex items-center gap-2 w-fit cursor-pointer text-sm text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
+                        className="flex items-center gap-2 w-fit cursor-pointer text-sm text-gray-700 hover:text-gray-900 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0]"
                       >
                         <Edit2 className="w-4" />
                         <span>Edit</span>
@@ -69,7 +69,7 @@ const AdminJobsTable = () => {
                         onClick={() =>
                           navigate(`/admin/jobs/${job._id}/applicants`)
                         }
-                        className="flex items-center w-fit gap-2 cursor-pointer mt-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
+                        className="flex items-center w-fit gap-2 cursor-pointer mt-2 text-sm text-gray-700 hover:text-gray-900 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0]"
                       >
                         <Eye className="w-4" />
                         <span>Applicants</span>

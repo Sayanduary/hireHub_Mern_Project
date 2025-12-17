@@ -33,14 +33,14 @@ const CategoryCarousel = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-[#0a0a0a] transition-colors">
+    <section className="py-20 bg-gray-50 dark:bg-[#121212] transition-colors">
       <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h2 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h2 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
             Explore roles by category
           </h2>
-          <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
+          <p className="mt-3 text-lg text-gray-600 dark:text-[#B0B0B0]">
             Discover opportunities tailored to your expertise
           </p>
         </div>
@@ -63,13 +63,13 @@ const CategoryCarousel = () => {
                   className="
                     w-full h-11
                     rounded-full
-                    border-2 border-gray-200 dark:border-gray-800
-                    bg-white dark:bg-[#0a0a0a]
+                    border-2 border-gray-200 dark:border-[#444444]
+                    bg-white dark:bg-[#121212]
                     text-sm font-semibold
-                    text-gray-700 dark:text-gray-300
-                    hover:bg-gray-900 dark:hover:bg-white
-                    hover:text-white dark:hover:text-gray-900
-                    hover:border-gray-900 dark:hover:border-white
+                    text-gray-700 dark:text-[#B0B0B0]
+                    hover:bg-gray-900 dark:hover:bg-[#E0E0E0]
+                    hover:text-white dark:hover:text-[#121212]
+                    hover:border-gray-900 dark:hover:border-[#E0E0E0]
                     hover:scale-105
                     transition-all duration-200 ease-out
                   "
@@ -81,8 +81,8 @@ const CategoryCarousel = () => {
           </CarouselContent>
 
           {/* Controls */}
-          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" />
-          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" />
+          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-[#444444] bg-white dark:bg-[#121212] hover:bg-gray-50 dark:hover:bg-[#1a1a1a] text-gray-700 dark:text-[#B0B0B0]" />
+          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-[#444444] bg-white dark:bg-[#121212] hover:bg-gray-50 dark:hover:bg-[#1a1a1a] text-gray-700 dark:text-[#B0B0B0]" />
         </Carousel>
       </div>
     </section>

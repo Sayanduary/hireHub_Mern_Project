@@ -29,7 +29,7 @@ const AppliedJobTable = () => {
         }
       );
       if (res.data.success) {
-        toast.success("Application withdrawn successfully");
+        toast.success("Application withdrawn successfully", { duration: 1000 });
         // Remove from local state
         const updatedApplied = applied.filter(
           (app) => app._id !== applicationId
@@ -39,7 +39,8 @@ const AppliedJobTable = () => {
     } catch (error) {
       console.log(error);
       toast.error(
-        error.response?.data?.message || "Failed to withdraw application"
+        error.response?.data?.message || "Failed to withdraw application",
+        { duration: 1000 }
       );
     }
   };
@@ -72,7 +73,7 @@ const AppliedJobTable = () => {
                       appliedJob?.status === "rejected"
                         ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
                         : appliedJob.status === "pending"
-                        ? "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100"
+                        ? "bg-gray-100 text-gray-800 dark:bg-[#121212] dark:text-[#E0E0E0]"
                         : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
                     }`}
                   >

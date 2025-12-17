@@ -103,11 +103,11 @@ const Jobs = () => {
   }, [jobs, filters]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#121212]">
       <Navbar />
 
       {/* Horizontal Filter Bar */}
-      <div className="sticky top-16 z-40 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+      <div className="sticky top-16 z-40 bg-white dark:bg-[#121212] border-b border-gray-200 dark:border-[#444444]">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <FilterCard />
         </div>
@@ -116,19 +116,19 @@ const Jobs = () => {
       <section className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8">
         {/* Job results */}
         {filteredJobs.length === 0 ? (
-          <div className="border border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950 rounded-lg py-24 text-center">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          <div className="border border-dashed border-gray-300 dark:border-[#444444] bg-white dark:bg-[#121212] rounded-lg py-24 text-center">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-[#E0E0E0]">
               No jobs found
             </h3>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-2 text-sm text-gray-600 dark:text-[#B0B0B0]">
               Try adjusting your filters
             </p>
           </div>
         ) : (
           <>
-            <p className="mb-6 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mb-6 text-sm text-gray-600 dark:text-[#B0B0B0]">
               Showing{" "}
-              <span className="font-semibold text-gray-900 dark:text-gray-100">
+              <span className="font-semibold text-gray-900 dark:text-[#E0E0E0]">
                 {filteredJobs.length}
               </span>{" "}
               jobs
