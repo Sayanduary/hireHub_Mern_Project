@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { Button } from "./ui/button";
 import { Bookmark, MapPin, Briefcase, Clock } from "lucide-react";
 import { Avatar, AvatarImage } from "./ui/avatar";
@@ -16,29 +17,28 @@ const Job = ({ job }) => {
   const { user } = useSelector((store) => store.auth);
   const { appliedJobIds } = useSelector((store) => store.application);
   const [isLoading, setIsLoading] = useState(false);
-  
-  // Check if user has already applied to this job using centralized Redux state
+
   const isApplied = appliedJobIds.includes(job?._id);
 
   const daysAgoFunction = (mongodbTime) => {
     const createdAt = new Date(mongodbTime);
     const currentTime = new Date();
-    const timeDifference = currentTime - createdAt;
-    return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
+    return Math.floor((currentTime - createdAt) / (1000 * 60 * 60 * 24));
   };
 
   const daysAgo = daysAgoFunction(job?.createdAt);
 
   const handleApply = async (e) => {
     e.stopPropagation();
+
     if (!user) {
-      toast.error("Please login to apply for this job", { duration: 2000 });
+      toast.error("Please login to apply for this job", { duration: 1000 });
       navigate("/login");
       return;
     }
 
     if (isApplied) {
-      toast.info("You have already applied to this job", { duration: 2000 });
+      toast.info("You have already applied to this job", { duration: 1000 });
       return;
     }
 
@@ -48,32 +48,30 @@ const Job = ({ job }) => {
         `${APPLICATION_API_END_POINT}/apply/${job._id}`,
         { withCredentials: true }
       );
+
       if (res.data.success) {
-        // Update centralized Redux state immediately
         dispatch(addAppliedJobId(job._id));
-        toast.success(res.data.message, { duration: 1500 });
-        // Don't navigate - keep user on current page
+        toast.success(res.data.message, { duration: 1000 });
       }
     } catch (error) {
       const errorData = error.response?.data;
-      
-      // Check if profile is incomplete
+
       if (errorData?.profileIncomplete) {
-        toast.error(errorData.message || "Complete your profile to apply for jobs", { duration: 2500 });
-        
-        // Show missing fields
-        if (errorData.missingFields && errorData.missingFields.length > 0) {
+        toast.error(errorData.message, { duration: 1000 });
+
+        if (errorData.missingFields?.length) {
           setTimeout(() => {
-            toast.info(`Missing: ${errorData.missingFields.join(", ")}`, { duration: 2500 });
+            toast.info(`Missing: ${errorData.missingFields.join(", ")}`, {
+              duration: 1000,
+            });
           }, 500);
         }
-        
-        // Redirect to profile page after a short delay
-        setTimeout(() => {
-          navigate("/profile");
-        }, 1500);
+
+        setTimeout(() => navigate("/profile"), 1500);
       } else {
-        toast.error(errorData?.message || "Failed to apply", { duration: 2000 });
+        toast.error(errorData?.message || "Failed to apply", {
+          duration: 1000,
+        });
       }
     } finally {
       setIsLoading(false);
@@ -81,10 +79,32 @@ const Job = ({ job }) => {
   };
 
   return (
-    <article className="group flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg hover:border-gray-300 dark:border-[#444444] dark:bg-[#121212] dark:hover:border-[#888888]">
+    <article
+      className="
+        group relative flex h-full flex-col rounded-xl
+        border border-gray-200 dark:border-[#444444]
+        bg-white dark:bg-[#121212]
+        p-6 cursor-pointer
+
+        transition-all duration-300
+        ease-[cubic-bezier(0.22,1,0.36,1)]
+        hover:-translate-y-1.5
+        hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.35)]
+        dark:hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)]
+        hover:border-gray-300 dark:hover:border-[#888888]
+
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-black/20
+        dark:focus-visible:ring-[#888888]/30
+      "
+      onClick={() => navigate(`/description/${job?._id}`)}
+      tabIndex={0}
+    >
+      {/* Top meta */}
       <div className="flex items-start justify-between text-xs text-gray-500 dark:text-[#888888]">
         <div className="inline-flex items-center gap-2">
-          <Clock className="h-3.5 w-3.5" aria-hidden />
+          <Clock className="h-3.5 w-3.5" />
           <span>
             {daysAgo === 0
               ? "Today"
@@ -93,77 +113,141 @@ const Job = ({ job }) => {
               : `${daysAgo} days ago`}
           </span>
         </div>
+
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 hover:scale-105 dark:text-[#888888] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] transition-all duration-200"
-          aria-label="Save job"
+          onClick={(e) => e.stopPropagation()}
+          className="
+            h-8 w-8 rounded-lg
+            text-gray-500 dark:text-[#888888]
+            transition-all duration-200
+            hover:bg-gray-100 dark:hover:bg-[#1f1f1f]
+            hover:text-gray-900 dark:hover:text-[#E0E0E0]
+            hover:scale-[1.05]
+            active:scale-[0.96]
+          "
         >
           <Bookmark className="h-4 w-4" />
         </Button>
       </div>
 
+      {/* Company */}
       <div className="mt-5 flex items-center gap-3">
-        <Avatar className="h-12 w-12 rounded-xl border border-gray-200 bg-gray-50 dark:border-[#444444] dark:bg-[#1a1a1a] p-2 transition-transform duration-200 group-hover:scale-105">
+        <Avatar
+          className="
+            h-12 w-12 rounded-xl p-2
+            border border-gray-200 dark:border-[#444444]
+            bg-gray-50 dark:bg-[#1a1a1a]
+            transition-transform duration-300
+            group-hover:scale-[1.06]
+            group-hover:-rotate-[1deg]
+          "
+        >
           <AvatarImage
-            src={
-              job?.company?.logo ||
-              "https://via.placeholder.com/150?text=Company"
-            }
-            alt={job?.company?.name || "Company"}
+            src={job?.company?.logo || "https://via.placeholder.com/150"}
+            alt={job?.company?.name}
           />
         </Avatar>
+
         <div className="min-w-0 flex-1">
           <h2 className="truncate text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
             {job?.company?.name}
           </h2>
           <div className="mt-1 inline-flex items-center gap-1 text-xs text-gray-500 dark:text-[#888888]">
-            <MapPin className="h-3.5 w-3.5" aria-hidden />
+            <MapPin className="h-3.5 w-3.5" />
             <span className="truncate">{job?.location || "Remote"}</span>
           </div>
         </div>
       </div>
 
+      {/* Content */}
       <div className="mt-6 flex flex-1 flex-col gap-3">
         <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
           {job?.title}
         </h3>
+
         <p className="text-sm leading-relaxed text-gray-600 dark:text-[#B0B0B0] line-clamp-3">
           {job?.description}
         </p>
 
         <div className="flex flex-wrap gap-2 pt-2">
-          <Badge className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0] pointer-events-none">
-            <Briefcase className="h-3 w-3" aria-hidden />
+          <Badge className="pointer-events-none rounded-full px-3 py-1.5 text-xs font-semibold border bg-gray-50 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#B0B0B0] dark:border-[#444444]">
+            <Briefcase className="mr-1 h-3 w-3" />
             {job?.position} roles
           </Badge>
-          <Badge className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0] pointer-events-none">
+          <Badge className="pointer-events-none rounded-full px-3 py-1.5 text-xs font-semibold border bg-gray-50 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#B0B0B0] dark:border-[#444444]">
             {job?.jobType}
           </Badge>
-          <Badge className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0] pointer-events-none">
+          <Badge className="pointer-events-none rounded-full px-3 py-1.5 text-xs font-semibold border bg-gray-50 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#B0B0B0] dark:border-[#444444]">
             ₹ {job?.salary} LPA
           </Badge>
         </div>
       </div>
 
+      {/* Actions */}
       <div className="mt-8 flex items-center gap-3 border-t border-gray-200 pt-5 dark:border-[#444444]">
         <Button
-          onClick={() => navigate(`/description/${job?._id}`)}
           variant="ghost"
-          className="h-11 flex-1 rounded-lg border-2 border-gray-200 text-sm font-semibold text-gray-700 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300 dark:border-[#444444] dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a] dark:hover:border-[#888888] transition-all duration-200"
+          className="
+            h-11 flex-1 rounded-lg
+            border-2 border-[#3362d3]
+            text-sm font-semibold text-[#3362d3]
+            transition-all duration-200
+            hover:bg-[#3362d3]/10 hover:border-[#2851b8]
+            dark:border-[#444444]
+            dark:text-[#B0B0B0]
+            dark:hover:bg-[#1a1a1a]
+            dark:hover:border-[#888888]
+          "
         >
           View details
         </Button>
+
         <Button
           onClick={handleApply}
           disabled={isLoading || isApplied}
-          className="h-11 flex-1 rounded-lg bg-gray-900 text-sm font-semibold text-white hover:bg-black hover:scale-[1.02] disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#888888] dark:disabled:bg-[#1a1a1a] dark:disabled:text-[#888888] transition-all duration-200 shadow-sm"
+          className="
+            h-11 flex-1 rounded-lg
+            bg-[#3362d3] text-white
+            text-sm font-semibold
+
+            transition-all duration-300
+            ease-[cubic-bezier(0.22,1,0.36,1)]
+            hover:scale-[1.04]
+            active:scale-[0.97]
+            hover:bg-[#2851b8]
+            disabled:scale-100
+
+            dark:bg-[#E0E0E0]
+            dark:text-[#121212]
+            dark:hover:bg-[#888888]
+            dark:disabled:bg-[#1a1a1a]
+            dark:disabled:text-[#888888]
+          "
         >
           {isLoading ? "Applying..." : isApplied ? "Applied" : "Apply now"}
         </Button>
       </div>
     </article>
   );
+};
+
+Job.propTypes = {
+  job: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    location: PropTypes.string,
+    position: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    jobType: PropTypes.string,
+    salary: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    createdAt: PropTypes.string,
+    company: PropTypes.shape({
+      name: PropTypes.string,
+      logo: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default Job;

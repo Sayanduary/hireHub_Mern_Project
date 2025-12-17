@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import Navbar from "./shared/Navbar";
+import Footer from "./shared/Footer";
 import FilterCard from "./FilterCard";
 import Job from "./Job";
 import { useSelector } from "react-redux";
@@ -135,79 +136,82 @@ const Jobs = () => {
   }, [jobs, filters]);
 
   return (
-    <motion.div
-      variants={pageVariants}
-      initial="hidden"
-      animate="show"
-      className="min-h-screen bg-gray-50 dark:bg-[#121212]"
-    >
-      <Navbar />
+    <>
+      <motion.div
+        variants={pageVariants}
+        initial="hidden"
+        animate="show"
+        className="bg-gray-50 dark:bg-[#0a0a0a]"
+      >
+        <Navbar />
 
-      {/* Sticky Filter Bar */}
-      <div className="sticky top-16 z-40 bg-white dark:bg-[#121212] border-b border-gray-200 dark:border-[#444444]">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-          <FilterCard />
+        {/* Sticky Filter Bar */}
+        <div className="sticky top-16 z-40 bg-white dark:bg-[#121212] border-b border-gray-200 dark:border-[#444444]">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+            <FilterCard />
+          </div>
         </div>
-      </div>
 
-      <section className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-10">
-        <AnimatePresence mode="wait">
-          {filteredJobs.length === 0 ? (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="
+        <section className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-10">
+          <AnimatePresence mode="wait">
+            {filteredJobs.length === 0 ? (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="
                 border border-dashed border-gray-300 dark:border-[#444444]
                 bg-white dark:bg-[#121212]
                 rounded-xl py-24 text-center
               "
-            >
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-[#E0E0E0]">
-                No jobs found
-              </h3>
-              <p className="mt-2 text-sm text-gray-600 dark:text-[#B0B0B0]">
-                Try adjusting your filters
-              </p>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="results"
-              variants={listVariants}
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0 }}
-            >
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="mb-6 text-sm text-gray-600 dark:text-[#B0B0B0]"
               >
-                Showing{" "}
-                <span className="font-semibold text-gray-900 dark:text-[#E0E0E0]">
-                  {filteredJobs.length}
-                </span>{" "}
-                jobs
-              </motion.p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-[#E0E0E0]">
+                  No jobs found
+                </h3>
+                <p className="mt-2 text-sm text-gray-600 dark:text-[#B0B0B0]">
+                  Try adjusting your filters
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="results"
+                variants={listVariants}
+                initial="hidden"
+                animate="show"
+                exit={{ opacity: 0 }}
+              >
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mb-6 text-sm text-gray-600 dark:text-[#B0B0B0]"
+                >
+                  Showing{" "}
+                  <span className="font-semibold text-gray-900 dark:text-[#E0E0E0]">
+                    {filteredJobs.length}
+                  </span>{" "}
+                  jobs
+                </motion.p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredJobs.map((job) => (
-                  <motion.div
-                    key={job._id}
-                    variants={cardVariants}
-                    className="will-change-transform"
-                  >
-                    <Job job={job} />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </section>
-    </motion.div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {filteredJobs.map((job) => (
+                    <motion.div
+                      key={job._id}
+                      variants={cardVariants}
+                      className="will-change-transform"
+                    >
+                      <Job job={job} />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+      </motion.div>
+      <Footer />
+    </>
   );
 };
 

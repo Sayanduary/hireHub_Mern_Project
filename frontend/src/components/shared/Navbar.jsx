@@ -58,8 +58,8 @@ const Navbar = () => {
       .toUpperCase() || "U";
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200/50 bg-transparent backdrop-blur-md dark:border-[#444444]/30 transition-colors">
-      <div className="relative w-full h-16 px-4 md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200/70 bg-white/80 backdrop-blur-md dark:bg-[#121212]/80 dark:border-[#2a2a2a]">
+      <div className="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-0.5 group">
           <img 
@@ -86,10 +86,11 @@ const Navbar = () => {
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                `px-4 py-2 rounded-md text-sm font-medium transition-colors
+                ${
                   isActive
-                    ? "bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212] shadow-sm scale-[1.02]"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#B0B0B0] dark:hover:text-[#E0E0E0] dark:hover:bg-[#1a1a1a]"
+                    ? "bg-[#3362d3] text-white dark:bg-gray-100 dark:text-[#121212]"
+                    : "text-gray-600 hover:text-[#3362d3] hover:bg-transparent dark:text-[#b0b0b0] dark:hover:text-white dark:hover:bg-[#1a1a1a]"
                 }`
               }
             >
@@ -107,7 +108,11 @@ const Navbar = () => {
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="h-9 w-9 rounded-md hover:bg-gray-100 dark:hover:bg-[#1a1a1a]"
           >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
           </Button>
 
           {/* Auth */}
@@ -115,13 +120,13 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-2">
               <Link
                 to="/login"
-                className="px-4 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 dark:text-[#b0b0b0] dark:hover:bg-[#1a1a1a]"
+                className="px-4 py-2 text-sm font-medium rounded-md text-[#3362d3] hover:bg-[#3362d3]/10 dark:text-[#b0b0b0] dark:hover:bg-[#1a1a1a]"
               >
                 Sign in
               </Link>
               <Link
                 to="/signup"
-                className="px-4 py-2 text-sm font-medium rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212]"
+                className="px-4 py-2 text-sm font-medium rounded-md bg-[#3362d3] text-white hover:bg-[#2851b8] dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
               >
                 Sign up
               </Link>

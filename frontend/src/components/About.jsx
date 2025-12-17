@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "./shared/Navbar";
+import Footer from "./shared/Footer";
 import { Users } from "lucide-react";
 
 const About = () => {
@@ -7,30 +8,30 @@ const About = () => {
     "Sayan Duary",
     "Srinjay Karfa",
     "Sohom Ghosh",
-    "Jit Kumar Das"
+    "Jit Kumar Das",
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#121212]">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a]">
       <Navbar />
 
       <section className="mx-auto max-w-4xl px-4 md:px-6 lg:px-8 py-20">
-        <div className="rounded-2xl border border-gray-200 bg-white p-10 md:p-14 shadow-sm dark:border-[#444444] dark:bg-[#121212] transition-all duration-300">
-          
+        <div className="rounded-2xl border border-gray-200 bg-white p-10 md:p-14 shadow-sm dark:border-[#444444] dark:bg-[#0d0d0d] transition-all duration-300">
           {/* Heading */}
           <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-[#E0E0E0] mb-4">
               About HIREHUB
             </h1>
-            <div className="mx-auto w-16 h-1 bg-gray-900 dark:bg-[#E0E0E0] rounded-full"></div>
+            <div className="mx-auto w-16 h-1 bg-[#3362d3] dark:bg-[#E0E0E0] rounded-full"></div>
           </div>
 
           {/* Description */}
           <div className="mb-12">
             <p className="text-lg text-gray-600 dark:text-[#B0B0B0] leading-relaxed text-center max-w-2xl mx-auto">
-              HIREHUB is a modern job portal platform designed to connect talented professionals 
-              with career opportunities. Our platform streamlines the hiring process, making it 
-              easier for job seekers to find their dream roles and for recruiters to discover 
+              HIREHUB is a modern job portal platform designed to connect
+              talented professionals with career opportunities. Our platform
+              streamlines the hiring process, making it easier for job seekers
+              to find their dream roles and for recruiters to discover
               exceptional talent.
             </p>
           </div>
@@ -63,11 +64,13 @@ const About = () => {
           {/* Footer Note */}
           <div className="mt-12 pt-8 border-t border-gray-200 dark:border-[#444444]">
             <p className="text-sm text-center text-gray-500 dark:text-[#888888]">
-              Built with passion and dedication to revolutionize the hiring experience.
+              Built with passion and dedication to revolutionize the hiring
+              experience.
             </p>
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

@@ -22,7 +22,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-gray-200 dark:border-[#444444] bg-white dark:bg-[#121212]">
+    <footer className="border-t border-gray-200 dark:border-[#444444] bg-white dark:bg-[#0d0d0d]">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12">
         {/* Top */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -67,8 +67,8 @@ const Footer = () => {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-[#E0E0E0] transition-colors">
-                  
+                    className="text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-[#E0E0E0] transition-colors"
+                  >
                     {link.name}
                   </a>
                 </li>
