@@ -3,17 +3,15 @@ import Navbar from "./shared/Navbar";
 import FilterCard from "./FilterCard";
 import Job from "./Job";
 import { useSelector } from "react-redux";
-import { motion } from "framer-motion";
 import useGetAllJobs from "@/hooks/useGetAllJobs";
-import { Filter, X } from "lucide-react";
-import { Button } from "./ui/button";
+import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 
 const Jobs = () => {
   useGetAllJobs();
+  useGetAppliedJobs(); // Fetch applied jobs to sync state
 
   const { jobs, filters } = useSelector((store) => store.job);
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   useEffect(() => {
     let data = [...jobs];
@@ -105,89 +103,44 @@ const Jobs = () => {
   }, [jobs, filters]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a]">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar />
 
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-10">
-        {/* Mobile filter toggle */}
-        <div className="lg:hidden mb-6">
-          <Button
-            onClick={() => setShowMobileFilter(true)}
-            className="w-full bg-black text-white hover:bg-gray-900"
-          >
-            <Filter className="h-4 w-4 mr-2" />
-            Filters
-          </Button>
+      {/* Horizontal Filter Bar */}
+      <div className="sticky top-16 z-40 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          <FilterCard />
         </div>
+      </div>
 
-        <div className="flex gap-8">
-          {/* Sidebar filters */}
-          <aside className="hidden lg:block w-72 shrink-0 sticky top-20 h-fit">
-            <FilterCard />
-          </aside>
+      <section className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8">
+        {/* Job results */}
+        {filteredJobs.length === 0 ? (
+          <div className="border border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950 rounded-lg py-24 text-center">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              No jobs found
+            </h3>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Try adjusting your filters
+            </p>
+          </div>
+        ) : (
+          <>
+            <p className="mb-6 text-sm text-gray-600 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-gray-100">
+                {filteredJobs.length}
+              </span>{" "}
+              jobs
+            </p>
 
-          {/* Mobile filter drawer */}
-          {showMobileFilter && (
-            <div
-              className="fixed inset-0 bg-black/50 z-50"
-              onClick={() => setShowMobileFilter(false)}
-            >
-              <div
-                className="absolute left-0 top-0 h-full w-80 bg-white dark:bg-[#0a0a0a] p-5 overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold">Filters</h2>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setShowMobileFilter(false)}
-                  >
-                    <X className="h-5 w-5" />
-                  </Button>
-                </div>
-                <FilterCard onFilterApply={() => setShowMobileFilter(false)} />
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {filteredJobs.map((job) => (
+                <Job key={job._id} job={job} />
+              ))}
             </div>
-          )}
-
-          {/* Job results */}
-          <main className="flex-1">
-            {filteredJobs.length === 0 ? (
-              <div className="border border-dashed border-gray-300 dark:border-white/10 rounded-2xl py-24 text-center">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  No jobs found
-                </h3>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  Try adjusting your filters
-                </p>
-              </div>
-            ) : (
-              <>
-                <p className="mb-5 text-sm text-gray-600 dark:text-gray-400">
-                  Showing{" "}
-                  <span className="font-medium text-gray-900 dark:text-white">
-                    {filteredJobs.length}
-                  </span>{" "}
-                  jobs
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {filteredJobs.map((job) => (
-                    <motion.div
-                      key={job._id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <Job job={job} />
-                    </motion.div>
-                  ))}
-                </div>
-              </>
-            )}
-          </main>
-        </div>
+          </>
+        )}
       </section>
     </div>
   );

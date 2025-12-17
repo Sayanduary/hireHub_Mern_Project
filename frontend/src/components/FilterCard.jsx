@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { useDispatch } from "react-redux";
 import { setFilters, clearFilters } from "@/redux/jobSlice";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, X, Filter } from "lucide-react";
+import { Button } from "./ui/button";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 const filterData = [
   {
@@ -77,14 +78,10 @@ const FilterCard = () => {
   const [selectedSalary, setSelectedSalary] = useState("");
   const [searchText, setSearchText] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [expandedSections, setExpandedSections] = useState({
-    skills: true,
-    location: true,
-    industry: false,
-    jobtype: false,
-    experiencelevel: false,
-    salaryrange: false,
-  });
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const dropdownRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
   const dispatch = useDispatch();
 
   const activeFilterChips = useMemo(() => {
@@ -113,7 +110,7 @@ const FilterCard = () => {
 
   const hasActiveFilters = activeFilterChips.length > 0;
 
-  const changeHandler = (filterType, value) => {
+  const handleFilterChange = (filterType, value) => {
     switch (filterType) {
       case "Location":
         setSelectedLocation(value);
@@ -133,11 +130,7 @@ const FilterCard = () => {
       default:
         break;
     }
-  };
-
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
+    setOpenDropdown(null);
   };
 
   const handleSkillToggle = (skill) => {
@@ -146,11 +139,8 @@ const FilterCard = () => {
     );
   };
 
-  const toggleSection = (section) => {
-    setExpandedSections((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
   };
 
   const handleRemoveChip = (type, value) => {
@@ -187,15 +177,52 @@ const FilterCard = () => {
     setSearchText("");
     setSelectedSkills([]);
     dispatch(clearFilters());
-    setExpandedSections({
-      skills: true,
-      location: true,
-      industry: false,
-      jobtype: false,
-      experiencelevel: false,
-      salaryrange: false,
-    });
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenDropdown(null);
+      }
+    };
+
+    if (openDropdown) {
+      // Use timeout to avoid conflict with the button click
+      const timeoutId = setTimeout(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+      }, 0);
+      
+      return () => {
+        clearTimeout(timeoutId);
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [openDropdown]);
+
+  // Handler for mouse enter - cancel any pending close
+  const handleMouseEnter = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  };
+
+  // Handler for mouse leave - close with delay
+  const handleMouseLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 150);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     // Dispatch all filters to Redux
@@ -222,238 +249,482 @@ const FilterCard = () => {
   ]);
 
   return (
-    <div className="relative w-full max-h-[85vh] overflow-y-auto rounded-3xl border border-neutral-200/70 bg-[#F9F9F5] p-6 text-neutral-900 shadow-[0_20px_45px_-30px_rgba(15,23,42,0.35)] transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/95 dark:text-neutral-100 lg:sticky lg:top-28">
-      <div className="pointer-events-none absolute inset-x-0 -top-32 h-48 bg-[radial-gradient(circle_at_top,_rgba(44,44,42,0.08),_transparent_65%)] dark:bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_60%)]" />
+    <>
+      {/* Desktop Filter Bar */}
+      <div className="hidden md:block w-full py-4">
+        <div className="flex items-center gap-3 flex-wrap w-full">
+            {/* Search Input */}
+            <div className="relative flex-1 min-w-[200px] max-w-xs">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search jobs..."
+                value={searchText}
+                onChange={handleSearchChange}
+                className="h-9 w-full rounded-md border border-gray-300 bg-white pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-500 focus:border-gray-400 focus-visible:ring-0 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+              />
+            </div>
 
-      <div className="relative flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-base font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
-            Refine search
-          </h1>
-          <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-            Tailor openings with granular filters.
-          </p>
-        </div>
-        {hasActiveFilters && (
-          <button
-            type="button"
-            onClick={handleClearFilters}
-            className="text-xs font-medium text-neutral-500 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-50"
-          >
-            Clear all
-          </button>
-        )}
-      </div>
+            {/* Skills Dropdown */}
+            <div 
+              className="relative" 
+              ref={openDropdown === 'skills' ? dropdownRef : null}
+              onMouseEnter={openDropdown === 'skills' ? handleMouseEnter : undefined}
+              onMouseLeave={openDropdown === 'skills' ? handleMouseLeave : undefined}
+            >
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'skills' ? null : 'skills')}
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+              >
+                Skills
+                <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'skills' ? "rotate-180" : ""}`} />
+              </Button>
 
-      <div className="relative mt-6 space-y-7">
-        <section className="rounded-2xl border border-neutral-200/70 bg-white/80 p-4 dark:border-white/10 dark:bg-white/[0.04]">
-          <Label className="mb-3 block text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
-            Search by company or role
-          </Label>
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
-            <Input
-              type="text"
-              placeholder="Search teams, roles, or companies"
-              value={searchText}
-              onChange={handleSearchChange}
-              className="h-11 w-full rounded-xl border border-neutral-200/80 bg-white/60 pl-10 pr-4 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
-            />
+              {openDropdown === 'skills' && (
+                <div 
+                  className="absolute top-full left-0 mt-2 w-64 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
+                  <div className="p-3 max-h-64 overflow-y-auto">
+                    <div className="space-y-2">
+                      {skillsData.map((skill) => (
+                        <div key={skill} className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            id={`desktop-${skill}`}
+                            checked={selectedSkills.includes(skill)}
+                            onChange={() => handleSkillToggle(skill)}
+                            className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-0 dark:border-gray-600"
+                          />
+                          <Label
+                            htmlFor={`desktop-${skill}`}
+                            className="text-sm font-normal text-gray-700 cursor-pointer dark:text-gray-300"
+                          >
+                            {skill}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Location Dropdown */}
+            <div 
+              className="relative" 
+              ref={openDropdown === 'location' ? dropdownRef : null}
+              onMouseEnter={openDropdown === 'location' ? handleMouseEnter : undefined}
+              onMouseLeave={openDropdown === 'location' ? handleMouseLeave : undefined}
+            >
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'location' ? null : 'location')}
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+              >
+                Location
+                <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'location' ? "rotate-180" : ""}`} />
+              </Button>
+
+              {openDropdown === 'location' && (
+                <div 
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
+                  <div className="p-3 max-h-64 overflow-y-auto">
+                    <RadioGroup value={selectedLocation} onValueChange={(value) => handleFilterChange("Location", value)}>
+                      <div className="space-y-2">
+                        {filterData.map((data) => {
+                          if (data.filterType === "Location") {
+                            return data.array.map((loc) => (
+                              <div key={loc} className="flex items-center space-x-2">
+                                <RadioGroupItem value={loc} id={`desktop-location-${loc}`} />
+                                <Label htmlFor={`desktop-location-${loc}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                  {loc}
+                                </Label>
+                              </div>
+                            ));
+                          }
+                          return null;
+                        })}
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Industry Dropdown */}
+            <div 
+              className="relative" 
+              ref={openDropdown === 'industry' ? dropdownRef : null}
+              onMouseEnter={openDropdown === 'industry' ? handleMouseEnter : undefined}
+              onMouseLeave={openDropdown === 'industry' ? handleMouseLeave : undefined}
+            >
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'industry' ? null : 'industry')}
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+              >
+                Industry
+                <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'industry' ? "rotate-180" : ""}`} />
+              </Button>
+
+              {openDropdown === 'industry' && (
+                <div 
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
+                  <div className="p-3 max-h-64 overflow-y-auto">
+                    <RadioGroup value={selectedIndustry} onValueChange={(value) => handleFilterChange("Industry", value)}>
+                      <div className="space-y-2">
+                        {filterData.map((data) => {
+                          if (data.filterType === "Industry") {
+                            return data.array.map((ind) => (
+                              <div key={ind} className="flex items-center space-x-2">
+                                <RadioGroupItem value={ind} id={`desktop-industry-${ind}`} />
+                                <Label htmlFor={`desktop-industry-${ind}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                  {ind}
+                                </Label>
+                              </div>
+                            ));
+                          }
+                          return null;
+                        })}
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Job Type Dropdown */}
+            <div 
+              className="relative" 
+              ref={openDropdown === 'jobtype' ? dropdownRef : null}
+              onMouseEnter={openDropdown === 'jobtype' ? handleMouseEnter : undefined}
+              onMouseLeave={openDropdown === 'jobtype' ? handleMouseLeave : undefined}
+            >
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'jobtype' ? null : 'jobtype')}
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+              >
+                Job Type
+                <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'jobtype' ? "rotate-180" : ""}`} />
+              </Button>
+
+              {openDropdown === 'jobtype' && (
+                <div 
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
+                  <div className="p-3 max-h-64 overflow-y-auto">
+                    <RadioGroup value={selectedJobType} onValueChange={(value) => handleFilterChange("Job Type", value)}>
+                      <div className="space-y-2">
+                        {filterData.map((data) => {
+                          if (data.filterType === "Job Type") {
+                            return data.array.map((type) => (
+                              <div key={type} className="flex items-center space-x-2">
+                                <RadioGroupItem value={type} id={`desktop-jobtype-${type}`} />
+                                <Label htmlFor={`desktop-jobtype-${type}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                  {type}
+                                </Label>
+                              </div>
+                            ));
+                          }
+                          return null;
+                        })}
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Experience Dropdown */}
+            <div 
+              className="relative" 
+              ref={openDropdown === 'experience' ? dropdownRef : null}
+              onMouseEnter={openDropdown === 'experience' ? handleMouseEnter : undefined}
+              onMouseLeave={openDropdown === 'experience' ? handleMouseLeave : undefined}
+            >
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'experience' ? null : 'experience')}
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+              >
+                Experience
+                <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'experience' ? "rotate-180" : ""}`} />
+              </Button>
+
+              {openDropdown === 'experience' && (
+                <div 
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
+                  <div className="p-3 max-h-64 overflow-y-auto">
+                    <RadioGroup value={selectedExperience} onValueChange={(value) => handleFilterChange("Experience Level", value)}>
+                      <div className="space-y-2">
+                        {filterData.map((data) => {
+                          if (data.filterType === "Experience Level") {
+                            return data.array.map((exp) => (
+                              <div key={exp} className="flex items-center space-x-2">
+                                <RadioGroupItem value={exp} id={`desktop-exp-${exp}`} />
+                                <Label htmlFor={`desktop-exp-${exp}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                  {exp}
+                                </Label>
+                              </div>
+                            ));
+                          }
+                          return null;
+                        })}
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Salary Dropdown */}
+            <div 
+              className="relative" 
+              ref={openDropdown === 'salary' ? dropdownRef : null}
+              onMouseEnter={openDropdown === 'salary' ? handleMouseEnter : undefined}
+              onMouseLeave={openDropdown === 'salary' ? handleMouseLeave : undefined}
+            >
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'salary' ? null : 'salary')}
+                className="h-9 px-3 text-sm font-normal border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+              >
+                Salary
+                <ChevronDown className={`ml-2 h-3.5 w-3.5 transition-transform ${openDropdown === 'salary' ? "rotate-180" : ""}`} />
+              </Button>
+
+              {openDropdown === 'salary' && (
+                <div 
+                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-gray-700 dark:bg-gray-900"
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
+                  <div className="p-3 max-h-64 overflow-y-auto">
+                    <RadioGroup value={selectedSalary} onValueChange={(value) => handleFilterChange("Salary Range", value)}>
+                      <div className="space-y-2">
+                        {filterData.map((data) => {
+                          if (data.filterType === "Salary Range") {
+                            return data.array.map((salary) => (
+                              <div key={salary} className="flex items-center space-x-2">
+                                <RadioGroupItem value={salary} id={`desktop-salary-${salary}`} />
+                                <Label htmlFor={`desktop-salary-${salary}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                                  {salary}
+                                </Label>
+                              </div>
+                            ));
+                          }
+                          return null;
+                        })}
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Clear Filters Button */}
+            {hasActiveFilters && (
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={handleClearFilters}
+                className="h-9 px-3 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800"
+              >
+                Clear all
+              </Button>
+            )}
           </div>
-        </section>
 
-        <section className="rounded-2xl border border-dashed border-neutral-300/70 bg-white/70 p-4 dark:border-white/10 dark:bg-white/[0.02]">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
-              Active filters
-            </span>
-            <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              {activeFilterChips.length} selected
-            </span>
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {hasActiveFilters ? (
-              activeFilterChips.map((chip) => (
+          {/* Active Filter Chips */}
+          {hasActiveFilters && (
+            <div className="flex items-center gap-2 mt-3 flex-wrap">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                Active:
+              </span>
+              {activeFilterChips.map((chip) => (
                 <button
                   key={`${chip.type}-${chip.label}`}
                   type="button"
                   onClick={() => handleRemoveChip(chip.type, chip.label)}
-                  className="group inline-flex items-center gap-2 rounded-full border border-neutral-300/70 bg-white/80 px-3 py-1.5 text-xs font-medium text-neutral-600 transition-colors hover:border-neutral-400 hover:text-neutral-900 dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-300 dark:hover:border-white/20 dark:hover:text-neutral-50"
-                  aria-label={`Remove ${chip.label}`}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
                 >
                   <span>{chip.label}</span>
-                  <span className="text-neutral-300 transition-colors group-hover:text-neutral-500 dark:text-neutral-500 dark:group-hover:text-neutral-200">
-                    ×
-                  </span>
+                  <X className="h-3 w-3" />
                 </button>
-              ))
-            ) : (
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                No filters applied yet.
-              </p>
-            )}
-          </div>
-        </section>
-
-        <section className="rounded-2xl border border-neutral-200/70 bg-white/80 p-4 dark:border-white/10 dark:bg-white/[0.04]">
-          <button
-            type="button"
-            onClick={() => toggleSection("skills")}
-            className="flex w-full items-center justify-between text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-50"
-            aria-expanded={expandedSections.skills}
-            aria-controls="skills-panel"
-          >
-            <span>Skills</span>
-            <ChevronDown
-              size={16}
-              className={`h-4 w-4 transition-transform duration-200 ${
-                expandedSections.skills ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-          {expandedSections.skills && (
-            <div id="skills-panel" className="mt-4 space-y-2">
-              {skillsData.slice(0, 8).map((skill) => {
-                const checked = selectedSkills.includes(skill);
-                return (
-                  <label
-                    key={skill}
-                    htmlFor={`skill-${skill}`}
-                    className={`flex items-center gap-3 rounded-xl border px-3 py-2 text-sm transition-colors ${
-                      checked
-                        ? "border-neutral-900 bg-white text-neutral-900 shadow-sm dark:border-white dark:bg-white/10 dark:text-neutral-50"
-                        : "border-transparent text-neutral-600 hover:border-neutral-200 hover:bg-white/60 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/5"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      id={`skill-${skill}`}
-                      checked={checked}
-                      onChange={() => handleSkillToggle(skill)}
-                      className="h-4 w-4 accent-neutral-900 transition-[accent-color] dark:accent-neutral-50"
-                    />
-                    <span>{skill}</span>
-                  </label>
-                );
-              })}
-              <details className="group text-sm text-neutral-500 transition-colors dark:text-neutral-400">
-                <summary className="flex cursor-pointer items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-neutral-400 transition-colors hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-200">
-                  More skills
-                </summary>
-                <div className="mt-3 space-y-2">
-                  {skillsData.slice(8).map((skill) => {
-                    const checked = selectedSkills.includes(skill);
-                    return (
-                      <label
-                        key={skill}
-                        htmlFor={`skill-${skill}`}
-                        className={`flex items-center gap-3 rounded-xl border px-3 py-2 text-sm transition-colors ${
-                          checked
-                            ? "border-neutral-900 bg-white text-neutral-900 shadow-sm dark:border-white dark:bg-white/10 dark:text-neutral-50"
-                            : "border-transparent text-neutral-600 hover:border-neutral-200 hover:bg-white/60 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/5"
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          id={`skill-${skill}`}
-                          checked={checked}
-                          onChange={() => handleSkillToggle(skill)}
-                          className="h-4 w-4 accent-neutral-900 transition-[accent-color] dark:accent-neutral-50"
-                        />
-                        <span>{skill}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </details>
+              ))}
             </div>
           )}
-        </section>
+      </div>
 
-        {filterData.map((data, index) => {
-          const sectionKey = data.filterType.toLowerCase().replace(" ", "");
+      {/* Mobile Filter Button */}
+      <div className="md:hidden w-full bg-white border-b border-gray-200 dark:bg-gray-950 dark:border-gray-800">
+        <div className="px-4 py-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setShowMobileFilters(true)}
+            className="w-full justify-between h-10 border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+          >
+            <span className="flex items-center gap-2">
+              <Filter className="h-4 w-4" />
+              Filters
+              {hasActiveFilters && (
+                <span className="text-xs text-gray-500">({activeFilterChips.length})</span>
+              )}
+            </span>
+            <ChevronDown className="h-4 w-4" />
+          </Button>
 
-          let currentValue = "";
-          switch (data.filterType) {
-            case "Location":
-              currentValue = selectedLocation;
-              break;
-            case "Industry":
-              currentValue = selectedIndustry;
-              break;
-            case "Job Type":
-              currentValue = selectedJobType;
-              break;
-            case "Experience Level":
-              currentValue = selectedExperience;
-              break;
-            case "Salary Range":
-              currentValue = selectedSalary;
-              break;
-            default:
-              currentValue = "";
-          }
+          {/* Active Filter Chips on Mobile */}
+          {hasActiveFilters && (
+            <div className="flex items-center gap-2 mt-3 flex-wrap">
+              {activeFilterChips.map((chip) => (
+                <button
+                  key={`mobile-chip-${chip.type}-${chip.label}`}
+                  type="button"
+                  onClick={() => handleRemoveChip(chip.type, chip.label)}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                >
+                  <span>{chip.label}</span>
+                  <X className="h-3 w-3" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
-          return (
-            <section
-              key={data.filterType}
-              className="rounded-2xl border border-neutral-200/70 bg-white/80 p-4 dark:border-white/10 dark:bg-white/[0.04]"
-            >
+      {/* Mobile Filter Modal */}
+      {showMobileFilters && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setShowMobileFilters(false)} />
+          <div className="fixed inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-white dark:bg-gray-950 shadow-xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-950">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Filters
+              </h3>
               <button
                 type="button"
-                onClick={() => toggleSection(sectionKey)}
-                className="flex w-full items-center justify-between text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-50"
-                aria-expanded={expandedSections[sectionKey]}
+                onClick={() => setShowMobileFilters(false)}
+                className="rounded-md p-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
               >
-                <span>{data.filterType}</span>
-                <ChevronDown
-                  size={16}
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    expandedSections[sectionKey] ? "rotate-180" : ""
-                  }`}
-                />
+                <X className="h-5 w-5" />
               </button>
-              {expandedSections[sectionKey] && (
-                <RadioGroup
-                  value={currentValue}
-                  onValueChange={(value) =>
-                    changeHandler(data.filterType, value)
-                  }
-                  className="mt-4 space-y-2"
-                >
-                  {data.array.map((item, idx) => {
-                    const itemId = `id${index}-${idx}`;
-                    const active = currentValue === item;
-                    return (
-                      <div
-                        key={itemId}
-                        className={`flex items-center gap-3 rounded-xl border px-3 py-2 text-sm transition-colors ${
-                          active
-                            ? "border-neutral-900 bg-white text-neutral-900 shadow-sm dark:border-white dark:bg-white/10 dark:text-neutral-50"
-                            : "border-transparent text-neutral-600 hover:border-neutral-200 hover:bg-white/60 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/5"
-                        }`}
+            </div>
+
+            <div className="p-4 space-y-6">
+              {/* Search */}
+              <div>
+                <Label className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2 block">
+                  Search
+                </Label>
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                  <Input
+                    type="text"
+                    placeholder="Search jobs..."
+                    value={searchText}
+                    onChange={handleSearchChange}
+                    className="h-10 w-full pl-9 border-gray-300 dark:border-gray-700"
+                  />
+                </div>
+              </div>
+
+              {/* Skills */}
+              <div>
+                <Label className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3 block">
+                  Skills
+                </Label>
+                <div className="space-y-2">
+                  {skillsData.map((skill) => (
+                    <div key={skill} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={`mobile-${skill}`}
+                        checked={selectedSkills.includes(skill)}
+                        onChange={() => handleSkillToggle(skill)}
+                        className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-0"
+                      />
+                      <Label
+                        htmlFor={`mobile-${skill}`}
+                        className="text-sm text-gray-700 cursor-pointer dark:text-gray-300"
                       >
-                        <RadioGroupItem
-                          value={item}
-                          id={itemId}
-                          className="text-neutral-900 transition-colors data-[state=checked]:border-neutral-900 data-[state=checked]:bg-neutral-900 dark:text-neutral-100 dark:data-[state=checked]:border-neutral-50 dark:data-[state=checked]:bg-neutral-50"
-                        />
-                        <Label
-                          htmlFor={itemId}
-                          className="cursor-pointer text-sm font-normal text-neutral-600 dark:text-neutral-300"
-                        >
-                          {item}
-                        </Label>
-                      </div>
-                    );
-                  })}
-                </RadioGroup>
-              )}
-            </section>
-          );
-        })}
-      </div>
-    </div>
+                        {skill}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Other Filter Sections */}
+              {filterData.map((data) => (
+                <div key={data.filterType}>
+                  <Label className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3 block">
+                    {data.filterType}
+                  </Label>
+                  <RadioGroup
+                    value={
+                      data.filterType === "Location" ? selectedLocation :
+                      data.filterType === "Industry" ? selectedIndustry :
+                      data.filterType === "Job Type" ? selectedJobType :
+                      data.filterType === "Experience Level" ? selectedExperience :
+                      selectedSalary
+                    }
+                    onValueChange={(value) => handleFilterChange(data.filterType, value)}
+                  >
+                    <div className="space-y-2">
+                      {data.array.map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <RadioGroupItem value={option} id={`mobile-${data.filterType}-${option}`} />
+                          <Label htmlFor={`mobile-${data.filterType}-${option}`} className="text-sm text-gray-700 cursor-pointer dark:text-gray-300">
+                            {option}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                </div>
+              ))}
+            </div>
+
+            <div className="sticky bottom-0 border-t border-gray-200 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-950">
+              <div className="flex gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleClearFilters}
+                  className="flex-1"
+                >
+                  Clear all
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => setShowMobileFilters(false)}
+                  className="flex-1 bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
+                >
+                  Apply filters
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

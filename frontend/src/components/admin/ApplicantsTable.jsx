@@ -76,7 +76,7 @@ const ApplicantsTable = () => {
                 <TableCell>
                   {item.applicant?.profile?.resume ? (
                     <a
-                      className="text-blue-600 cursor-pointer"
+                      className="text-gray-900 underline hover:text-gray-700 cursor-pointer dark:text-gray-100 dark:hover:text-gray-300"
                       href={`${USER_API_END_POINT}/download-resume/${item?.applicant?._id}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -84,18 +84,18 @@ const ApplicantsTable = () => {
                       {item?.applicant?.profile?.resumeOriginalName}
                     </a>
                   ) : (
-                    <span>NA</span>
+                    <span className="text-gray-500 dark:text-gray-400">NA</span>
                   )}
                 </TableCell>
                 <TableCell>{item?.applicant.createdAt.split("T")[0]}</TableCell>
                 <TableCell>
                   <Badge
-                    className={`${
+                    className={`rounded-md ${
                       item?.status === "rejected"
-                        ? "bg-red-400"
+                        ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
                         : item.status === "pending"
-                        ? "bg-gray-400"
-                        : "bg-green-400"
+                        ? "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100"
+                        : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
                     }`}
                   >
                     {item?.status?.toUpperCase() || "PENDING"}
@@ -106,13 +106,13 @@ const ApplicantsTable = () => {
                     <PopoverTrigger>
                       <MoreHorizontal />
                     </PopoverTrigger>
-                    <PopoverContent className="w-32">
+                    <PopoverContent className="w-32 rounded-md border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
                       {shortlistingStatus.map((status, index) => {
                         return (
                           <div
                             onClick={() => statusHandler(status, item?._id)}
                             key={index}
-                            className="flex w-fit items-center my-2 cursor-pointer"
+                            className="flex w-fit items-center my-2 cursor-pointer text-sm text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
                           >
                             <span>{status}</span>
                           </div>

@@ -26,6 +26,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     phoneNumber: "",
     bio: "",
     skills: "",
+    linkedinUrl: "",
+    githubUrl: "",
     file: null,
     profilePhoto: null,
   });
@@ -41,6 +43,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
       skills: user.profile?.skills?.length
         ? user.profile.skills.join(", ")
         : "",
+      linkedinUrl: user.profile?.linkedinUrl || "",
+      githubUrl: user.profile?.githubUrl || "",
       file: null,
       profilePhoto: null,
     });
@@ -68,6 +72,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
     formData.append("skills", input.skills);
+    formData.append("linkedinUrl", input.linkedinUrl);
+    formData.append("githubUrl", input.githubUrl);
     if (input.file instanceof File) {
       formData.append("file", input.file);
     }
@@ -102,24 +108,20 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[520px] rounded-3xl border border-neutral-200/70 bg-[#F9F9F5]/95 px-0 pb-0 pt-0 shadow-[0_24px_60px_-20px_rgba(15,15,15,0.28)] transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/95">
+      <DialogContent className="sm:max-w-[520px] rounded-md border border-gray-200 bg-white px-0 pb-0 pt-0 dark:border-gray-800 dark:bg-gray-950">
         <DialogHeader className="space-y-2 px-8 pb-6 pt-8">
-          <p className="text-xs font-medium uppercase tracking-[0.22em] text-neutral-400 dark:text-neutral-500">
-            Profile
-          </p>
-          <DialogTitle className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
-            Update workspace details
+          <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            Update Profile
           </DialogTitle>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Keep your contact, narrative, and resume current so recruiters can
-            respond without friction.
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Keep your contact information and resume current.
           </p>
         </DialogHeader>
 
         <form onSubmit={submitHandler} className="space-y-8 px-8 pb-8">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 Full name
               </Label>
               <Input
@@ -127,11 +129,11 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 type="text"
                 value={input.fullname}
                 onChange={changeEventHandler}
-                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 Email
               </Label>
               <Input
@@ -139,36 +141,65 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 type="email"
                 value={input.email}
                 onChange={changeEventHandler}
-                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 Phone number
               </Label>
               <Input
                 name="phoneNumber"
                 value={input.phoneNumber}
                 onChange={changeEventHandler}
-                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 Skills (comma separated)
               </Label>
               <Input
                 name="skills"
                 value={input.skills}
                 onChange={changeEventHandler}
-                placeholder="Product design, Figma, Systems"
-                className="h-11 rounded-xl border border-neutral-200/70 bg-white/70 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                placeholder="React, Node.js, Python"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                LinkedIn URL
+              </Label>
+              <Input
+                name="linkedinUrl"
+                type="url"
+                value={input.linkedinUrl}
+                onChange={changeEventHandler}
+                placeholder="https://linkedin.com/in/username"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                GitHub URL
+              </Label>
+              <Input
+                name="githubUrl"
+                type="url"
+                value={input.githubUrl}
+                onChange={changeEventHandler}
+                placeholder="https://github.com/username"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+            <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
               Bio
             </Label>
             <textarea
@@ -176,14 +207,14 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
               value={input.bio}
               onChange={changeEventHandler}
               rows={4}
-              placeholder="Craft a succinct overview of your experience and focus."
-              className="w-full rounded-xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/10 dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+              placeholder="Brief overview of your experience and expertise"
+              className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
             />
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 Profile photo
               </Label>
               <Input
@@ -191,14 +222,14 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 type="file"
                 accept="image/*"
                 onChange={profilePhotoChangeHandler}
-                className="h-11 cursor-pointer rounded-xl border border-dashed border-neutral-200/70 bg-white/60 text-sm text-neutral-600 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:font-medium file:text-neutral-100 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/15 dark:bg-transparent dark:text-neutral-300 dark:file:bg-white dark:file:text-neutral-950 dark:focus:border-white/20"
+                className="h-10 cursor-pointer rounded-md border border-gray-200 bg-white text-sm text-gray-600 file:mr-3 file:rounded-md file:border-0 file:bg-gray-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-gray-100 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300 dark:file:bg-gray-100 dark:file:text-gray-900"
               />
-              <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                PNG or JPG up to 5MB.
+              <p className="text-xs text-gray-500 dark:text-gray-500">
+                PNG or JPG up to 5MB
               </p>
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 Resume (PDF)
               </Label>
               <Input
@@ -206,23 +237,23 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 type="file"
                 accept="application/pdf"
                 onChange={fileChangeHandler}
-                className="h-11 cursor-pointer rounded-xl border border-dashed border-neutral-200/70 bg-white/60 text-sm text-neutral-600 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:font-medium file:text-neutral-100 focus:border-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-200 dark:border-white/15 dark:bg-transparent dark:text-neutral-300 dark:file:bg-white dark:file:text-neutral-950 dark:focus:border-white/20"
+                className="h-10 cursor-pointer rounded-md border border-gray-200 bg-white text-sm text-gray-600 file:mr-3 file:rounded-md file:border-0 file:bg-gray-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-gray-100 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300 dark:file:bg-gray-100 dark:file:text-gray-900"
               />
-              <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                Upload the latest version so teams have accurate context.
+              <p className="text-xs text-gray-500 dark:text-gray-500">
+                Upload your latest resume
               </p>
             </div>
           </div>
 
           <DialogFooter className="pt-4">
             {loading ? (
-              <Button className="h-11 w-full rounded-xl border border-neutral-900 bg-neutral-900 text-neutral-100 hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100">
+              <Button className="h-10 w-full rounded-md bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
               </Button>
             ) : (
               <Button
                 type="submit"
-                className="h-11 w-full rounded-xl border border-neutral-900 bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
+                className="h-10 w-full rounded-md bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
               >
                 Save changes
               </Button>

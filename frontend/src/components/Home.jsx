@@ -5,11 +5,13 @@ import CategoryCarousel from "./CategoryCarousel";
 import LatestJobs from "./LatestJobs";
 import Footer from "./shared/Footer";
 import useGetAllJobs from "@/hooks/useGetAllJobs";
+import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   useGetAllJobs();
+  useGetAppliedJobs(); // Fetch applied jobs to sync state
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ const Home = () => {
     }
   }, [user, navigate]);
   return (
-    <div className=" min-h-screen">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
       <Navbar />
       <HeroSection />
       <CategoryCarousel />

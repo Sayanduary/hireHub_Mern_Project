@@ -33,24 +33,25 @@ const CategoryCarousel = () => {
   };
 
   return (
-    <section className="relative py-20">
-      {/* background */}
-      <div className="absolute inset-0 bg-white dark:bg-[#0a0a0a]" />
-
-      <div className="relative mx-auto max-w-7xl px-4 md:px-6">
+    <section className="py-20 bg-gray-50 dark:bg-[#0a0a0a] transition-colors">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-10 text-center">
-          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
             Explore roles by category
           </h2>
-          <p className="mt-2 text-sm md:text-base text-gray-600 dark:text-gray-400">
+          <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
             Discover opportunities tailored to your expertise
           </p>
         </div>
 
         {/* Carousel */}
-        <Carousel className="mx-auto max-w-5xl">
+        <Carousel
+          opts={{ loop: true }} 
+          className="mx-auto max-w-5xl"
+        >
           <CarouselContent className="-ml-3">
+
             {categories.map((cat) => (
               <CarouselItem
                 key={cat}
@@ -60,15 +61,17 @@ const CategoryCarousel = () => {
                   onClick={() => searchJobHandler(cat)}
                   variant="outline"
                   className="
-                    w-full h-10
-                    rounded-lg
-                    border border-gray-200 dark:border-white/10
+                    w-full h-11
+                    rounded-full
+                    border-2 border-gray-200 dark:border-gray-800
                     bg-white dark:bg-[#0a0a0a]
-                    text-sm font-medium
+                    text-sm font-semibold
                     text-gray-700 dark:text-gray-300
-                    hover:bg-gray-50 dark:hover:bg-white/5
-                    hover:border-gray-300 dark:hover:border-white/20
-                    transition
+                    hover:bg-gray-900 dark:hover:bg-white
+                    hover:text-white dark:hover:text-gray-900
+                    hover:border-gray-900 dark:hover:border-white
+                    hover:scale-105
+                    transition-all duration-200 ease-out
                   "
                 >
                   {cat}
@@ -78,8 +81,8 @@ const CategoryCarousel = () => {
           </CarouselContent>
 
           {/* Controls */}
-          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] hover:bg-gray-50 dark:hover:bg-white/5" />
-          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] hover:bg-gray-50 dark:hover:bg-white/5" />
+          <CarouselPrevious className="hidden md:flex border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" />
+          <CarouselNext className="hidden md:flex border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" />
         </Carousel>
       </div>
     </section>

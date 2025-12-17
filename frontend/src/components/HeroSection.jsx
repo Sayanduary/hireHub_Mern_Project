@@ -6,92 +6,109 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative overflow-hidden border-b border-neutral-200/80 bg-[#F8F7F3] text-neutral-900 transition-colors dark:border-white/10 dark:bg-[#0a0a0a] dark:text-neutral-50">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.45),_transparent_55%)] opacity-60 dark:bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.08),_transparent_60%)]" />
+    <section className="relative min-h-screen border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950 overflow-hidden flex items-center">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        {/* Subtle dark gradient overlay for text readability only */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-black/5 to-transparent dark:from-gray-950/40 dark:via-gray-950/20 dark:to-transparent"></div>
+      </div>
+      
+      {/* Content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8 w-full py-12">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 bg-transparent backdrop-blur-sm px-5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition-all duration-200 dark:bg-black dark:border-black dark:text-white dark:hover:bg-gray-900">
+              Trusted talent marketplace
+            </div>
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 pt-36 pb-24 md:pt-40 md:pb-32 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <div className="space-y-10">
-          <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200/80 px-4 py-1 text-xs font-medium uppercase tracking-[0.22em] text-neutral-500 transition-colors dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-            Trusted talent marketplace
-          </span>
-
-          <div className="space-y-6">
-            <h1 className="text-4xl font-semibold leading-tight tracking-tight text-neutral-900 md:text-5xl xl:text-6xl dark:text-neutral-50">
-              Build momentum for the next chapter in your career
-            </h1>
-            <p className="max-w-lg text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
-              Discover vetted opportunities, stay aligned with hiring teams, and
-              keep every application organized from a single, streamlined
-              workspace.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <Button
-              onClick={() => navigate("/jobs")}
-              className="h-11 rounded-xl border border-neutral-900/80 bg-neutral-900 px-6 text-sm font-medium tracking-tight text-neutral-100 transition-colors hover:bg-neutral-800 focus-visible:ring-0 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
-            >
-              Browse open roles
-              <Search className="ml-2 h-4 w-4" />
-            </Button>
-
-            <button
-              onClick={() => navigate("/signup")}
-              className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-50"
-            >
-              Join as candidate
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-
-        <div className="relative hidden lg:block">
-          <div className="absolute -top-40 -left-6 flex w-44 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/80 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-            <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
-              3M+
-            </p>
-            <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-              active members
-            </p>
-          </div>
-
-          <div className="absolute top-10 right-0 flex w-40 flex-col items-center justify-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/70 px-6 py-5 text-center shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-            <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
-              98%
-            </p>
-            <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-              hire success
-            </p>
-          </div>
-
-          <div className="relative ml-10 flex h-72 w-80 flex-col justify-between rounded-3xl border border-neutral-200/80 bg-white/80 p-8 text-left shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
-                Spotlight search
-              </p>
-              <h3 className="mt-3 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
-                Senior Product Designer
-              </h3>
-              <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-                Remote · Full-time · Global
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white" style={{ textShadow: '0 6px 24px rgba(0,0,0,0.55)' }}>
+                Build momentum for your career
+              </h1>
+              <p className="text-xl font-medium leading-relaxed max-w-xl" style={{ color: '#F9FAFB', textShadow: '0 3px 12px rgba(0,0,0,0.45)', lineHeight: '1.7' }}>
+                Discover vetted opportunities, stay aligned with hiring teams, and
+                keep every application organized from a single platform.
               </p>
             </div>
-            <div className="space-y-3">
-              {[
-                "Product Foundation",
-                "Design Systems",
-                "Prototype Strategy",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center justify-between rounded-xl border border-neutral-200/80 px-3 py-2 text-sm text-neutral-600 dark:border-white/10 dark:text-neutral-300"
-                >
-                  <span>{item}</span>
-                  <span className="text-xs font-medium text-neutral-400 dark:text-neutral-500">
-                    Expert
-                  </span>
-                </div>
-              ))}
+
+            <div className="flex flex-col sm:flex-row items-start gap-3">
+              <button
+                onClick={() => navigate("/jobs")}
+                className="inline-flex items-center gap-2 h-11 px-6 rounded-full border-2 border-white/80 bg-transparent text-white font-semibold hover:bg-white/15 transition-all duration-200 backdrop-blur-sm dark:bg-black dark:border-black dark:text-white dark:hover:bg-gray-900"
+              >
+                Browse jobs
+                <Search className="h-4 w-4" />
+              </button>
+
+              <button
+                onClick={() => navigate("/signup")}
+                className="inline-flex items-center gap-2 h-11 px-6 text-sm font-medium text-white hover:text-gray-100 transition-colors"
+                style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+              >
+                Get started
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="relative hidden lg:block">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                  3M+
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                  Active members
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                  98%
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                  Hire success
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+              <div className="mb-4">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+                  Featured role
+                </p>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Senior Product Designer
+                </h3>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  Remote · Full-time · Global
+                </p>
+              </div>
+              <div className="space-y-2">
+                {[
+                  "Product Foundation",
+                  "Design Systems",
+                  "Prototype Strategy",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center justify-between rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300"
+                  >
+                    <span>{item}</span>
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-500">
+                      Expert
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

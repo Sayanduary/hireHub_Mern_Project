@@ -24,11 +24,13 @@ const Navbar = () => {
       return [
         { label: "Companies", to: "/admin/companies" },
         { label: "Jobs", to: "/admin/jobs" },
+        { label: "About", to: "/about" },
       ];
     }
     return [
       { label: "Home", to: "/" },
       { label: "Jobs", to: "/jobs" },
+      { label: "About", to: "/about" },
     ];
   }, [user]);
 
@@ -56,49 +58,36 @@ const Navbar = () => {
       .toUpperCase() || "U";
 
   return (
-    <header className="sticky top-0 z-50 w-full">
-      {/* Floating glass background */}
-      <div
-        className="
-          absolute inset-0
-          bg-gradient-to-r
-          from-[#fffdf5]/80 via-[#fff8e7]/70 to-[#fffdf5]/80
-          dark:from-[#0a0a0a]/70 dark:via-[#0a0a0a]/60 dark:to-[#0a0a0a]/70
-          backdrop-blur-xl
-          border-b border-black/5 dark:border-white/10
-          shadow-[0_10px_40px_rgba(0,0,0,0.08)]
-        "
-      />
-
-      <div className="relative w-full h-20 px-6 md:px-10 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md dark:border-gray-800/50 dark:bg-[#0a0a0a]/95 transition-colors">
+      <div className="relative w-full h-16 px-4 md:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div
           onClick={() => navigate("/")}
-          className="flex items-center gap-4 cursor-pointer"
+          className="flex items-center gap-3 cursor-pointer group"
         >
-          <div className="h-10 w-10 rounded-xl bg-black dark:bg-white flex items-center justify-center">
-            <Briefcase className="h-4 w-4 text-white dark:text-black" />
+          <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
+            <Briefcase className="h-5 w-5 text-white dark:text-gray-900" />
           </div>
-          <span className="text-xl font-black tracking-widest bg-gradient-to-r from-black to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+          <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
             HIREHUB
           </span>
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-2">
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
                 `
-                px-6 py-2.5 rounded-full
-                text-base font-semibold
-                transition-all
+                px-4 py-2 rounded-lg
+                text-sm font-semibold
+                transition-all duration-200
                 ${
                   isActive
-                    ? "bg-black text-white dark:bg-white dark:text-black"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10"
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-sm scale-[1.02]"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800"
                 }
               `
               }
@@ -109,64 +98,64 @@ const Navbar = () => {
         </nav>
 
         {/* Right section */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* Theme toggle */}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="h-10 w-10 rounded-full"
+            className="h-9 w-9 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 hover:scale-105 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-all duration-200"
           >
-            {theme === "dark" ? <Sun /> : <Moon />}
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
 
           {/* Auth */}
           {!user ? (
             <div className="hidden md:flex items-center gap-2">
               <Link to="/login">
-                <button className="px-6 py-2.5 rounded-full text-base font-semibold text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10">
+                <button className="px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800 transition-colors">
                   Sign in
                 </button>
               </Link>
               <Link to="/signup">
-                <button className="px-6 py-2.5 rounded-full text-base font-semibold bg-black text-white dark:bg-white dark:text-black">
-                  Join now
+                <button className="px-4 py-2 rounded-md text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 transition-colors">
+                  Sign up
                 </button>
               </Link>
             </div>
           ) : (
             <Popover>
               <PopoverTrigger asChild>
-                <Avatar className="h-10 w-10 cursor-pointer rounded-full border border-black/10 dark:border-white/10 hover:ring-2 hover:ring-black/10 dark:hover:ring-white/20 transition">
+                <Avatar className="h-8 w-8 cursor-pointer rounded-full border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
                   <AvatarImage
                     src={user?.profile?.profilePhoto || ""}
                     alt={user?.fullname || "User"}
                     className="object-cover"
                   />
-                  <AvatarFallback className="bg-black text-white dark:bg-white dark:text-black font-semibold">
+                  <AvatarFallback className="bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900 text-xs font-semibold">
                     {avatarInitials}
                   </AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
 
-              <PopoverContent className="w-72 rounded-xl p-0">
+              <PopoverContent className="w-64 rounded-lg p-0 border-gray-200 dark:border-gray-800">
                 <div className="p-4">
-                  <div className="flex gap-3 pb-3 border-b">
-                    <Avatar className="h-11 w-11 rounded-full border border-black/10 dark:border-white/10">
+                  <div className="flex gap-3 pb-3 border-b border-gray-200 dark:border-gray-800">
+                    <Avatar className="h-10 w-10 rounded-full border border-gray-200 dark:border-gray-700">
                       <AvatarImage
                         src={user?.profile?.profilePhoto || ""}
                         alt={user?.fullname || "User"}
                         className="object-cover"
                       />
-                      <AvatarFallback className="bg-black text-white dark:bg-white dark:text-black text-base font-semibold">
+                      <AvatarFallback className="bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900 text-sm font-semibold">
                         {avatarInitials}
                       </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold truncate">
+                      <p className="text-sm font-semibold truncate text-gray-900 dark:text-gray-100">
                         {user?.fullname}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                         {user?.profile?.bio || "No bio"}
                       </p>
                     </div>
@@ -174,14 +163,14 @@ const Navbar = () => {
 
                   <div className="pt-3 space-y-1">
                     <Link to="/profile">
-                      <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-white/10">
+                      <button className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800 transition-colors">
                         <User2 className="h-4 w-4" />
-                        Manage profile
+                        View profile
                       </button>
                     </Link>
                     <button
                       onClick={logoutHandler}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30 transition-colors"
                     >
                       <LogOut className="h-4 w-4" />
                       Logout
@@ -197,7 +186,7 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden h-10 w-10"
+            className="md:hidden h-9 w-9 text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800"
           >
             {mobileOpen ? <X /> : <Menu />}
           </Button>
@@ -206,8 +195,8 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden mt-2 mx-4 rounded-2xl bg-white/90 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border dark:border-white/10">
-          <div className="p-4 space-y-2">
+        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+          <div className="p-4 space-y-1 max-w-7xl mx-auto">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -215,12 +204,12 @@ const Navbar = () => {
                 onClick={() => setMobileOpen(false)}
                 className={({ isActive }) =>
                   `
-                  block px-5 py-3 rounded-xl
-                  text-base font-semibold
+                  block px-4 py-2 rounded-md
+                  text-sm font-medium transition-colors
                   ${
                     isActive
-                      ? "bg-black text-white dark:bg-white dark:text-black"
-                      : "hover:bg-black/5 dark:hover:bg-white/10"
+                      ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800"
                   }
                 `
                 }
@@ -228,6 +217,20 @@ const Navbar = () => {
                 {item.label}
               </NavLink>
             ))}
+            {!user && (
+              <div className="pt-2 space-y-1 border-t border-gray-200 dark:border-gray-800 mt-2">
+                <Link to="/login" onClick={() => setMobileOpen(false)}>
+                  <button className="w-full text-left px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    Sign in
+                  </button>
+                </Link>
+                <Link to="/signup" onClick={() => setMobileOpen(false)}>
+                  <button className="w-full text-left px-4 py-2 rounded-md text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 transition-colors">
+                    Sign up
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

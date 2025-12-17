@@ -53,28 +53,28 @@ const Login = () => {
     }
   }, []);
   return (
-    <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-[#0a0a0a] dark:text-neutral-100">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a]">
       <Navbar />
-      <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-12">
+      <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-16">
         <form
           onSubmit={submitHandler}
-          className="w-full max-w-lg rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90"
+          className="w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-10 shadow-sm dark:border-gray-800 dark:bg-gray-950"
         >
           <div className="space-y-3 text-center">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-              Career Console
-            </p>
-            <h1 className="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+            <p className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               Welcome back
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+              Sign in to your account
             </h1>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-              Sign in to manage your search and stay in sync across devices.
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Continue your job search and manage applications
             </p>
           </div>
 
           <div className="mt-8 space-y-5">
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email
               </Label>
               <Input
@@ -82,13 +82,13 @@ const Login = () => {
                 value={input.email}
                 name="email"
                 onChange={changeEventHandler}
-                placeholder="name@studio.com"
-                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                placeholder="name@example.com"
+                className="h-11 rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-gray-800 dark:bg-[#0a0a0a] dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-gray-600 transition-colors duration-200"
               />
             </div>
 
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </Label>
               <Input
@@ -97,12 +97,12 @@ const Login = () => {
                 name="password"
                 onChange={changeEventHandler}
                 placeholder="Enter your password"
-                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                className="h-11 rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-gray-800 dark:bg-[#0a0a0a] dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-gray-600 transition-colors duration-200"
               />
             </div>
 
             <div className="space-y-3">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 I am a
               </Label>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -110,22 +110,22 @@ const Login = () => {
                   type="button"
                   onClick={() => setInput({ ...input, role: "student" })}
                   variant="ghost"
-                  className={`h-11 rounded-xl border transition-colors sm:h-12 ${
+                  className={`h-11 rounded-lg border-2 font-semibold transition-all duration-200 ${
                     input.role === "student"
-                      ? "border-neutral-900 bg-neutral-900 text-neutral-100 dark:border-white dark:bg-white dark:text-neutral-950"
-                      : "border-neutral-200/70 text-neutral-600 hover:border-neutral-400 hover:bg-white/70 dark:border-white/10 dark:text-neutral-300 dark:hover:border-white/20 dark:hover:bg-white/5"
+                      ? "border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-900 scale-[1.02] shadow-sm"
+                      : "border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:border-gray-700"
                   }`}
                 >
-                  Student
+                  Candidate
                 </Button>
                 <Button
                   type="button"
                   onClick={() => setInput({ ...input, role: "recruiter" })}
                   variant="ghost"
-                  className={`h-11 rounded-xl border transition-colors sm:h-12 ${
+                  className={`h-11 rounded-lg border-2 font-semibold transition-all duration-200 ${
                     input.role === "recruiter"
-                      ? "border-neutral-900 bg-neutral-900 text-neutral-100 dark:border-white dark:bg-white dark:text-neutral-950"
-                      : "border-neutral-200/70 text-neutral-600 hover:border-neutral-400 hover:bg-white/70 dark:border-white/10 dark:text-neutral-300 dark:hover:border-white/20 dark:hover:bg-white/5"
+                      ? "border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-900 scale-[1.02] shadow-sm"
+                      : "border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:border-gray-700"
                   }`}
                 >
                   Recruiter
@@ -135,27 +135,27 @@ const Login = () => {
           </div>
 
           {loading ? (
-            <Button className="mt-8 flex w-full h-11 items-center justify-center gap-2 rounded-xl bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100">
+            <Button className="mt-8 flex w-full h-12 items-center justify-center gap-2 rounded-lg bg-gray-900 text-white font-semibold hover:bg-black shadow-sm dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 transition-all duration-200">
               <Loader2 className="h-4 w-4 animate-spin" />
               Please wait
             </Button>
           ) : (
             <Button
               type="submit"
-              className="mt-8 h-11 w-full rounded-xl bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
+              className="mt-8 h-12 w-full rounded-lg bg-gray-900 text-white font-semibold hover:bg-black hover:scale-[1.02] shadow-sm dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 transition-all duration-200"
             >
-              Continue
+              Sign in
             </Button>
           )}
 
-          <div className="mt-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
+          <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             <span>
-              Need an account?{" "}
+              Don't have an account?{" "}
               <Link
                 to="/signup"
-                className="font-medium text-neutral-800 underline-offset-4 hover:underline dark:text-neutral-200"
+                className="font-medium text-gray-900 hover:underline dark:text-gray-100"
               >
-                Create one
+                Sign up
               </Link>
             </span>
           </div>

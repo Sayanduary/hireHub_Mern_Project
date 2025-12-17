@@ -15,6 +15,33 @@ export const applyJob = async (req, res) => {
             return res.status(400).json({ message: "Invalid Job ID", success: false });
         }
 
+        // Check profile completeness
+        const { User } = await import("../models/user.model.js");
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not found", success: false });
+        }
+
+        // Validate required profile fields
+        const missingFields = [];
+        if (!user.fullname) missingFields.push("Full Name");
+        if (!user.email) missingFields.push("Email");
+        if (!user.phoneNumber) missingFields.push("Phone Number");
+        if (!user.profile?.skills || user.profile.skills.length === 0) missingFields.push("Skills");
+        if (!user.profile?.resume) missingFields.push("Resume");
+        if (!user.profile?.linkedinUrl) missingFields.push("LinkedIn URL");
+        if (!user.profile?.githubUrl) missingFields.push("GitHub URL");
+
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                message: "Please complete your profile before applying for jobs",
+                success: false,
+                profileIncomplete: true,
+                missingFields: missingFields
+            });
+        }
+
         // Check duplicate application
         const existingApplication = await Application.findOne({
             job: jobId,

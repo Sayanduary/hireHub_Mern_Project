@@ -6,6 +6,8 @@ import Signup from "./components/auth/Signup";
 import Home from "./components/Home";
 import Jobs from "./components/Jobs";
 import Profile from "./components/Profile";
+import ProfileEdit from "./components/ProfileEdit";
+import About from "./components/About";
 import JobDescription from "./components/JobDescription";
 import Companies from "./components/admin/Companies";
 import CompanyCreate from "./components/admin/CompanyCreate";
@@ -35,6 +37,8 @@ export default function App() {
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/description/:id" element={<JobDescription />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/edit" element={<ProfileEdit />} />
+        <Route path="/about" element={<About />} />
 
         {/* Admin routes */}
         <Route

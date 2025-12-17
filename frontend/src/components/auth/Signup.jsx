@@ -66,28 +66,28 @@ const Signup = () => {
     }
   }, [navigate, user]);
   return (
-    <div className="min-h-screen bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-[#0a0a0a] dark:text-neutral-100">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar />
       <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-12">
         <form
           onSubmit={submitHandler}
-          className="w-full max-w-2xl rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90"
+          className="w-full max-w-2xl rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-950"
         >
           <div className="space-y-3 text-center">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-              Join the network
+            <p className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Get started
             </p>
-            <h1 className="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
-              Create your profile
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+              Create your account
             </h1>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-              Set up a workspace to apply, hire, and collaborate seamlessly.
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Join our platform to find opportunities or hire talent
             </p>
           </div>
 
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Full name
               </Label>
               <Input
@@ -95,12 +95,12 @@ const Signup = () => {
                 value={input.fullname}
                 name="fullname"
                 onChange={changeEventHandler}
-                placeholder="Jamie Rivera"
-                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                placeholder="John Doe"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-gray-700"
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email
               </Label>
               <Input
@@ -108,12 +108,12 @@ const Signup = () => {
                 value={input.email}
                 name="email"
                 onChange={changeEventHandler}
-                placeholder="jamie@studio.com"
-                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                placeholder="john@example.com"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-gray-700"
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Phone number
               </Label>
               <Input
@@ -122,11 +122,11 @@ const Signup = () => {
                 name="phoneNumber"
                 onChange={changeEventHandler}
                 placeholder="+91 98765 43210"
-                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-gray-700"
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </Label>
               <Input
@@ -135,14 +135,14 @@ const Signup = () => {
                 name="password"
                 onChange={changeEventHandler}
                 placeholder="Create a password"
-                className="h-11 rounded-xl border border-neutral-200/80 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-gray-700"
               />
             </div>
           </div>
 
           <div className="mt-6 grid gap-5 md:grid-cols-2">
             <div className="space-y-3">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 I am a
               </Label>
               <div className="grid gap-2">
@@ -150,22 +150,22 @@ const Signup = () => {
                   type="button"
                   onClick={() => setInput({ ...input, role: "student" })}
                   variant="ghost"
-                  className={`h-11 rounded-xl border transition-colors ${
+                  className={`h-10 rounded-md border transition-colors ${
                     input.role === "student"
-                      ? "border-neutral-900 bg-neutral-900 text-neutral-100 dark:border-white dark:bg-white dark:text-neutral-950"
-                      : "border-neutral-200/70 text-neutral-600 hover:border-neutral-400 hover:bg-white/70 dark:border-white/10 dark:text-neutral-300 dark:hover:border-white/20 dark:hover:bg-white/5"
+                      ? "border-gray-900 bg-gray-900 text-white dark:border-gray-100 dark:bg-gray-100 dark:text-gray-900"
+                      : "border-gray-200 text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-900"
                   }`}
                 >
-                  Student
+                  Candidate
                 </Button>
                 <Button
                   type="button"
                   onClick={() => setInput({ ...input, role: "recruiter" })}
                   variant="ghost"
-                  className={`h-11 rounded-xl border transition-colors ${
+                  className={`h-10 rounded-md border transition-colors ${
                     input.role === "recruiter"
-                      ? "border-neutral-900 bg-neutral-900 text-neutral-100 dark:border-white dark:bg-white dark:text-neutral-950"
-                      : "border-neutral-200/70 text-neutral-600 hover:border-neutral-400 hover:bg-white/70 dark:border-white/10 dark:text-neutral-300 dark:hover:border-white/20 dark:hover:bg-white/5"
+                      ? "border-gray-900 bg-gray-900 text-white dark:border-gray-100 dark:bg-gray-100 dark:text-gray-900"
+                      : "border-gray-200 text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-900"
                   }`}
                 >
                   Recruiter
@@ -173,7 +173,7 @@ const Signup = () => {
               </div>
             </div>
             <div className="space-y-3">
-              <Label className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Profile image (optional)
               </Label>
               <div>
@@ -181,35 +181,35 @@ const Signup = () => {
                   accept="image/*"
                   type="file"
                   onChange={changeFileHandler}
-                  className="h-11 cursor-pointer rounded-xl border border-dashed border-neutral-200/80 bg-transparent text-sm text-neutral-600 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:font-medium file:text-neutral-100 focus:border-neutral-400 focus-visible:ring-0 dark:border-white/10 dark:text-neutral-300 dark:file:bg-white dark:file:text-neutral-950 dark:focus:border-white/20"
+                  className="h-10 cursor-pointer rounded-md border border-dashed border-gray-200 bg-white text-sm text-gray-700 file:mr-3 file:rounded-md file:border-0 file:bg-gray-900 file:px-4 file:py-1.5 file:text-sm file:font-medium file:text-white focus:border-gray-400 focus-visible:ring-0 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300 dark:file:bg-gray-100 dark:file:text-gray-900 dark:focus:border-gray-700"
                 />
-                <p className="mt-2 text-xs text-neutral-400 dark:text-neutral-500">
-                  PNG or JPG up to 5MB.
+                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  PNG or JPG up to 5MB
                 </p>
               </div>
             </div>
           </div>
 
           {loading ? (
-            <Button className="mt-8 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100">
+            <Button className="mt-8 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200">
               <Loader2 className="h-4 w-4 animate-spin" />
               Please wait
             </Button>
           ) : (
             <Button
               type="submit"
-              className="mt-8 h-11 w-full rounded-xl bg-neutral-900 text-neutral-100 transition-colors hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
+              className="mt-8 h-10 w-full rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
             >
               Create account
             </Button>
           )}
 
-          <div className="mt-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
+          <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             <span>
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="font-medium text-neutral-800 underline-offset-4 hover:underline dark:text-neutral-200"
+                className="font-medium text-gray-900 hover:underline dark:text-gray-100"
               >
                 Sign in
               </Link>

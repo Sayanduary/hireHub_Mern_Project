@@ -32,7 +32,9 @@ const userSchema = new mongoose.Schema({
         profilePhoto: {
             type: String,
             default: ""
-        }
+        },
+        linkedinUrl: { type: String },
+        githubUrl: { type: String }
     },
     notifications: [{
         message: { type: String },

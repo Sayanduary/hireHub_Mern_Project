@@ -13,29 +13,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import Navbar from "./shared/Navbar";
 import { Bookmark } from "lucide-react";
+import { addAppliedJobId } from "@/redux/applicationSlice";
+import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 
 const JobDescription = () => {
+  useGetAppliedJobs(); // Fetch applied jobs to sync state
+
   const { singleJob } = useSelector((store) => store.job);
   const { user } = useSelector((store) => store.auth);
+  const { appliedJobIds } = useSelector((store) => store.application);
 
-  // Check if user has already applied - handle both populated and non-populated applications
-  const isIntiallyApplied =
-    singleJob?.applications?.some((application) => {
-      if (typeof application === "string") {
-        // Application is just an ID
-        return false; // Can't check without applicant info
-      }
-      // Application is an object with applicant property
-      return application.applicant === user?._id;
-    }) || false;
-
-  const [isApplied, setIsApplied] = useState(isIntiallyApplied);
   const [isSaved, setIsSaved] = useState(false);
 
   const params = useParams();
   const jobId = params.id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Check if user has already applied using centralized Redux state
+  const isApplied = appliedJobIds.includes(jobId);
 
   const applyJobHandler = async () => {
     if (!user) {
@@ -52,10 +48,10 @@ const JobDescription = () => {
 
       console.log("Apply response:", res.data);
       if (res.data.success) {
-        setIsApplied(true); // Update the local state
+        // Update centralized Redux state immediately
+        dispatch(addAppliedJobId(jobId));
 
         // Update the singleJob in Redux with the new application
-        // We add just the ID for now, but on next fetch it will be fully populated
         const newAppObj = res.data.application || {
           _id: res.data._id,
           applicant: user?._id,
@@ -70,7 +66,26 @@ const JobDescription = () => {
       }
     } catch (error) {
       console.error("Apply job error:", error);
-      toast.error(error.response?.data?.message || "Failed to apply for job");
+      const errorData = error.response?.data;
+      
+      // Check if profile is incomplete
+      if (errorData?.profileIncomplete) {
+        toast.error(errorData.message || "Complete your profile to apply for jobs");
+        
+        // Show missing fields
+        if (errorData.missingFields && errorData.missingFields.length > 0) {
+          setTimeout(() => {
+            toast.info(`Missing: ${errorData.missingFields.join(", ")}`);
+          }, 500);
+        }
+        
+        // Redirect to profile page after a short delay
+        setTimeout(() => {
+          navigate("/profile");
+        }, 1500);
+      } else {
+        toast.error(errorData?.message || "Failed to apply for job");
+      }
     }
   };
 
@@ -106,18 +121,6 @@ const JobDescription = () => {
           dispatch(setSingleJob(res.data.job));
           console.log("Fetched job applications:", res.data.job.applications);
 
-          // Check if user has applied - applications might be IDs or objects
-          const hasApplied = res.data.job.applications.some((application) => {
-            if (typeof application === "string") {
-              // If it's just an ID, we can't determine if the user applied
-              return false;
-            }
-            // If it's an object with applicant property
-            return application.applicant === user?._id;
-          });
-
-          setIsApplied(hasApplied);
-
           // Check if job is saved
           setIsSaved(user?.savedJobs?.includes(jobId) || false);
         }
@@ -131,26 +134,26 @@ const JobDescription = () => {
   return (
     <>
       <Navbar />
-      <section className="bg-[#F8F7F3] text-neutral-900 transition-colors dark:bg-[#0a0a0a] dark:text-neutral-50">
-        <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-            <article className="rounded-3xl border border-neutral-200/70 bg-white/80 p-8 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90">
+      <section className="bg-gray-50 dark:bg-gray-900">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
+          <div className="grid gap-6 lg:grid-cols-3">
+            <article className="lg:col-span-2 rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-950">
               <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                 <div className="space-y-4">
-                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-                    Opportunity overview
+                  <p className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    Job Details
                   </p>
-                  <h1 className="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+                  <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                     {singleJob?.title}
                   </h1>
                   <div className="flex flex-wrap gap-2">
-                    <Badge className="rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100">
+                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
                       {singleJob?.position} roles
                     </Badge>
-                    <Badge className="rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100">
+                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
                       {singleJob?.jobType}
                     </Badge>
-                    <Badge className="rounded-full border bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-900 dark:border-white/20 dark:bg-white/10 dark:text-neutral-100">
+                    <Badge className="rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
                       ₹ {singleJob?.salary} LPA
                     </Badge>
                   </div>
@@ -160,10 +163,10 @@ const JobDescription = () => {
                   <Button
                     onClick={saveJobHandler}
                     variant="ghost"
-                    className={`h-11 rounded-xl border text-sm font-medium transition-colors sm:w-40 md:w-48 ${
+                    className={`h-10 rounded-md border text-sm font-medium transition-colors sm:w-40 md:w-48 ${
                       isSaved
-                        ? "border-neutral-900 bg-neutral-900 text-neutral-100 hover:bg-neutral-800 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100"
-                        : "border-neutral-200/70 bg-white/70 text-neutral-700 hover:border-neutral-400 hover:bg-neutral-50 dark:border-white/15 dark:bg-transparent dark:text-neutral-200 dark:hover:border-white/25 dark:hover:bg-white/10"
+                        ? "border-gray-900 bg-gray-900 text-white hover:bg-gray-800 dark:border-gray-100 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
+                        : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300 dark:hover:bg-gray-900"
                     }`}
                   >
                     <Bookmark className="mr-2 h-4 w-4" />
@@ -172,73 +175,73 @@ const JobDescription = () => {
                   <Button
                     onClick={isApplied ? undefined : applyJobHandler}
                     disabled={isApplied}
-                    className="h-11 rounded-xl border border-neutral-900 bg-neutral-900 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800 disabled:border-neutral-200 disabled:bg-neutral-200 disabled:text-neutral-500 disabled:opacity-100 dark:border-transparent dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100 dark:disabled:bg-white/10 dark:disabled:text-neutral-500"
+                    className="h-10 rounded-md bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 dark:disabled:bg-gray-800 dark:disabled:text-gray-500"
                   >
                     {isApplied ? "Already applied" : "Apply now"}
                   </Button>
                 </div>
               </div>
 
-              <div className="mt-10 space-y-8">
+              <div className="mt-8 space-y-8">
                 <section>
-                  <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                     Description
                   </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">
+                  <p className="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                     {singleJob?.description}
                   </p>
                 </section>
 
                 <section>
-                  <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
-                    Role snapshot
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                    Job Overview
                   </h2>
                   <dl className="mt-4 grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
                         Title
                       </dt>
-                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
                         {singleJob?.title}
                       </dd>
                     </div>
-                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
                         Location
                       </dt>
-                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
                         {singleJob?.location}
                       </dd>
                     </div>
-                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
                         Experience
                       </dt>
-                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
                         {singleJob?.experienceLevel} yrs
                       </dd>
                     </div>
-                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
                         Total applicants
                       </dt>
-                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
                         {singleJob?.applications?.length}
                       </dd>
                     </div>
-                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
                         Salary
                       </dt>
-                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
                         {singleJob?.salary} LPA
                       </dd>
                     </div>
-                    <div className="rounded-2xl border border-neutral-200/70 bg-white/70 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-                      <dt className="text-xs uppercase tracking-[0.18em] text-neutral-400 dark:text-neutral-500">
+                    <div className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                      <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
                         Posted
                       </dt>
-                      <dd className="mt-1 text-neutral-800 dark:text-neutral-100">
+                      <dd className="mt-1 font-medium text-gray-900 dark:text-gray-100">
                         {singleJob?.createdAt.split("T")[0]}
                       </dd>
                     </div>
@@ -248,22 +251,22 @@ const JobDescription = () => {
             </article>
 
             <aside className="flex flex-col gap-6">
-              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90 dark:text-neutral-300">
-                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   Application status
                 </h3>
-                <p className="mt-3 text-neutral-600 dark:text-neutral-300">
+                <p className="mt-3 text-gray-600 dark:text-gray-400">
                   {isApplied
                     ? "You have already submitted your application for this role."
                     : "Complete your profile and apply to share your portfolio with the hiring team."}
                 </p>
               </div>
 
-              <div className="rounded-3xl border border-neutral-200/70 bg-white/80 p-6 text-sm text-neutral-600 shadow-none backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-[#0a0a0a]/90 dark:text-neutral-300">
-                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   Why this role
                 </h3>
-                <ul className="mt-3 space-y-2 text-neutral-600 dark:text-neutral-300">
+                <ul className="mt-3 space-y-2 text-gray-600 dark:text-gray-400">
                   <li>• Collaborate with teams operating at global scale.</li>
                   <li>• Build within a product-first organization.</li>
                   <li>• Access a streamlined hiring workflow.</li>

@@ -22,33 +22,33 @@ const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-gray-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a]">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-16">
+    <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12">
         {/* Top */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
-            <h2 className="text-lg font-black tracking-widest bg-gradient-to-r from-black to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+            <h2 className="text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100">
               HIREHUB
             </h2>
-            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 max-w-xs">
+            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 max-w-xs leading-relaxed">
               A modern job platform connecting professionals with verified
               opportunities worldwide.
             </p>
 
-            <div className="flex items-center gap-3 mt-5">
+            <div className="flex items-center gap-2 mt-5">
               {[Facebook, Twitter, Linkedin, Instagram].map((Icon, i) => (
                 <a
                   key={i}
                   href="#"
                   className="
                     h-9 w-9 rounded-md
-                    border border-gray-200 dark:border-white/10
+                    border border-gray-200 dark:border-gray-800
                     flex items-center justify-center
                     text-gray-500 dark:text-gray-400
-                    hover:text-black dark:hover:text-white
-                    hover:border-gray-300 dark:hover:border-white/20
-                    transition
+                    hover:text-gray-900 dark:hover:text-gray-100
+                    hover:bg-gray-100 dark:hover:bg-gray-800
+                    transition-colors
                   "
                 >
                   <Icon className="h-4 w-4" />
@@ -59,15 +59,15 @@ const Footer = () => {
 
           {/* Product */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Product
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   >
                     {link.name}
                   </a>
@@ -78,15 +78,15 @@ const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Resources
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   >
                     {link.name}
                   </a>
@@ -97,15 +97,15 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Legal
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   >
                     {link.name}
                   </a>
@@ -116,12 +116,12 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="mt-16 pt-6 border-t border-gray-200 dark:border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} HIREHUB. All rights reserved.
           </p>
 
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-500">
             Built for professionals. Designed for clarity.
           </p>
         </div>

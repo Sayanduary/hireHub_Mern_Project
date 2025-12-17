@@ -134,7 +134,7 @@ export const logout = async (req, res) => {
 // UPDATE PROFILE
 export const updateProfile = async (req, res) => {
     try {
-        const { fullname, email, phoneNumber, bio, skills } = req.body;
+        const { fullname, email, phoneNumber, bio, skills, linkedinUrl, githubUrl } = req.body;
         const userId = req.id;
 
         let user = await User.findById(userId);
@@ -147,6 +147,8 @@ export const updateProfile = async (req, res) => {
         if (phoneNumber) user.phoneNumber = phoneNumber;
         if (bio) user.profile.bio = bio;
         if (skills) user.profile.skills = skills.split(",");
+        if (linkedinUrl !== undefined) user.profile.linkedinUrl = linkedinUrl;
+        if (githubUrl !== undefined) user.profile.githubUrl = githubUrl;
 
         // Handle profile photo upload
         if (req.files && req.files.profilePhoto) {
