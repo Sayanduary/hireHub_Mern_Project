@@ -7,108 +7,101 @@ import { Bookmark } from "lucide-react";
 const LatestJobCards = ({ job }) => {
   const navigate = useNavigate();
 
-  // US Date + Time format
   const formattedDate = job?.createdAt
     ? new Date(job.createdAt).toLocaleString("en-US", {
-        month: "2-digit",
+        month: "short",
         day: "2-digit",
         year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
       })
-    : "Few days ago";
+    : "Recently";
 
   return (
-    <div
+    <article
       onClick={() => navigate(`/description/${job._id}`)}
       tabIndex={0}
       className="
-        group
+        group relative
         bg-white dark:bg-[#0d0d0d]
         rounded-2xl
-        border border-gray-200 dark:border-[#444444]
-        p-5
-        cursor-pointer
+        border border-gray-200 dark:border-[#2a2a2a]
+        p-6
         flex flex-col h-full
+        cursor-pointer
 
         transition-all duration-200 ease-out
         hover:-translate-y-1
-        hover:shadow-md
-        hover:border-gray-900 dark:hover:border-[#888888]
+        hover:border-gray-900/80 dark:hover:border-[#666]
+        hover:shadow-sm
 
-        focus-within:ring-2
-        focus-within:ring-gray-900/10 dark:focus-within:ring-[#888888]/20
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-gray-900/10 dark:focus-visible:ring-[#888]/20
       "
     >
-      {/* Top row */}
-      <div className="flex items-center justify-between">
-        <Avatar
-          className="
-            h-11 w-11
-            rounded-full
-            border border-black/10 dark:border-[#444444]
-            bg-gray-50 dark:bg-[#1a1a1a]
-            p-1.5
+      {/* ===== Header ===== */}
+      <header className="flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <Avatar className="h-11 w-11 border border-black/10 dark:border-[#333] bg-gray-50 dark:bg-[#1a1a1a]">
+            <AvatarImage
+              src={job?.company?.logo || "https://via.placeholder.com/40"}
+              alt={job?.company?.name || "Company logo"}
+              className="object-contain"
+            />
+          </Avatar>
 
-            transition-transform duration-200 ease-out
-            group-hover:scale-[1.03]
-          "
-        >
-          <AvatarImage
-            src={job?.company?.logo || "https://via.placeholder.com/40"}
-            alt={job?.company?.name || "Company logo"}
-            className="rounded-full object-contain"
-          />
-        </Avatar>
+          <div className="leading-tight">
+            <p className="text-sm font-medium text-gray-900 dark:text-[#E0E0E0]">
+              {job?.company?.name}
+            </p>
+            <p className="text-xs text-gray-500 dark:text-[#9a9a9a]">
+              Posted {formattedDate}
+            </p>
+          </div>
+        </div>
 
         <button
           onClick={(e) => e.stopPropagation()}
+          aria-label="Save job"
           className="
-            flex items-center gap-1 text-xs px-2 py-1 rounded-md
-            border border-gray-200 dark:border-[#444444]
-            text-gray-500 dark:text-[#888888]
+            inline-flex items-center justify-center
+            h-8 w-8 rounded-md
+            border border-gray-200 dark:border-[#333]
+            text-gray-500 dark:text-[#aaa]
 
-            transition-colors duration-150
-            hover:text-gray-900 dark:hover:text-[#E0E0E0]
+            transition-colors
+            hover:text-gray-900 dark:hover:text-white
             hover:bg-gray-50 dark:hover:bg-[#1a1a1a]
           "
         >
-          <Bookmark className="h-3.5 w-3.5" />
-          Save
+          <Bookmark className="h-4 w-4" />
         </button>
-      </div>
+      </header>
 
-      {/* Company + time */}
-      <p className="mt-3 text-sm text-gray-500 dark:text-[#B0B0B0]">
-        {job?.company?.name} · {formattedDate}
-      </p>
-
-      {/* Job title */}
-      <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-[#E0E0E0] leading-snug">
+      {/* ===== Title ===== */}
+      <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-[#f1f1f1] leading-snug">
         {job?.title}
       </h3>
 
-      {/* Tags */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#B0B0B0] transition-colors">
+      {/* ===== Tags ===== */}
+      <div className="mt-3 flex flex-wrap gap-2">
+        <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#b0b0b0]">
           {job?.jobType}
         </span>
-        <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#B0B0B0] transition-colors">
-          {job?.experienceLevel || "Senior level"}
+        <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700 dark:bg-[#1a1a1a] dark:text-[#b0b0b0]">
+          {job?.experienceLevel || "Senior"}
         </span>
       </div>
 
-      {/* Divider */}
-      <div className="my-5 h-px bg-gray-200 dark:bg-[#444444]" />
+      {/* ===== Spacer ===== */}
+      <div className="my-5 h-px bg-gray-100 dark:bg-[#2a2a2a]" />
 
-      {/* Footer */}
-      <div className="mt-auto flex items-center justify-between">
+      {/* ===== Footer ===== */}
+      <footer className="mt-auto flex items-center justify-between">
         <div>
-          <p className="font-semibold text-gray-900 dark:text-[#E0E0E0]">
+          <p className="text-base font-semibold text-gray-900 dark:text-[#f1f1f1]">
             ₹ {job?.salary} LPA
           </p>
-          <p className="text-sm text-gray-500 dark:text-[#B0B0B0]">
+          <p className="text-sm text-gray-500 dark:text-[#9a9a9a]">
             {job?.location || "India"}
           </p>
         </div>
@@ -119,23 +112,24 @@ const LatestJobCards = ({ job }) => {
             navigate(`/description/${job._id}`);
           }}
           className="
-            bg-gray-900 text-white dark:bg-[#E0E0E0] dark:text-[#121212]
-            px-5 py-2.5 rounded-lg
-            text-sm font-semibold
+            inline-flex items-center
+            rounded-lg px-4 py-2
+            text-sm font-medium
 
-            transition-all duration-200 ease-out
-            hover:bg-gray-800 dark:hover:bg-[#888888]
-            hover:scale-105
+            bg-gray-900 text-white
+            dark:bg-[#eaeaea] dark:text-[#121212]
+
+            transition-all duration-150
+            hover:opacity-90
             focus-visible:outline-none
             focus-visible:ring-2
-            focus-visible:ring-black/20 dark:focus-visible:ring-[#888888]/20
-            shadow-sm
+            focus-visible:ring-gray-900/20 dark:focus-visible:ring-[#888]/30
           "
         >
-          View details
+          View
         </button>
-      </div>
-    </div>
+      </footer>
+    </article>
   );
 };
 

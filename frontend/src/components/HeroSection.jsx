@@ -112,84 +112,86 @@ const HeroSection = () => {
             </div>
           </div>
 
-         {/* ================= RIGHT (FLOATING CARDS) ================= */}
-<div className="relative hidden lg:block h-[560px]">
+          {/* ================= RIGHT (FLOATING CARDS) ================= */}
+          <div className="relative hidden lg:block h-[560px]">
+            {/* ===== Global Glow ===== */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className={`h-56 w-56 rounded-full blur-3xl ${
+                  theme === "dark" ? "bg-blue-800/30" : "bg-blue-300/40"
+                }`}
+              />
+            </div>
 
-  {/* ===== Global Glow ===== */}
-  <div className="absolute inset-0 flex items-center justify-center">
-    <div
-      className={`h-56 w-56 rounded-full blur-3xl ${
-        theme === "dark" ? "bg-blue-800/30" : "bg-blue-300/40"
-      }`}
-    />
-  </div>
+            {/* ================= JOB CARDS ================= */}
+            <div
+              className={`absolute top-6 left-4 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
+              }`}
+            >
+              <p className="text-sm font-semibold">Frontend Developer</p>
+              <p className="text-xs opacity-70">React · Full-time</p>
+            </div>
 
-  {/* ================= JOB CARDS ================= */}
-  <div
-    className={`absolute top-6 left-4 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
-      theme === "dark"
-        ? "bg-white/10 border-white/10 text-white"
-        : "bg-white border-gray-200"
-    }`}
-  >
-    <p className="text-sm font-semibold">Frontend Developer</p>
-    <p className="text-xs opacity-70">React · Full-time</p>
-  </div>
+            <div
+              className={`absolute top-24 right-6 w-60 rounded-xl border p-4 backdrop-blur shadow-lg ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
+              }`}
+            >
+              <p className="text-sm font-semibold">Backend Engineer</p>
+              <p className="text-xs opacity-70">Node.js · Remote</p>
+            </div>
 
-  <div
-    className={`absolute top-24 right-6 w-60 rounded-xl border p-4 backdrop-blur shadow-lg ${
-      theme === "dark"
-        ? "bg-white/10 border-white/10 text-white"
-        : "bg-white border-gray-200"
-    }`}
-  >
-    <p className="text-sm font-semibold">Backend Engineer</p>
-    <p className="text-xs opacity-70">Node.js · Remote</p>
-  </div>
+            {/* ================= RESUME BUILDER CARD ================= */}
+            <div
+              className={`absolute bottom-40 left-6 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
+                theme === "dark"
+                  ? "bg-purple-600/15 border-purple-500/20 text-white"
+                  : "bg-white border-purple-200"
+              }`}
+            >
+              <span className="text-[10px] uppercase tracking-wide text-purple-500">
+                Resume Builder
+              </span>
+              <p className="mt-1 text-sm font-semibold">
+                Create ATS-Ready Resume
+              </p>
+              <p className="text-xs opacity-70">Live Preview · PDF Export</p>
+            </div>
 
-  {/* ================= RESUME BUILDER CARD ================= */}
-  <div
-    className={`absolute bottom-40 left-6 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
-      theme === "dark"
-        ? "bg-purple-600/15 border-purple-500/20 text-white"
-        : "bg-white border-purple-200"
-    }`}
-  >
-    <span className="text-[10px] uppercase tracking-wide text-purple-500">
-      Resume Builder
-    </span>
-    <p className="mt-1 text-sm font-semibold">Create ATS-Ready Resume</p>
-    <p className="text-xs opacity-70">Live Preview · PDF Export</p>
-  </div>
+            {/* ================= ATS CHECK CARD ================= */}
+            <div
+              className={`absolute bottom-24 right-10 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
+                theme === "dark"
+                  ? "bg-orange-600/15 border-orange-500/20 text-white"
+                  : "bg-white border-orange-200"
+              }`}
+            >
+              <span className="text-[10px] uppercase tracking-wide text-orange-500">
+                ATS Check
+              </span>
+              <p className="mt-1 text-sm font-semibold">Resume Match Score</p>
+              <p className="text-xs opacity-70">
+                Keywords · Formatting · Skills
+              </p>
+            </div>
 
-  {/* ================= ATS CHECK CARD ================= */}
-  <div
-    className={`absolute bottom-24 right-10 w-64 rounded-xl border p-4 backdrop-blur shadow-lg ${
-      theme === "dark"
-        ? "bg-orange-600/15 border-orange-500/20 text-white"
-        : "bg-white border-orange-200"
-    }`}
-  >
-    <span className="text-[10px] uppercase tracking-wide text-orange-500">
-      ATS Check
-    </span>
-    <p className="mt-1 text-sm font-semibold">Resume Match Score</p>
-    <p className="text-xs opacity-70">Keywords · Formatting · Skills</p>
-  </div>
-
-  {/* ================= CENTER STATS ================= */}
-  <div
-    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 rounded-xl border p-5 backdrop-blur shadow-xl ${
-      theme === "dark"
-        ? "bg-white/10 border-white/10 text-white"
-        : "bg-white border-gray-200"
-    }`}
-  >
-    <p className="text-2xl font-semibold">1200+</p>
-    <p className="mt-1 text-xs opacity-70">Active job openings</p>
-  </div>
-</div>
-
+            {/* ================= CENTER STATS ================= */}
+            <div
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 rounded-xl border p-5 backdrop-blur shadow-xl ${
+                theme === "dark"
+                  ? "bg-white/10 border-white/10 text-white"
+                  : "bg-white border-gray-200"
+              }`}
+            >
+              <p className="text-2xl font-semibold">1200+</p>
+              <p className="mt-1 text-xs opacity-70">Active job openings</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
