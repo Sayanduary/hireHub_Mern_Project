@@ -30,6 +30,8 @@ const Navbar = () => {
     return [
       { label: "Home", to: "/" },
       { label: "Jobs", to: "/jobs" },
+      { label: "Browse", to: "/browse" },
+      { label: "ATS Check", to: "/ats-check" },
       { label: "About", to: "/about" },
     ];
   }, [user]);
