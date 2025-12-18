@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./shared/Navbar";
@@ -59,13 +59,26 @@ const ResumeBuilder = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { currentResumeId } = useSelector((state) => state.resume);
+  const { currentResumeId, currentResume } = useSelector(
+    (state) => state.resume
+  );
 
   const [mode, setMode] = useState("edit");
   const [isSaving, setIsSaving] = useState(false);
   const previewRef = useRef(null);
   const [resumeData, setResumeData] = useState(DEFAULT_RESUME_DATA);
   const [resumeTitle, setResumeTitle] = useState("");
+
+  /* ======================
+     Load Resume Data on Mount (for editing)
+  ====================== */
+  useEffect(() => {
+    if (currentResumeId && currentResume) {
+      setResumeData(currentResume);
+      setResumeTitle(currentResume.title || "");
+      toast.success("Resume loaded for editing");
+    }
+  }, [currentResumeId, currentResume]);
 
   /* ======================
      Data Change Handler

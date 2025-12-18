@@ -36,7 +36,12 @@ const MyResumesTable = () => {
   };
 
   const handleEdit = (resume) => {
-    dispatch(setCurrentResume({ id: resume._id, data: resume.resumeData }));
+    dispatch(
+      setCurrentResume({
+        id: resume._id,
+        data: { ...resume.resumeData, title: resume.title },
+      })
+    );
     navigate("/resume-builder");
   };
 
