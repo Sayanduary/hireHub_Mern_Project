@@ -348,14 +348,146 @@ const FilterCard = () => {
       </div>
 
       {/* ================= MOBILE ================= */}
-      <div className="md:hidden p-4">
+      <div className="md:hidden p-4 sticky top-16 z-40 bg-white dark:bg-[#121212]">
         <Button
           className="w-full"
           variant="outline"
           onClick={() => setShowMobileFilters(true)}
         >
           <Filter className="h-4 w-4 mr-2" /> Filters
+          {hasActiveFilters && (
+            <span className="ml-2 inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-500 text-white text-xs">
+              {activeFilterChips.length}
+            </span>
+          )}
         </Button>
+
+        {/* Mobile Filter Modal */}
+        {showMobileFilters && (
+          <div className="fixed inset-0 z-50 bg-black/50">
+            <div className="fixed bottom-0 left-0 right-0 max-h-[90vh] overflow-y-auto rounded-t-2xl bg-white dark:bg-[#121212] p-6 animate-in slide-in-from-bottom-10">
+              {/* Header */}
+              <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-[#2a2a2a]">
+                <h2 className="text-lg font-semibold">Filters</h2>
+                <button
+                  onClick={() => setShowMobileFilters(false)}
+                  className="p-1 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] rounded"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Search */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-2">Search</label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    placeholder="Search jobs..."
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+
+              {/* Skills */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-3">Skills</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {skillsData.map((s) => (
+                    <label
+                      key={s}
+                      className="flex items-center gap-2 text-sm cursor-pointer p-2 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] rounded"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedSkills.includes(s)}
+                        onChange={() => handleSkillToggle(s)}
+                      />
+                      {s}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Other Filters */}
+              {filterData.map((f) => (
+                <div key={f.filterType} className="mb-6">
+                  <label className="block text-sm font-medium mb-3">
+                    {f.filterType}
+                  </label>
+                  <RadioGroup
+                    value={
+                      f.filterType === "Location"
+                        ? selectedLocation
+                        : f.filterType === "Industry"
+                        ? selectedIndustry
+                        : f.filterType === "Job Type"
+                        ? selectedJobType
+                        : f.filterType === "Experience Level"
+                        ? selectedExperience
+                        : selectedSalary
+                    }
+                    onValueChange={(v) => handleFilterChange(f.filterType, v)}
+                  >
+                    {f.array.map((o) => (
+                      <div key={o} className="flex items-center gap-2 mb-2">
+                        <RadioGroupItem
+                          value={o}
+                          id={`mobile-${f.filterType}-${o}`}
+                        />
+                        <Label
+                          htmlFor={`mobile-${f.filterType}-${o}`}
+                          className="cursor-pointer flex-1"
+                        >
+                          {o}
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                </div>
+              ))}
+
+              {/* Active Chips */}
+              {hasActiveFilters && (
+                <div className="mb-6 pb-4 border-t border-gray-200 dark:border-[#2a2a2a] pt-4">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {activeFilterChips.map((c) => (
+                      <button
+                        key={c.type + c.label}
+                        onClick={() => handleRemoveChip(c.type, c.label)}
+                        className="inline-flex items-center gap-2 rounded-full border bg-gray-50 px-3 py-1.5 text-xs dark:bg-[#1a1a1a]"
+                      >
+                        {c.label}
+                        <X className="h-3 w-3" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Buttons */}
+              <div className="flex gap-3 sticky bottom-0 bg-white dark:bg-[#121212] pt-4 border-t border-gray-200 dark:border-[#2a2a2a]">
+                {hasActiveFilters && (
+                  <Button
+                    variant="outline"
+                    onClick={handleClearFilters}
+                    className="flex-1"
+                  >
+                    Clear all
+                  </Button>
+                )}
+                <Button
+                  onClick={() => setShowMobileFilters(false)}
+                  className="flex-1"
+                >
+                  Apply Filters
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
