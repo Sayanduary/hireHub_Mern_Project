@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, register, updateProfile, saveJob, getSavedJobs, downloadResume, googleCallback, googleLogin, changePassword, setPassword } from "../controllers/user.controller.js";
+import { login, logout, register, updateProfile, saveJob, getSavedJobs, downloadResume, googleCallback, googleLogin, changePassword, setPassword, getProfile } from "../controllers/user.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import { singleUpload, multipleUpload } from "../middlewares/multer.js";
 import passport from "passport";
@@ -9,6 +9,7 @@ const router = express.Router();
 router.route("/register").post(singleUpload, register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
+router.route("/profile").get(isAuthenticated, getProfile);
 router.route("/profile/update").post(isAuthenticated, multipleUpload, updateProfile);
 router.route("/change-password").post(isAuthenticated, changePassword);
 router.route("/set-password").post(isAuthenticated, setPassword);

@@ -13,33 +13,59 @@ const GoogleCallback = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    const userId = searchParams.get("userId");
-    const role = searchParams.get("role");
+    const handleGoogleCallback = async () => {
+      const token = searchParams.get("token");
+      const userId = searchParams.get("userId");
+      const role = searchParams.get("role");
 
-    if (token && userId) {
-      // Store token in cookie for axios requests
-      document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
+      if (token && userId) {
+        // Store token in cookie for axios requests
+        document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
 
-      // Set user data in Redux store
-      const userData = {
-        _id: userId,
-        role: role,
-        authProvider: "google",
-      };
-      dispatch(setUser(userData));
-      toast.success("Logged in successfully!", { duration: 1500 });
+        try {
+          // Fetch full user data from backend
+          const res = await axios.get(`${USER_API_END_POINT}/profile`, {
+            withCredentials: true,
+          });
 
-      // Redirect based on role
-      if (role === "recruiter") {
-        navigate("/admin/companies");
+          if (res.data.success) {
+            // Set complete user data in Redux store
+            dispatch(setUser(res.data.user));
+            toast.success("Logged in successfully!", { duration: 1500 });
+
+            // Redirect based on role
+            if (role === "recruiter") {
+              navigate("/admin/companies");
+            } else {
+              navigate("/");
+            }
+          } else {
+            throw new Error("Failed to fetch user data");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Fallback to basic user data if fetch fails
+          const userData = {
+            _id: userId,
+            role: role,
+            authProvider: "google",
+          };
+          dispatch(setUser(userData));
+          toast.success("Logged in successfully!", { duration: 1500 });
+
+          if (role === "recruiter") {
+            navigate("/admin/companies");
+          } else {
+            navigate("/");
+          }
+        }
       } else {
-        navigate("/");
+        toast.error("Authentication failed", { duration: 2000 });
+        navigate("/login");
       }
-    } else {
-      toast.error("Authentication failed", { duration: 2000 });
-      navigate("/login");
-    }
+    };
+
+    handleGoogleCallback();
   }, [searchParams, navigate, dispatch]);
 
   return (
