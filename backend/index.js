@@ -2,7 +2,9 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import session from "express-session";
 import connectDB from "./utils/db.js";
+import configurePassport from "./utils/passport.js";
 import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
@@ -19,6 +21,26 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Session middleware for Passport
+app.use(
+    session({
+        secret: process.env.SECRET_KEY || "your-secret-key",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            httpOnly: true,
+            secure: false, // Set to true in production with HTTPS
+            sameSite: "lax",
+            maxAge: 24 * 60 * 60 * 1000
+        }
+    })
+);
+
+// Configure and initialize Passport
+const passport = configurePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 const corsOptions = {
     origin: "http://localhost:5173",

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import ScrollToTop from "./components/ScrollToTop";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
+import GoogleCallback from "./components/auth/GoogleCallback";
 import Home from "./components/Home";
 import Jobs from "./components/Jobs";
 import Profile from "./components/Profile";
@@ -38,6 +39,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/auth/google/callback" element={<GoogleCallback />} />
         <Route path="/" element={<Home />} />
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/description/:id" element={<JobDescription />} />

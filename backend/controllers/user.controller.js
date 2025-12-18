@@ -129,6 +129,137 @@ export const logout = async (req, res) => {
         .json({ message: "Logged out successfully", success: true });
 };
 
+// CHANGE PASSWORD
+export const changePassword = async (req, res) => {
+    try {
+        const userId = req.id;
+        const { currentPassword, newPassword, confirmPassword } = req.body;
+
+        // Validate input
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            return res.status(400).json({
+                message: "All fields are required",
+                success: false
+            });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({
+                message: "New passwords do not match",
+                success: false
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                message: "Password must be at least 6 characters",
+                success: false
+            });
+        }
+
+        // Find user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        // Check if user signed up with Google (no password)
+        if (user.authProvider === 'google' && !user.password) {
+            return res.status(400).json({
+                message: "Cannot change password for Google sign-in accounts. Please set a password first.",
+                success: false
+            });
+        }
+
+        // Verify current password
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                message: "Current password is incorrect",
+                success: false
+            });
+        }
+
+        // Hash new password and save
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({
+            message: "Password changed successfully",
+            success: true
+        });
+
+    } catch (error) {
+        console.error("CHANGE PASSWORD ERROR:", error);
+        res.status(500).json({ message: "Server error", success: false });
+    }
+};
+
+// SET PASSWORD (for Google sign-in users who don't have a password)
+export const setPassword = async (req, res) => {
+    try {
+        const userId = req.id;
+        const { newPassword, confirmPassword } = req.body;
+
+        // Validate input
+        if (!newPassword || !confirmPassword) {
+            return res.status(400).json({
+                message: "All fields are required",
+                success: false
+            });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({
+                message: "Passwords do not match",
+                success: false
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                message: "Password must be at least 6 characters",
+                success: false
+            });
+        }
+
+        // Find user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        // Check if user already has a password
+        if (user.password) {
+            return res.status(400).json({
+                message: "You already have a password. Use change password instead.",
+                success: false
+            });
+        }
+
+        // Hash and set password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({
+            message: "Password set successfully! You can now login with email and password.",
+            success: true
+        });
+
+    } catch (error) {
+        console.error("SET PASSWORD ERROR:", error);
+        res.status(500).json({ message: "Server error", success: false });
+    }
+};
+
 
 
 // UPDATE PROFILE
@@ -150,7 +281,7 @@ export const updateProfile = async (req, res) => {
         if (location !== undefined) user.profile.location = location;
         if (linkedinUrl !== undefined) user.profile.linkedinUrl = linkedinUrl;
         if (githubUrl !== undefined) user.profile.githubUrl = githubUrl;
-        
+
         // Recruiter-specific fields
         if (user.role === "recruiter") {
             if (designation !== undefined) user.profile.designation = designation;
@@ -342,5 +473,84 @@ export const downloadResume = async (req, res) => {
     } catch (error) {
         console.error("DOWNLOAD RESUME ERROR:", error.message);
         res.status(500).json({ message: "Failed to download resume", success: false });
+    }
+};
+
+// GOOGLE CALLBACK - After successful Google authentication
+export const googleCallback = async (req, res) => {
+    try {
+        const user = req.user;
+
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.SECRET_KEY,
+            { expiresIn: process.env.JWT_EXPIRES_IN || "1d" }
+        );
+
+        const userData = {
+            _id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            role: user.role,
+            profile: user.profile,
+            authProvider: user.authProvider
+        };
+
+        // Redirect to frontend with token in query param
+        const frontendUrl = process.env.CLIENT_URL || "http://localhost:3000";
+        return res.redirect(
+            `${frontendUrl}/auth/google/callback?token=${token}&userId=${user._id}&role=${user.role}`
+        );
+
+    } catch (error) {
+        console.error("GOOGLE CALLBACK ERROR:", error);
+        res.status(500).json({ message: "Authentication failed", success: false });
+    }
+};
+
+// GOOGLE LOGIN - Get user data after successful authentication
+export const googleLogin = async (req, res) => {
+    try {
+        const user = req.user;
+
+        if (!user) {
+            return res.status(401).json({ message: "Not authenticated", success: false });
+        }
+
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.SECRET_KEY,
+            { expiresIn: process.env.JWT_EXPIRES_IN || "1d" }
+        );
+
+        const userData = {
+            _id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            role: user.role,
+            profile: user.profile,
+            authProvider: user.authProvider
+        };
+
+        return res
+            .status(200)
+            .cookie("token", token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: "lax",
+                path: "/",
+                maxAge: 24 * 60 * 60 * 1000
+            })
+            .json({
+                message: `Welcome ${user.fullname}`,
+                user: userData,
+                success: true
+            });
+
+    } catch (error) {
+        console.error("GOOGLE LOGIN ERROR:", error);
+        res.status(500).json({ message: "Server error", success: false });
     }
 };

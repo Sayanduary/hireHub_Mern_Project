@@ -4,9 +4,19 @@ import Navbar from "./shared/Navbar";
 import Footer from "./shared/Footer";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { Bell, Contact, Mail, Pen } from "lucide-react";
+import {
+  Bell,
+  Contact,
+  Mail,
+  Pen,
+  Lock,
+  Eye,
+  EyeOff,
+  Loader2,
+} from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
+import { Input } from "./ui/input";
 import AppliedJobTable from "./AppliedJobTable";
 import SavedJobsTable from "./SavedJobsTable";
 import MyResumesTable from "./MyResumesTable";
@@ -20,11 +30,108 @@ const Profile = () => {
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const isStudent = user?.role === "student";
+  const isGoogleUser = user?.authProvider === "google";
   useGetAppliedJobs(isStudent);
   const [savedJobs, setSavedJobs] = useState([]);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showSetPassword, setShowSetPassword] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const workspaceLabel = isStudent
     ? "Student workspace"
     : "Recruiter workspace";
+
+  const handlePasswordChange = (e) => {
+    setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
+  };
+
+  // Set password for Google users
+  const handleSetPassword = async (e) => {
+    e.preventDefault();
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast.error("Passwords do not match", { duration: 2000 });
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters", { duration: 2000 });
+      return;
+    }
+
+    try {
+      setPasswordLoading(true);
+      const res = await axios.post(
+        `${USER_API_END_POINT}/set-password`,
+        {
+          newPassword: passwordData.newPassword,
+          confirmPassword: passwordData.confirmPassword,
+        },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message, { duration: 2000 });
+        setPasswordData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+        setShowSetPassword(false);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to set password", {
+        duration: 2000,
+      });
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast.error("New passwords do not match", { duration: 2000 });
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters", { duration: 2000 });
+      return;
+    }
+
+    try {
+      setPasswordLoading(true);
+      const res = await axios.post(
+        `${USER_API_END_POINT}/change-password`,
+        passwordData,
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message, { duration: 1500 });
+        setPasswordData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+        setShowChangePassword(false);
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to change password",
+        { duration: 2000 }
+      );
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchSavedJobs = async () => {
@@ -85,7 +192,6 @@ const Profile = () => {
               <span className="hidden sm:inline">Edit profile</span>
             </Button>
           </div>
-
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="flex items-center gap-3 rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0]">
               <Mail className="h-4 w-4" />
@@ -95,6 +201,234 @@ const Profile = () => {
               <Contact className="h-4 w-4" />
               <span>{user?.phoneNumber}</span>
             </div>
+          </div>
+          {/* Password Section - Set Password for Google users, Change Password for others */}
+          <div className="mt-6 border-t border-gray-200 pt-6 dark:border-[#444444]">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Lock className="h-4 w-4 text-gray-500 dark:text-[#888888]" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
+                  Password & Security
+                </h3>
+                {isGoogleUser && (
+                  <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                    Google Account
+                  </span>
+                )}
+              </div>
+              {isGoogleUser ? (
+                <Button
+                  onClick={() => setShowSetPassword(!showSetPassword)}
+                  variant="ghost"
+                  size="sm"
+                  className="text-sm text-gray-600 hover:text-gray-900 dark:text-[#888888] dark:hover:text-[#E0E0E0]"
+                >
+                  {showSetPassword ? "Cancel" : "Set Password"}
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => setShowChangePassword(!showChangePassword)}
+                  variant="ghost"
+                  size="sm"
+                  className="text-sm text-gray-600 hover:text-gray-900 dark:text-[#888888] dark:hover:text-[#E0E0E0]"
+                >
+                  {showChangePassword ? "Cancel" : "Change Password"}
+                </Button>
+              )}
+            </div>
+
+            {/* Set Password Form for Google Users */}
+            {isGoogleUser && showSetPassword && (
+              <form onSubmit={handleSetPassword} className="mt-4 space-y-4">
+                <p className="text-sm text-gray-600 dark:text-[#888888]">
+                  Set a password to also login with your email and password in
+                  addition to Google.
+                </p>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label className="text-sm text-gray-700 dark:text-[#B0B0B0]">
+                      New Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        type={showNewPassword ? "text" : "password"}
+                        name="newPassword"
+                        value={passwordData.newPassword}
+                        onChange={handlePasswordChange}
+                        placeholder="Enter password (min 6 characters)"
+                        className="h-10 pr-10 rounded-md border border-gray-200 bg-white text-sm dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#E0E0E0]"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-[#888888] dark:hover:text-[#B0B0B0]"
+                      >
+                        {showNewPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-sm text-gray-700 dark:text-[#B0B0B0]">
+                      Confirm Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        value={passwordData.confirmPassword}
+                        onChange={handlePasswordChange}
+                        placeholder="Confirm password"
+                        className="h-10 pr-10 rounded-md border border-gray-200 bg-white text-sm dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#E0E0E0]"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-[#888888] dark:hover:text-[#B0B0B0]"
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    disabled={passwordLoading}
+                    className="h-10 rounded-md bg-gray-900 px-6 text-sm text-white hover:bg-gray-800 dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#B0B0B0]"
+                  >
+                    {passwordLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Setting...
+                      </>
+                    ) : (
+                      "Set Password"
+                    )}
+                  </Button>
+                </div>
+              </form>
+            )}
+
+            {/* Change Password Form for Regular Users */}
+            {!isGoogleUser && showChangePassword && (
+              <form onSubmit={handleChangePassword} className="mt-4 space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div className="space-y-2">
+                    <Label className="text-sm text-gray-700 dark:text-[#B0B0B0]">
+                      Current Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        type={showCurrentPassword ? "text" : "password"}
+                        name="currentPassword"
+                        value={passwordData.currentPassword}
+                        onChange={handlePasswordChange}
+                        placeholder="Enter current password"
+                        className="h-10 pr-10 rounded-md border border-gray-200 bg-white text-sm dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#E0E0E0]"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowCurrentPassword(!showCurrentPassword)
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-[#888888] dark:hover:text-[#B0B0B0]"
+                      >
+                        {showCurrentPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-sm text-gray-700 dark:text-[#B0B0B0]">
+                      New Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        type={showNewPassword ? "text" : "password"}
+                        name="newPassword"
+                        value={passwordData.newPassword}
+                        onChange={handlePasswordChange}
+                        placeholder="Enter new password"
+                        className="h-10 pr-10 rounded-md border border-gray-200 bg-white text-sm dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#E0E0E0]"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-[#888888] dark:hover:text-[#B0B0B0]"
+                      >
+                        {showNewPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-sm text-gray-700 dark:text-[#B0B0B0]">
+                      Confirm New Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        value={passwordData.confirmPassword}
+                        onChange={handlePasswordChange}
+                        placeholder="Confirm new password"
+                        className="h-10 pr-10 rounded-md border border-gray-200 bg-white text-sm dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#E0E0E0]"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-[#888888] dark:hover:text-[#B0B0B0]"
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    disabled={passwordLoading}
+                    className="h-10 rounded-md bg-gray-900 px-6 text-sm text-white hover:bg-gray-800 dark:bg-[#E0E0E0] dark:text-[#121212] dark:hover:bg-[#B0B0B0]"
+                  >
+                    {passwordLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Updating...
+                      </>
+                    ) : (
+                      "Update Password"
+                    )}
+                  </Button>
+                </div>
+              </form>
+            )}
           </div>
 
           {user?.role !== "recruiter" && user?.profile?.location && (
@@ -123,7 +457,6 @@ const Profile = () => {
               </div>
             </div>
           )}
-
           {/* Recruiter-specific information */}
           {user?.role === "recruiter" && (
             <div className="mt-6 space-y-4">
@@ -232,7 +565,6 @@ const Profile = () => {
               )}
             </div>
           )}
-
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="flex items-center gap-3 rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#B0B0B0]">
               <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -279,7 +611,6 @@ const Profile = () => {
               </div>
             )}
           </div>
-
           {user?.role !== "recruiter" && (
             <div className="mt-8">
               <h2 className="text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">
@@ -303,7 +634,6 @@ const Profile = () => {
               </div>
             </div>
           )}
-
           {user?.role !== "recruiter" && (
             <div className="mt-8 border-t border-gray-200 pt-6 dark:border-[#444444]">
               <Label className="mb-2 block text-sm font-semibold text-gray-900 dark:text-[#E0E0E0]">

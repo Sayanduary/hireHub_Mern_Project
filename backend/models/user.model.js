@@ -11,17 +11,23 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     phoneNumber: {
-        type: Number,
-        required: true
+        type: Number
     },
     password: {
-        type: String,
-        required: true,
+        type: String
+    },
+    googleId: {
+        type: String
     },
     role: {
         type: String,
         enum: ['student', 'recruiter'],
         required: true
+    },
+    authProvider: {
+        type: String,
+        enum: ['email', 'google'],
+        default: 'email'
     },
     profile: {
         bio: { type: String },
