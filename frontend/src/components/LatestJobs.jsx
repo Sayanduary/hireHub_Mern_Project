@@ -55,8 +55,11 @@ const LatestJobs = () => {
       >
         {/* Header */}
         <div className="mb-16 max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
-            Latest job openings
+          <h2
+            className="text-5xl md:text-5xl font-semibold tracking-tight text-gray-900 dark:text-[#E0E0E0] "
+            style={{ fontFamily: "'Oswald', sans-serif" }}
+          >
+            Latest Job Openings
           </h2>
           <p className="mt-2 text-base text-gray-600 dark:text-[#B0B0B0]">
             Discover recently posted roles from trusted companies

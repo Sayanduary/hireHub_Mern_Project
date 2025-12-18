@@ -127,7 +127,7 @@ const ATSCheck = () => {
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Search className="h-8 w-8 text-gray-900 dark:text-white" />
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white"   style={{ fontFamily: "'Oswald', sans-serif" }}> 
               ATS Score Check
             </h1>
           </div>

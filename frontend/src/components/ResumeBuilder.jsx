@@ -236,7 +236,10 @@ const ResumeBuilder = () => {
       <section className="flex-1 max-w-7xl w-full mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1
+            className="text-4xl font-bold text-gray-900 dark:text-white "
+            style={{ fontFamily: "'Oswald', sans-serif" }}
+          >
             Resume Builder
           </h1>
           <p className="mt-2 text-gray-600 dark:text-gray-400">
