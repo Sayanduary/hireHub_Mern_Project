@@ -1,12 +1,24 @@
 import React, { useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./shared/Navbar";
 import Footer from "./shared/Footer";
 import { Button } from "./ui/button";
-import { Download, RotateCcw, Eye, Edit } from "lucide-react";
+import { Download, RotateCcw, Eye, Edit, Save } from "lucide-react";
 import { toast } from "sonner";
 import ResumeForm from "./resume/ResumeForm";
 import ResumePreview from "./resume/ResumePreview";
-import { generateResumePDF } from "./resume/pdfGenerator";
+import {
+  generateResumePDF,
+  generateResumePDFBase64,
+} from "./resume/pdfGenerator";
+import resumeAPI from "../utils/resumeAPI";
+import {
+  setCurrentResume,
+  clearCurrentResume,
+  addResume,
+  updateResumeInList,
+} from "../redux/resumeSlice";
 
 /* ======================
    Country + Phone Config
@@ -44,9 +56,16 @@ const DEFAULT_RESUME_DATA = {
 };
 
 const ResumeBuilder = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { currentResumeId } = useSelector((state) => state.resume);
+
   const [mode, setMode] = useState("edit");
+  const [isSaving, setIsSaving] = useState(false);
   const previewRef = useRef(null);
   const [resumeData, setResumeData] = useState(DEFAULT_RESUME_DATA);
+  const [resumeTitle, setResumeTitle] = useState("");
 
   /* ======================
      Data Change Handler
@@ -74,6 +93,8 @@ const ResumeBuilder = () => {
       )
     ) {
       setResumeData(DEFAULT_RESUME_DATA);
+      setResumeTitle("");
+      dispatch(clearCurrentResume());
       setMode("edit");
       toast.success("Resume cleared successfully");
     }
@@ -108,6 +129,66 @@ const ResumeBuilder = () => {
     } catch (err) {
       console.error(err);
       toast.error("Error generating PDF");
+    }
+  };
+
+  /* ======================
+     Save Resume (Authenticated)
+  ====================== */
+  const handleSaveResume = async () => {
+    if (!user) {
+      toast.error("Please login to save resume");
+      navigate("/login");
+      return;
+    }
+
+    const { fullName, phone, country } = resumeData.personalDetails;
+    const cfg = COUNTRY_CONFIG[country];
+
+    if (!fullName) {
+      toast.error("Please enter your name");
+      return;
+    }
+
+    const digits = phone.replace(/\D/g, "");
+    if (digits.length !== cfg.digits) {
+      toast.error(`Phone number must be ${cfg.digits} digits`);
+      return;
+    }
+
+    if (!resumeTitle.trim()) {
+      toast.error("Please enter a title for your resume");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      // Generate PDF as base64
+      const pdfBase64 = await generateResumePDFBase64(resumeData);
+
+      const payload = {
+        title: resumeTitle,
+        resumeData,
+        templateType: "ui",
+        pdfBase64,
+      };
+
+      if (currentResumeId) {
+        // Update existing resume
+        const response = await resumeAPI.update(currentResumeId, payload);
+        dispatch(updateResumeInList(response.data.resume));
+        toast.success("Resume updated successfully");
+      } else {
+        // Save new resume
+        const response = await resumeAPI.save(payload);
+        dispatch(addResume(response.data.resume));
+        toast.success("Resume saved successfully");
+      }
+    } catch (error) {
+      console.error("Save error:", error);
+      toast.error(error.response?.data?.message || "Error saving resume");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -147,6 +228,23 @@ const ResumeBuilder = () => {
           </p>
         </div>
 
+        {/* Save Title Input (if user logged in) */}
+        {user && mode === "edit" && (
+          <div className="mb-6 max-w-md">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Resume Title
+            </label>
+            <input
+              type="text"
+              placeholder="e.g., Software Engineer Resume"
+              value={resumeTitle}
+              onChange={(e) => setResumeTitle(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-[#444444] rounded-md bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        )}
+
+        {/* Actions */}
         {/* Actions */}
         <div className="mb-6 flex flex-wrap gap-3">
           <Button
@@ -172,6 +270,31 @@ const ResumeBuilder = () => {
           >
             <Download size={16} /> Download PDF
           </Button>
+
+          {user && (
+            <Button
+              onClick={handleSaveResume}
+              disabled={isSaving}
+              className="gap-2 bg-green-600 hover:bg-green-700"
+            >
+              <Save size={16} />
+              {isSaving
+                ? "Saving..."
+                : currentResumeId
+                ? "Update Resume"
+                : "Save Resume"}
+            </Button>
+          )}
+
+          {!user && (
+            <Button
+              onClick={() => navigate("/login")}
+              variant="outline"
+              className="gap-2"
+            >
+              Login to Save
+            </Button>
+          )}
 
           <Button
             onClick={handleExportJSON}

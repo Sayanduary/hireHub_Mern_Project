@@ -9,6 +9,7 @@ import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import AppliedJobTable from "./AppliedJobTable";
 import SavedJobsTable from "./SavedJobsTable";
+import MyResumesTable from "./MyResumesTable";
 import { useSelector } from "react-redux";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 import axios from "axios";
@@ -391,6 +392,26 @@ const Profile = () => {
               savedJobs={savedJobs}
               onRemove={handleRemoveSavedJob}
             />
+          </div>
+        )}
+
+        {isStudent && (
+          <div className="mt-8 rounded-lg border border-gray-200 bg-white p-8 dark:border-[#444444] dark:bg-[#121212]">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-[#E0E0E0]">
+                My Resumes
+              </h2>
+              <Button
+                onClick={() => navigate("/resume-builder")}
+                variant="default"
+                size="sm"
+              >
+                Create Resume
+              </Button>
+            </div>
+            <div className="mt-6 overflow-x-auto">
+              <MyResumesTable />
+            </div>
           </div>
         )}
       </section>

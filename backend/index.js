@@ -8,6 +8,7 @@ import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 import atsRoute from "./routes/ats.route.js";
+import resumeRoute from "./routes/resume.route.js";
 
 dotenv.config({});
 
@@ -19,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: true, // Allow all origins
+    origin: "http://localhost:5174",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -37,7 +38,7 @@ app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 app.use("/api/v1/ats", atsRoute);
-app.use("/api/v1/ats", atsRoute);
+app.use("/api/v1/resume", resumeRoute);
 
 
 

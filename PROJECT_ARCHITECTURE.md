@@ -120,6 +120,21 @@
 }
 ```
 
+### Resume Model
+```
+{
+  userId: ObjectId (ref: User, indexed, required),
+  title: String (required),
+  resumeData: Mixed Object (required),
+  templateType: Enum ['ui', 'latex'] (default: 'ui'),
+  pdfUrl: String (Cloudinary URL, required),
+  pdfPublicId: String (Cloudinary public ID, required),
+  
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
 ---
 
 ## 4. API Endpoints
@@ -154,6 +169,17 @@
 - `GET /:id` - Get company details
 - `PUT /:id` - Update company info (Recruiter)
 
+### Resume Endpoints (`/api/v1/resume`)
+**PUBLIC (No Auth):**
+- `POST /preview` - Preview resume PDF in-memory (no database write, no Cloudinary upload)
+
+**AUTHENTICATED (JWT Required):**
+- `POST /save` - Save new resume with PDF upload to Cloudinary
+- `GET /` - Get all resumes for logged-in user
+- `GET /:id` - Get single resume for editing (ownership verified)
+- `PUT /:id` - Update resume and regenerate PDF
+- `DELETE /:id` - Delete resume and remove PDF from Cloudinary
+
 ---
 
 ## 5. Frontend Architecture
@@ -164,6 +190,9 @@
 /jobs                   - Job listing with filters
 /description/:id        - Job details page
 /profile                - User profile (student/recruiter view)
+/profile/resumes        - My Resumes table (saved resumes management)
+/resume-builder         - Resume builder (create/edit resumes)
+/resume-latex           - LaTeX resume builder
 /login                  - Login page
 /signup                 - Signup page
 
@@ -191,16 +220,27 @@ store
 │   ├── singleCompany
 │   └── companies
 ├── application
-    ├── applicants
-    └── allAppliedJobs
+│   ├── applicants
+│   └── allAppliedJobs
+└── resume
+    ├── resumes (all saved resumes)
+    ├── currentResume (resume data for editing)
+    ├── currentResumeId (ID for update vs create)
+    ├── loading
+    └── error
 ```
 
 ### Key Components
-- **Navbar** - Global navigation with theme toggle
+- **Navbar** - Global navigation with theme toggle and Resume Builder menu
 - **Home** - Landing page with hero section, job carousel
 - **Jobs** - Job listing with category filter
 - **JobDescription** - Detailed job view with apply button
 - **Profile** - User dashboard (Student shows applied jobs, Recruiter shows job postings)
+- **ResumeBuilder** - Main resume builder with 8 form sections
+- **ResumeForm** - Wrapper for all resume input sections
+- **ResumePreview** - Professional resume display with markdown rendering
+- **MyResumesTable** - Profile page table showing saved resumes with edit/delete/download
+- **ResumeLaTeX** - Natural language LaTeX resume generator
 - **AdminJobs** - Recruiter's job management dashboard
 - **Companies** - Company management for recruiters
 - **UpdateProfileDialog** - Modal for profile editing
@@ -353,6 +393,90 @@ store
 
 ---
 
+## 9. Resume Management Flow
+
+```
+┌────────────────────────────────────────────────────┐
+│        Resume Builder & Management Flow             │
+└────────────────────────────────────────────────────┘
+
+1. Create Resume (Any User)
+   ├─ Visit /resume-builder
+   ├─ Fill 8 sections: personal, summary, skills, education, experience, projects, certificates, references
+   ├─ Live preview available
+   ├─ Can download PDF locally (guest or logged-in)
+   └─ If NOT logged-in: "Login to Save" button shown
+
+2. Save Resume (Logged-In Users Only)
+   ├─ Enter resume title
+   ├─ Click "Save Resume"
+   ├─ Frontend generates PDF as base64
+   ├─ POST /api/v1/resume/save with resumeData + pdfBase64
+   ├─ Backend:
+   │  ├─ Upload PDF to Cloudinary (folder: resumes/{userId})
+   │  ├─ Store resumeData JSON in MongoDB
+   │  ├─ Store pdfUrl and pdfPublicId
+   │  └─ Return saved resume object with _id
+   ├─ Redux dispatches addResume
+   └─ Success toast shown
+
+3. View My Resumes (Logged-In Students)
+   ├─ Visit /profile → "My Resumes" section
+   ├─ Table displays all saved resumes with columns:
+   │  ├─ Title
+   │  ├─ Template Type (UI/LaTeX)
+   │  ├─ Created Date
+   │  └─ Actions (Edit, Download, Delete)
+   └─ GET /api/v1/resume fetches all resumes
+
+4. Edit Resume
+   ├─ Click "Edit" on resume row
+   ├─ Redux dispatches setCurrentResume with resumeData and _id
+   ├─ Navigate to /resume-builder
+   ├─ Form pre-populated with resume data
+   ├─ "Save Resume" button becomes "Update Resume"
+   ├─ Edit resume data
+   ├─ Click "Update Resume"
+   ├─ PUT /api/v1/resume/:id with new data + new PDF
+   ├─ Backend:
+   │  ├─ Delete old PDF from Cloudinary using pdfPublicId
+   │  ├─ Upload new PDF
+   │  ├─ Update resume record
+   │  └─ Return updated object
+   ├─ Redux dispatches updateResumeInList
+   └─ Return to profile with updated list
+
+5. Download Resume
+   ├─ Click "Download" on resume row
+   ├─ Direct download from Cloudinary pdfUrl
+   ├─ No local PDF regeneration
+   └─ File named: {resume.title}.pdf
+
+6. Delete Resume
+   ├─ Click "Delete" on resume row
+   ├─ Confirm dialog shown
+   ├─ DELETE /api/v1/resume/:id
+   ├─ Backend:
+   │  ├─ Delete PDF from Cloudinary
+   │  ├─ Delete resume record
+   │  └─ Return success
+   ├─ Redux dispatches removeResumeFromList
+   ├─ Row removed from table
+   └─ Success toast shown
+
+7. LaTeX Resume Builder (Alternative)
+   ├─ Visit /resume-latex
+   ├─ Enter natural language resume description
+   ├─ Click "Generate LaTeX Resume"
+   ├─ System generates LaTeX code and HTML preview
+   ├─ Can download .tex file
+   ├─ Can download PDF
+   ├─ Can copy LaTeX code
+   └─ Same save flow as UI builder (POST /api/v1/resume/save with templateType: "latex")
+```
+
+---
+
 ## 9. Data Flow Diagram
 
 ### Level 0 - Context Diagram
@@ -437,12 +561,38 @@ store
 │ ├─ Company details                                  │
 │ ├─ Logo URL (Cloudinary)                            │
 │ └─ Recruiter reference                              │
+│                                                     │
+│ Resumes                                             │
+│ ├─ User reference (indexed for fast queries)        │
+│ ├─ Resume title & data (JSON)                       │
+│ ├─ Template type (UI or LaTeX)                      │
+│ ├─ PDF URL (Cloudinary secure URL)                  │
+│ ├─ PDF public ID (for deletion)                     │
+│ └─ Timestamps (created, updated)                    │
 └─────────────────────────────────────────────────────┘
 ```
 
 ---
 
 ## 10. Key Features Breakdown
+
+### Resume Builder Feature
+- **Guest Users (Not Logged In):**
+  - Can build resume with 8 sections (personal, summary, skills, education, experience, projects, certificates, references)
+  - Can preview resume in real-time
+  - Can download PDF locally
+  - CANNOT save resume to database
+  - Login prompt shown for save functionality
+
+- **Logged-In Users:**
+  - All guest features PLUS:
+  - Can save resume to database with custom title
+  - PDF automatically uploaded to Cloudinary (folder: resumes/{userId})
+  - Can edit saved resumes (loads into builder, regenerates PDF)
+  - Can delete saved resumes (removes from DB and Cloudinary)
+  - Can download saved PDFs from Cloudinary URL
+  - My Resumes table in Profile page shows all saved resumes
+  - Supports two templates: UI Builder (structured form) and LaTeX (natural language)
 
 ### Student Features
 - **Job Search**: Browse all jobs with keyword search

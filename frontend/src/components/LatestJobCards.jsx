@@ -146,7 +146,7 @@ LatestJobCards.propTypes = {
     salary: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     location: PropTypes.string,
     jobType: PropTypes.string,
-    experienceLevel: PropTypes.string,
+    experienceLevel: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     createdAt: PropTypes.string,
     company: PropTypes.shape({
       name: PropTypes.string,
