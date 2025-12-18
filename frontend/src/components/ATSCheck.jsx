@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Button } from './ui/button';
+import Navbar from './shared/Navbar';
+import Footer from './shared/Footer';
 
 const ATS_API_END_POINT = 'http://localhost:3001/api/v1/ats';
 
@@ -117,8 +119,10 @@ const ATSCheck = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -423,8 +427,10 @@ const ATSCheck = () => {
             </div>
           )}
         </div>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
