@@ -77,15 +77,37 @@ const HeroSection = () => {
               </button>
 
               <button
-                onClick={() => navigate("/signup")}
-                className={`inline-flex items-center gap-2 h-11 px-4 text-sm transition ${
+                onClick={() => navigate("/resume-builder")}
+                className={`inline-flex items-center gap-2 h-11 px-6 rounded-full font-medium transition ${
                   theme === "dark"
-                    ? "text-white/80 hover:text-white"
-                    : "text-gray-700 hover:text-gray-900"
+                    ? "bg-purple-600/90 text-white hover:bg-purple-600"
+                    : "bg-purple-600 text-white hover:bg-purple-700"
+                }`}
+              >
+                Resume Builder
+              </button>
+
+              <button
+                onClick={() => navigate("/ats-check")}
+                className={`inline-flex items-center gap-2 h-11 px-6 rounded-full font-medium transition ${
+                  theme === "dark"
+                    ? "bg-orange-600/90 text-white hover:bg-orange-600"
+                    : "bg-orange-600 text-white hover:bg-orange-700"
+                }`}
+              >
+                ATS Check
+              </button>
+
+              <button
+                onClick={() => navigate("/login")}
+                className={`inline-flex items-center justify-center gap-2 h-11 px-6 rounded-full border text-sm font-medium backdrop-blur transition hover:scale-105 active:scale-95 ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10"
+                    : "bg-gray-50/50 border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
                 }`}
               >
                 Get started
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition animate-pulse" />
               </button>
             </div>
           </div>
@@ -96,9 +118,7 @@ const HeroSection = () => {
             <div className="absolute inset-0 flex items-center justify-center">
               <div
                 className={`h-48 w-48 rounded-full blur-3xl ${
-                  theme === "dark"
-                    ? "bg-blue-800/30"
-                    : "bg-blue-300/40"
+                  theme === "dark" ? "bg-blue-800/30" : "bg-blue-300/40"
                 }`}
               />
             </div>
@@ -160,9 +180,7 @@ const HeroSection = () => {
               }`}
             >
               <p className="text-2xl font-semibold">1200+</p>
-              <p className="mt-1 text-xs opacity-70">
-                Active job openings
-              </p>
+              <p className="mt-1 text-xs opacity-70">Active job openings</p>
             </div>
           </div>
           {/* ========================================================= */}
