@@ -30,6 +30,7 @@ const Navbar = () => {
     return [
       { label: "Home", to: "/" },
       { label: "Jobs", to: "/jobs" },
+      { label: "Resume Builder", to: "/resume-builder" },
       { label: "ATS Check", to: "/ats-check" },
       { label: "About", to: "/about" },
     ];
@@ -63,17 +64,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-0.5 group">
-          <img 
-            src="/Logo Dark.png" 
-            alt="HIREHUB Logo" 
+          <img
+            src="/Logo Dark.png"
+            alt="HIREHUB Logo"
             className="h-12 w-auto object-contain block dark:hidden group-hover:scale-105 transition-transform"
-            style={{ mixBlendMode: 'multiply' }}
+            style={{ mixBlendMode: "multiply" }}
           />
-          <img 
-            src="/Logo Light.png" 
-            alt="HIREHUB Logo" 
+          <img
+            src="/Logo Light.png"
+            alt="HIREHUB Logo"
             className="h-12 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform"
-            style={{ mixBlendMode: 'screen' }}
+            style={{ mixBlendMode: "screen" }}
           />
           <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
             HIREHUB

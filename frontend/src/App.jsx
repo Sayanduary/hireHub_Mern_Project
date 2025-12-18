@@ -10,6 +10,7 @@ import ProfileEdit from "./components/ProfileEdit";
 import About from "./components/About";
 import JobDescription from "./components/JobDescription";
 import ATSCheck from "./components/ATSCheck";
+import ResumeBuilder from "./components/ResumeBuilder";
 import Companies from "./components/admin/Companies";
 import CompanyCreate from "./components/admin/CompanyCreate";
 import CompanySetup from "./components/admin/CompanySetup";
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/profile/edit" element={<ProfileEdit />} />
         <Route path="/about" element={<About />} />
         <Route path="/ats-check" element={<ATSCheck />} />
+        <Route path="/resume-builder" element={<ResumeBuilder />} />
 
         {/* Admin routes */}
         <Route
