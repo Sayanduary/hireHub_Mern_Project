@@ -139,7 +139,7 @@ const About = () => {
               theme === "dark" ? "text-white" : "text-gray-900"
             }`}
           >
-            ✨ Key Features
+            Key Features
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
