@@ -262,7 +262,7 @@ const ResumeBuilder = () => {
 
         {/* Actions */}
         {/* Actions */}
-        <div className="mb-6 flex flex-wrap gap-3">
+        <div className="mb-6 flex flex-wrap gap-3 items-center justify-center">
           <Button
             onClick={() => setMode("edit")}
             variant={mode === "edit" ? "default" : "outline"}
