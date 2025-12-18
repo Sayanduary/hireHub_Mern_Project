@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { CHATBOT_API_END_POINT } from '@/utils/constant';
+import { useState, useRef, useEffect, useCallback } from "react";
+import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { CHATBOT_API_END_POINT } from "@/utils/constant";
 
 /**
  * WORKFLOW-DRIVEN CHATBOT COMPONENT
- * 
+ *
  * This chatbot is fully driven by backend logic:
  * - All decisions made by backend based on user state
  * - Only shows buttons that are valid for current user
@@ -17,19 +17,19 @@ import { CHATBOT_API_END_POINT } from '@/utils/constant';
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentButtons, setCurrentButtons] = useState([]);
   const [currentContext, setCurrentContext] = useState(null);
-  
+
   const messagesEndRef = useRef(null);
   const { user } = useSelector((store) => store.auth);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const addMessage = useCallback((text, type = 'bot') => {
+  const addMessage = useCallback((text, type = "bot") => {
     const newMessage = {
       id: Date.now() + Math.random(),
       type,
@@ -39,49 +39,57 @@ const ChatBot = () => {
     setMessages((prev) => [...prev, newMessage]);
   }, []);
 
-  const sendMessageToBackend = useCallback(async (userMessage, context = null) => {
-    setIsLoading(true);
-    
-    try {
-      const response = await axios.post(
-        `${CHATBOT_API_END_POINT}/message`,
-        {
-          user_message: userMessage,
-          current_context: context
-        },
-        {
-          withCredentials: true,
-        }
-      );
+  const sendMessageToBackend = useCallback(
+    async (userMessage, context = null) => {
+      setIsLoading(true);
 
-      if (response.data) {
-        addMessage(response.data.message, 'bot');
-        setCurrentButtons(response.data.buttons || []);
-        setCurrentContext(response.data.nextStep);
+      try {
+        const response = await axios.post(
+          `${CHATBOT_API_END_POINT}/message`,
+          {
+            user_message: userMessage,
+            current_context: context,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (response.data) {
+          addMessage(response.data.message, "bot");
+          setCurrentButtons(response.data.buttons || []);
+          setCurrentContext(response.data.nextStep);
+        }
+      } catch (error) {
+        if (error.response?.status === 401) {
+          addMessage(
+            error.response.data?.message || "Please login to continue.",
+            "bot"
+          );
+          setCurrentButtons(
+            error.response.data?.buttons || [
+              { label: "🔐 Login", action: "LOGIN", payload: {} },
+              { label: "📝 Sign Up", action: "SIGNUP", payload: {} },
+            ]
+          );
+        } else {
+          addMessage("❌ An error occurred. Please try again.", "bot");
+          setCurrentButtons([
+            { label: "🔄 Retry", action: "MAIN_MENU", payload: {} },
+          ]);
+        }
       }
-    } catch (error) {
-      if (error.response?.status === 401) {
-        addMessage(error.response.data?.message || 'Please login to continue.', 'bot');
-        setCurrentButtons(error.response.data?.buttons || [
-          { label: '🔐 Login', action: 'LOGIN', payload: {} },
-          { label: '📝 Sign Up', action: 'SIGNUP', payload: {} }
-        ]);
-      } else {
-        addMessage('❌ An error occurred. Please try again.', 'bot');
-        setCurrentButtons([
-          { label: '🔄 Retry', action: 'MAIN_MENU', payload: {} }
-        ]);
-      }
-    }
-    
-    setIsLoading(false);
-  }, [addMessage]);
+
+      setIsLoading(false);
+    },
+    [addMessage]
+  );
 
   const initializeChatbot = useCallback(async () => {
     setMessages([]);
     setCurrentButtons([]);
     setCurrentContext(null);
-    await sendMessageToBackend('start');
+    await sendMessageToBackend("start");
   }, [sendMessageToBackend]);
 
   useEffect(() => {
@@ -104,50 +112,54 @@ const ChatBot = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-
-
   const handleButtonClick = async (button) => {
     // Add user's action to chat (show what button they clicked)
-    const actionText = button.label.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
-    addMessage(actionText, 'user');
+    const actionText = button.label
+      .replace(/[\u{1F300}-\u{1F9FF}]/gu, "")
+      .trim();
+    addMessage(actionText, "user");
 
     // Handle special frontend-only actions
-    if (button.action === 'LOGIN') {
-      addMessage('✅ Redirecting to login page...', 'bot');
-      setTimeout(() => window.location.href = '/login', 1000);
+    if (button.action === "LOGIN") {
+      addMessage("✅ Redirecting to login page...", "bot");
+      setTimeout(() => (window.location.href = "/login"), 1000);
       return;
     }
 
-    if (button.action === 'SIGNUP') {
-      addMessage('✅ Redirecting to signup page...', 'bot');
-      setTimeout(() => window.location.href = '/signup', 1000);
+    if (button.action === "SIGNUP") {
+      addMessage("✅ Redirecting to signup page...", "bot");
+      setTimeout(() => (window.location.href = "/signup"), 1000);
       return;
     }
 
-    if (button.action === 'COMPLETE_PROFILE' || button.action === 'EDIT_PROFILE') {
-      addMessage('✅ Redirecting to profile page...', 'bot');
-      setTimeout(() => window.location.href = '/profile/edit', 1000);
+    if (
+      button.action === "COMPLETE_PROFILE" ||
+      button.action === "EDIT_PROFILE"
+    ) {
+      addMessage("✅ Redirecting to profile page...", "bot");
+      setTimeout(() => (window.location.href = "/profile/edit"), 1000);
       return;
     }
 
-    if (button.action === 'UPLOAD_RESUME') {
-      addMessage('✅ Redirecting to profile page to upload resume...', 'bot');
-      setTimeout(() => window.location.href = '/profile/edit', 1000);
+    if (button.action === "UPLOAD_RESUME") {
+      addMessage("✅ Redirecting to profile page to upload resume...", "bot");
+      setTimeout(() => (window.location.href = "/profile/edit"), 1000);
       return;
     }
 
     // For actions that need backend processing
     const actionMap = {
-      'MAIN_MENU': 'main_menu',
-      'BROWSE_JOBS': 'browse',
-      'APPLY_JOB': 'apply',
-      'VIEW_APPLICATIONS': 'application',
-      'VIEW_PROFILE': 'profile',
-      'APPLY_TO_JOB': 'apply_to_job',
+      MAIN_MENU: "main_menu",
+      BROWSE_JOBS: "browse",
+      APPLY_JOB: "apply",
+      VIEW_APPLICATIONS: "application",
+      VIEW_PROFILE: "profile",
+      APPLY_TO_JOB: "apply_to_job",
     };
 
-    const backendMessage = actionMap[button.action] || button.action.toLowerCase();
-    
+    const backendMessage =
+      actionMap[button.action] || button.action.toLowerCase();
+
     // Include payload in context if present - check for jobId specifically
     let contextWithPayload = null;
     if (button.payload) {
@@ -157,7 +169,7 @@ const ChatBot = () => {
         contextWithPayload = { ...button.payload };
       }
     }
-    
+
     await sendMessageToBackend(backendMessage, contextWithPayload);
   };
 
@@ -165,14 +177,14 @@ const ChatBot = () => {
     if (!input.trim() || isLoading) return;
 
     const userInput = input.trim();
-    addMessage(userInput, 'user');
-    setInput('');
+    addMessage(userInput, "user");
+    setInput("");
 
     await sendMessageToBackend(userInput);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -199,7 +211,12 @@ const ChatBot = () => {
             <div className="flex items-center gap-2">
               <MessageCircle className="h-5 w-5" />
               <div>
-                <span className="font-semibold block">HireHub Assistant</span>
+                <span
+                  className="font-semibold block"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
+                >
+                  HIREHUB ASSISTANT
+                </span>
                 <span className="text-xs opacity-75">Workflow-Driven</span>
               </div>
             </div>
@@ -220,24 +237,28 @@ const ChatBot = () => {
                 <p className="text-sm">Initializing assistant...</p>
               </div>
             )}
-            
+
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${
+                  message.type === "user" ? "justify-end" : "justify-start"
+                }`}
               >
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-2 ${
-                    message.type === 'user'
-                      ? 'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900'
-                      : 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100'
+                    message.type === "user"
+                      ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900"
+                      : "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100"
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-line leading-relaxed">{message.text}</p>
+                  <p className="text-sm whitespace-pre-line leading-relaxed">
+                    {message.text}
+                  </p>
                 </div>
               </div>
             ))}
-            
+
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl px-4 py-2">
@@ -245,7 +266,7 @@ const ChatBot = () => {
                 </div>
               </div>
             )}
-            
+
             <div ref={messagesEndRef} />
           </div>
 

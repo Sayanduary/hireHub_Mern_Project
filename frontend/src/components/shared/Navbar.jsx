@@ -76,8 +76,11 @@ const Navbar = () => {
             className="h-12 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform"
             style={{ mixBlendMode: "screen" }}
           />
-          <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-            HIREHUB
+          <span
+            className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+            style={{ fontFamily: "'Oswald', sans-serif" }}
+          >
+            H I R E H U B
           </span>
         </Link>
 

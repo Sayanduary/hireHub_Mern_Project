@@ -89,6 +89,7 @@ const About = () => {
             className={`text-5xl md:text-6xl font-bold mb-4 ${
               theme === "dark" ? "text-white" : "text-gray-900"
             }`}
+            style={{ fontFamily: "'Oswald', sans-serif" }}
           >
             About HIREHUB
           </h1>
@@ -112,11 +113,16 @@ const About = () => {
               theme === "dark" ? "text-gray-300" : "text-gray-600"
             }`}
           >
-            <span className="font-semibold text-xl">HIREHUB</span> is a modern,
-            full-stack job portal platform designed to revolutionize the hiring
-            experience. We connect talented professionals with career
-            opportunities through an intuitive, feature-rich platform that
-            serves both job seekers and recruiters.
+            <span
+              className="font-semibold text-xl"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              HIREHUB
+            </span>{" "}
+            is a modern, full-stack job portal platform designed to
+            revolutionize the hiring experience. We connect talented
+            professionals with career opportunities through an intuitive,
+            feature-rich platform that serves both job seekers and recruiters.
           </p>
           <p
             className={`text-lg leading-relaxed ${
@@ -127,8 +133,9 @@ const About = () => {
             easier for companies to discover exceptional talent and for
             professionals to find their dream roles. With cutting-edge features
             like AI-powered resume analysis, intelligent job matching, and
-            comprehensive application tracking, HIREHUB is reshaping the future
-            of recruitment.
+            comprehensive application tracking,{" "}
+            <span style={{ fontFamily: "'Oswald', sans-serif" }}>HIREHUB</span>{" "}
+            is reshaping the future of recruitment.
           </p>
         </div>
 
@@ -292,8 +299,11 @@ const About = () => {
             Built with passion and dedication to revolutionize the hiring
             experience. We believe that the right opportunity can change
             someone's life, and the right talent can transform a company.
-            HIREHUB bridges that gap with innovation, transparency, and
-            excellence.
+            <span style={{ fontFamily: "'Oswald', sans-serif" }}>
+              {" "}
+              H I R E H U B
+            </span>{" "}
+            bridges that gap with innovation, transparency, and excellence.
           </p>
         </div>
       </section>

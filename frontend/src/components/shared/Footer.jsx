@@ -29,9 +29,26 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
-            <h2 className="text-lg font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
-              HIREHUB
-            </h2>
+            <div className="flex items-center gap-1">
+              <img
+                src="/Logo Dark.png"
+                alt="HIREHUB Logo"
+                className="h-10 w-auto object-contain block dark:hidden"
+                style={{ mixBlendMode: "multiply" }}
+              />
+              <img
+                src="/Logo Light.png"
+                alt="HIREHUB Logo"
+                className="h-10 w-auto object-contain hidden dark:block"
+                style={{ mixBlendMode: "screen" }}
+              />
+              <h2
+                className="text-lg font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                H I R E H U B
+              </h2>
+            </div>
             <p className="mt-3 text-sm text-gray-600 dark:text-[#B0B0B0] max-w-xs leading-relaxed">
               A modern job platform connecting professionals with verified
               opportunities worldwide.
@@ -128,7 +145,9 @@ const Footer = () => {
         {/* Bottom */}
         <div className="mt-12 pt-6 border-t border-gray-200 dark:border-[#444444] flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500 dark:text-[#888888]">
-            © {new Date().getFullYear()} HIREHUB. All rights reserved.
+            © {new Date().getFullYear()}{" "}
+            <span style={{ fontFamily: "'Oswald', sans-serif" }}>HIREHUB</span>.
+            All rights reserved.
           </p>
 
           <p className="text-sm text-gray-500 dark:text-[#888888]">
