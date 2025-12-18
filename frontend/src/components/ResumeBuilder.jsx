@@ -49,38 +49,15 @@ const ResumeBuilder = () => {
   const [resumeData, setResumeData] = useState(DEFAULT_RESUME_DATA);
 
   /* ======================
-     Phone Formatter
-  ====================== */
-  const formatPhoneNumber = (value, country) => {
-    const cfg = COUNTRY_CONFIG[country];
-    const digitsOnly = value.replace(/\D/g, "").slice(0, cfg.digits);
-    return `${cfg.code} ${digitsOnly}`;
-  };
-
-  /* ======================
      Data Change Handler
   ====================== */
   const handleResumeDataChange = (section, value) => {
     setResumeData((prev) => {
       if (section === "personalDetails") {
-        const updated = { ...prev.personalDetails, ...value };
-
-        // Phone typing → auto-format
-        if (value.phone !== undefined) {
-          updated.phone = formatPhoneNumber(
-            value.phone,
-            updated.country
-          );
-        }
-
-        // Country change → ONLY reset phone prefix
-        if (value.country) {
-          const cfg = COUNTRY_CONFIG[value.country];
-          updated.phone = `${cfg.code} `;
-          // location intentionally NOT touched
-        }
-
-        return { ...prev, personalDetails: updated };
+        return {
+          ...prev,
+          personalDetails: { ...prev.personalDetails, ...value },
+        };
       }
 
       return { ...prev, [section]: value };
@@ -138,10 +115,9 @@ const ResumeBuilder = () => {
      Export JSON
   ====================== */
   const handleExportJSON = () => {
-    const blob = new Blob(
-      [JSON.stringify(resumeData, null, 2)],
-      { type: "application/json" }
-    );
+    const blob = new Blob([JSON.stringify(resumeData, null, 2)], {
+      type: "application/json",
+    });
 
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);

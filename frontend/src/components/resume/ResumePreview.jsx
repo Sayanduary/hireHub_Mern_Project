@@ -66,8 +66,8 @@ const ResumePreview = ({ resumeData }) => {
           <h2 className="text-xl font-bold mb-2 text-gray-900">
             Professional Summary
           </h2>
-          <div className="text-sm text-gray-700 leading-relaxed prose prose-sm max-w-none">
-            <ReactMarkdown>{professionalSummary}</ReactMarkdown>
+          <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+            {professionalSummary}
           </div>
         </div>
       )}

@@ -14,7 +14,7 @@ import ProjectsForm from "./sections/ProjectsForm";
 import CertificatesForm from "./sections/CertificatesForm";
 import ReferencesForm from "./sections/ReferencesForm";
 
-const ResumeForm = ({ resumeData, onDataChange }) => {
+const ResumeForm = ({ resumeData, onDataChange, countryConfig = {} }) => {
   const [expandedSections, setExpandedSections] = React.useState({
     personal: true,
     summary: true,
@@ -68,6 +68,7 @@ const ResumeForm = ({ resumeData, onDataChange }) => {
             <PersonalDetailsForm
               data={resumeData.personalDetails}
               onChange={(data) => onDataChange("personalDetails", data)}
+              countryConfig={countryConfig}
             />
           </div>
         )}

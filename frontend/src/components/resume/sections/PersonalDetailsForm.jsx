@@ -3,7 +3,7 @@ import { Label } from "../../ui/label";
 import { Button } from "../../ui/button";
 import { Plus, X } from "lucide-react";
 
-const PersonalDetailsForm = ({ data, onChange }) => {
+const PersonalDetailsForm = ({ data, onChange, countryConfig = {} }) => {
   const handleChange = (field, value) => {
     onChange({
       ...data,
@@ -14,6 +14,7 @@ const PersonalDetailsForm = ({ data, onChange }) => {
   const handleProfileChange = (index, field, value) => {
     const updatedProfiles = [...(data.profiles || [])];
     updatedProfiles[index] = { ...updatedProfiles[index], [field]: value };
+
     onChange({
       ...data,
       profiles: updatedProfiles,
@@ -21,130 +22,129 @@ const PersonalDetailsForm = ({ data, onChange }) => {
   };
 
   const addProfile = () => {
-    const updatedProfiles = [
-      ...(data.profiles || []),
-      { platform: "", url: "" },
-    ];
     onChange({
       ...data,
-      profiles: updatedProfiles,
+      profiles: [...(data.profiles || []), { platform: "", url: "" }],
     });
   };
 
   const removeProfile = (index) => {
-    const updatedProfiles = (data.profiles || []).filter((_, i) => i !== index);
     onChange({
       ...data,
-      profiles: updatedProfiles,
+      profiles: (data.profiles || []).filter((_, i) => i !== index),
     });
   };
 
   return (
     <div className="space-y-6">
-      {/* Contact Details */}
+      {/* =====================
+         Contact Information
+      ====================== */}
       <div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Contact Information
         </h3>
+
         <div className="space-y-4">
+          {/* Name + Email */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label
-                htmlFor="fullName"
-                className="text-gray-700 dark:text-gray-300"
-              >
-                Full Name *
-              </Label>
+              <Label htmlFor="fullName">Full Name *</Label>
               <Input
                 id="fullName"
-                placeholder="John Doe"
+                placeholder="Sayan Duary"
                 value={data.fullName}
                 onChange={(e) => handleChange("fullName", e.target.value)}
-                className="mt-1"
               />
             </div>
+
             <div>
-              <Label
-                htmlFor="email"
-                className="text-gray-700 dark:text-gray-300"
-              >
-                Email *
-              </Label>
+              <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="john@example.com"
+                placeholder="sayan@gmail.com"
                 value={data.email}
                 onChange={(e) => handleChange("email", e.target.value)}
-                className="mt-1"
               />
             </div>
           </div>
 
+          {/* Country + Phone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label
-                htmlFor="phone"
-                className="text-gray-700 dark:text-gray-300"
+              <Label>Country</Label>
+              <select
+                value={data.country}
+                onChange={(e) => handleChange("country", e.target.value)}
+                className="mt-1 w-full rounded-md border border-gray-300 dark:border-[#444444] bg-white dark:bg-[#1a1a1a] px-3 py-2 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100"
               >
-                Phone
-              </Label>
+                {Object.entries(countryConfig).map(([code, cfg]) => (
+                  <option
+                    key={code}
+                    value={code}
+                    className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white"
+                  >
+                    {cfg.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <Label htmlFor="phone">Phone</Label>
               <Input
                 id="phone"
-                type="tel"
-                placeholder="+1 (555) 123-4567"
+                type="text"
+                placeholder={`${
+                  countryConfig[data.country]?.code || "+91"
+                } 9876543210`}
                 value={data.phone}
                 onChange={(e) => handleChange("phone", e.target.value)}
-                className="mt-1"
               />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                {countryConfig[data.country]?.digits || 10} digits required
+              </p>
             </div>
-            <div>
-              <Label
-                htmlFor="location"
-                className="text-gray-700 dark:text-gray-300"
-              >
-                Location
-              </Label>
-              <Input
-                id="location"
-                placeholder="New York, NY"
-                value={data.location}
-                onChange={(e) => handleChange("location", e.target.value)}
-                className="mt-1"
-              />
-            </div>
+          </div>
+
+          {/* Location */}
+          <div>
+            <Label htmlFor="location">Location</Label>
+            <Input
+              id="location"
+              placeholder="City, State, Country (e.g. Kolkata, West Bengal, India)"
+              value={data.location}
+              onChange={(e) => handleChange("location", e.target.value)}
+            />
           </div>
         </div>
       </div>
 
-      {/* Social Profiles */}
+      {/* =====================
+         Social Profiles
+      ====================== */}
       <div className="border-t border-gray-200 dark:border-[#333333] pt-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Social Profiles & Links
-          </h3>
-        </div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          Social Profiles & Links
+        </h3>
 
         <div className="space-y-3">
           {(data.profiles || []).map((profile, index) => (
             <div key={index} className="flex gap-2 items-end">
               <div className="flex-1">
-                <Label className="text-xs text-gray-600 dark:text-gray-400">
-                  Platform Name
-                </Label>
+                <Label className="text-xs">Platform</Label>
                 <Input
-                  placeholder="e.g., LinkedIn, GitHub, Portfolio"
+                  placeholder="LinkedIn, GitHub, Portfolio"
                   value={profile.platform}
                   onChange={(e) =>
                     handleProfileChange(index, "platform", e.target.value)
                   }
-                  className="mt-1"
                 />
               </div>
+
               <div className="flex-1">
-                <Label className="text-xs text-gray-600 dark:text-gray-400">
-                  URL
-                </Label>
+                <Label className="text-xs">URL</Label>
                 <Input
                   type="url"
                   placeholder="https://..."
@@ -152,14 +152,14 @@ const PersonalDetailsForm = ({ data, onChange }) => {
                   onChange={(e) =>
                     handleProfileChange(index, "url", e.target.value)
                   }
-                  className="mt-1"
                 />
               </div>
+
               <button
                 onClick={() => removeProfile(index)}
-                className="p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                className="p-2 text-red-600 hover:text-red-700"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
           ))}

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Textarea } from "../../ui/textarea";
 import { Label } from "../../ui/label";
-import ReactMarkdown from "react-markdown";
 
 const ProfessionalSummaryForm = ({ data, onChange }) => {
   const [showPreview, setShowPreview] = useState(false);
@@ -24,17 +23,17 @@ const ProfessionalSummaryForm = ({ data, onChange }) => {
 
         {!showPreview ? (
           <Textarea
-            placeholder="Write a compelling professional summary. Markdown is supported (use **bold**, *italic*, etc.)"
+            placeholder="Write a compelling professional summary. Use line breaks for formatting."
             value={data}
             onChange={(e) => onChange(e.target.value)}
             className="min-h-32 font-mono text-sm"
           />
         ) : (
-          <div className="min-h-32 p-4 border border-gray-200 dark:border-[#333333] rounded-md bg-gray-50 dark:bg-[#1a1a1a] prose dark:prose-invert max-w-none">
+          <div className="min-h-32 p-4 border border-gray-200 dark:border-[#333333] rounded-md bg-gray-50 dark:bg-[#1a1a1a]">
             {data ? (
-              <ReactMarkdown className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
                 {data}
-              </ReactMarkdown>
+              </p>
             ) : (
               <p className="text-gray-400">No summary added yet</p>
             )}
@@ -43,8 +42,7 @@ const ProfessionalSummaryForm = ({ data, onChange }) => {
       </div>
 
       <p className="text-xs text-gray-500 dark:text-gray-400">
-        💡 Tip: Use **text** for bold, *text* for italic, and line breaks for
-        formatting
+        💡 Tip: Use line breaks for formatting, keep it concise and professional
       </p>
     </div>
   );
