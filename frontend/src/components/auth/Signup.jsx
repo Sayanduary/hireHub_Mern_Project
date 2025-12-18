@@ -78,28 +78,25 @@ const Signup = () => {
     }
   }, [navigate, user]);
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#121212]">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#121212] flex flex-col">
       <Navbar />
-      <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 py-6">
         <form
           onSubmit={submitHandler}
-          className="w-full max-w-2xl rounded-lg border border-gray-200 bg-white p-8 dark:border-[#444444] dark:bg-[#121212]"
+          className="w-full max-w-lg rounded-lg border border-gray-200 bg-white p-6 dark:border-[#444444] dark:bg-[#121212]"
         >
-          <div className="space-y-3 text-center">
+          <div className="space-y-1 text-center">
             <p className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-[#888888]">
               Get started
             </p>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-[#E0E0E0]">
               Create your account
             </h1>
-            <p className="text-sm text-gray-600 dark:text-[#B0B0B0]">
-              Join our platform to find opportunities or hire talent
-            </p>
           </div>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0]">
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium text-gray-700 dark:text-[#E0E0E0]">
                 Full name
               </Label>
               <Input
@@ -108,11 +105,11 @@ const Signup = () => {
                 name="fullname"
                 onChange={changeEventHandler}
                 placeholder="John Doe"
-                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
+                className="h-8 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
               />
             </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0]">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium text-gray-700 dark:text-[#E0E0E0]">
                 Email
               </Label>
               <Input
@@ -121,11 +118,11 @@ const Signup = () => {
                 name="email"
                 onChange={changeEventHandler}
                 placeholder="john@example.com"
-                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
+                className="h-8 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
               />
             </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0]">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium text-gray-700 dark:text-[#E0E0E0]">
                 Phone number
               </Label>
               <Input
@@ -134,11 +131,11 @@ const Signup = () => {
                 name="phoneNumber"
                 onChange={changeEventHandler}
                 placeholder="+91 98765 43210"
-                className="h-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
+                className="h-8 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
               />
             </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0]">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium text-gray-700 dark:text-[#E0E0E0]">
                 Password
               </Label>
               <div className="relative">
@@ -148,7 +145,7 @@ const Signup = () => {
                   name="password"
                   onChange={changeEventHandler}
                   placeholder="Create a password"
-                  className="h-10 pr-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
+                  className="h-8 pr-10 rounded-md border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888]"
                 />
                 <button
                   type="button"
@@ -156,26 +153,26 @@ const Signup = () => {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-[#888888] dark:hover:text-[#B0B0B0]"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="h-3.5 w-3.5" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="h-3.5 w-3.5" />
                   )}
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
-            <div className="space-y-3">
-              <Label className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0]">
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium text-gray-700 dark:text-[#E0E0E0]">
                 I am a
               </Label>
-              <div className="grid gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 <Button
                   type="button"
                   onClick={() => setInput({ ...input, role: "student" })}
                   variant="ghost"
-                  className={`h-10 rounded-md border transition-colors ${
+                  className={`h-8 rounded-md border text-xs transition-colors ${
                     input.role === "student"
                       ? "border-gray-900 bg-gray-900 text-white dark:border-[#E0E0E0] dark:bg-[#E0E0E0] dark:text-[#121212]"
                       : "border-gray-200 text-gray-700 hover:bg-gray-50 dark:border-[#444444] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
@@ -187,7 +184,7 @@ const Signup = () => {
                   type="button"
                   onClick={() => setInput({ ...input, role: "recruiter" })}
                   variant="ghost"
-                  className={`h-10 rounded-md border transition-colors ${
+                  className={`h-8 rounded-md border text-xs transition-colors ${
                     input.role === "recruiter"
                       ? "border-gray-900 bg-gray-900 text-white dark:border-gray-100 dark:bg-gray-100 dark:text-[#121212]"
                       : "border-gray-200 text-gray-700 hover:bg-gray-50 dark:border-[#444444] dark:text-[#B0B0B0] dark:hover:bg-[#1a1a1a]"
@@ -197,8 +194,8 @@ const Signup = () => {
                 </Button>
               </div>
             </div>
-            <div className="space-y-3">
-              <Label className="text-sm font-medium text-gray-700 dark:text-[#B0B0B0]">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium text-gray-700 dark:text-[#B0B0B0]">
                 Profile image (optional)
               </Label>
               <div>
@@ -206,31 +203,28 @@ const Signup = () => {
                   accept="image/*"
                   type="file"
                   onChange={changeFileHandler}
-                  className="h-10 cursor-pointer rounded-md border border-dashed border-gray-200 bg-white text-sm text-gray-700 file:mr-3 file:rounded-md file:border-0 file:bg-gray-900 file:px-4 file:py-1.5 file:text-sm file:font-medium file:text-white focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:file:bg-gray-100 dark:file:text-gray-900 dark:focus:border-gray-700"
+                  className="h-8 cursor-pointer rounded-md border border-dashed border-gray-200 bg-white text-xs text-gray-700 file:mr-2 file:rounded-md file:border-0 file:bg-gray-900 file:px-3 file:py-1 file:text-xs file:font-medium file:text-white focus:border-gray-400 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#B0B0B0] dark:file:bg-gray-100 dark:file:text-gray-900 dark:focus:border-gray-700"
                 />
-                <p className="mt-2 text-xs text-gray-500 dark:text-[#888888]">
-                  PNG or JPG up to 5MB
-                </p>
               </div>
             </div>
           </div>
 
           {loading ? (
-            <Button className="mt-8 flex h-10 w-full items-center justify-center gap-2 rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200">
-              <Loader2 className="h-4 w-4 animate-spin" />
+            <Button className="mt-4 flex h-8 w-full items-center justify-center gap-2 rounded-md bg-gray-900 text-white text-sm hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200">
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
               Please wait
             </Button>
           ) : (
             <Button
               type="submit"
-              className="mt-8 h-10 w-full rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
+              className="mt-4 h-8 w-full rounded-md bg-gray-900 text-white text-sm hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
             >
               Create account
             </Button>
           )}
 
           {/* Divider */}
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-3 flex items-center gap-3">
             <div className="flex-1 border-t border-gray-300 dark:border-[#444444]"></div>
             <span className="text-xs text-gray-500 dark:text-[#888888]">
               or
@@ -242,9 +236,9 @@ const Signup = () => {
           <Button
             type="button"
             onClick={handleGoogleSignup}
-            className="mt-6 h-10 w-full rounded-md border border-gray-200 bg-white text-gray-900 font-medium hover:bg-gray-50 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#E0E0E0] dark:hover:bg-[#222222] transition-all duration-200 flex items-center justify-center gap-2"
+            className="mt-3 h-8 w-full rounded-md border border-gray-200 bg-white text-gray-900 text-sm font-medium hover:bg-gray-50 dark:border-[#444444] dark:bg-[#1a1a1a] dark:text-[#E0E0E0] dark:hover:bg-[#222222] transition-all duration-200 flex items-center justify-center gap-2"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -265,7 +259,7 @@ const Signup = () => {
             Sign up with Google
           </Button>
 
-          <div className="mt-6 text-center text-sm text-gray-600 dark:text-[#888888]">
+          <div className="mt-3 text-center text-xs text-gray-600 dark:text-[#888888]">
             <span>
               Already have an account?{" "}
               <Link
