@@ -19,6 +19,7 @@ import PostJob from "./components/admin/PostJob";
 import JobSetup from "./components/admin/JobSetup";
 import Applicants from "./components/admin/Applicants";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
+import ChatBot from "./components/ChatBot";
 
 function PrivateRoute({ children }) {
   const { user } = useSelector((state) => state.auth);
@@ -102,6 +103,7 @@ export default function App() {
           }
         />
       </Routes>
+      <ChatBot />
     </BrowserRouter>
   );
 }
