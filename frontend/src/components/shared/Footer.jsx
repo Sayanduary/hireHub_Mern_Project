@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = {
     product: [
-      { name: "About", href: "#" },
+      { name: "About", href: "/about" },
       { name: "Careers", href: "#" },
       { name: "Employer home", href: "#" },
       { name: "Sitemap", href: "#" },
@@ -65,12 +66,21 @@ const Footer = () => {
             <ul className="space-y-2.5">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-[#E0E0E0] transition-colors"
-                  >
-                    {link.name}
-                  </a>
+                  {link.href.startsWith("/") ? (
+                    <Link
+                      to={link.href}
+                      className="text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-[#E0E0E0] transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-[#E0E0E0] transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
