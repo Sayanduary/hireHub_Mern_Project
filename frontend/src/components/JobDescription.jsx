@@ -212,13 +212,11 @@ const JobDescription = () => {
                       </h3>
                       <ul className="mt-3 space-y-2">
                         {singleJob.requirements
-                          .flatMap((requirement) =>
-                            typeof requirement === "string"
-                              ? requirement
-                                  .split(/[,\n]/)
-                                  .map((r) => r.trim())
-                                  .filter((r) => r.length > 0)
-                              : [requirement]
+                          .filter(
+                            (req) =>
+                              req &&
+                              typeof req === "string" &&
+                              req.trim().length > 0
                           )
                           .map((requirement, index) => (
                             <li
@@ -226,7 +224,7 @@ const JobDescription = () => {
                               className="flex items-start gap-3 text-sm text-gray-600 dark:text-[#B0B0B0]"
                             >
                               <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-gray-400 dark:bg-[#666666]" />
-                              <span>{requirement}</span>
+                              <span>{requirement.trim()}</span>
                             </li>
                           ))}
                       </ul>

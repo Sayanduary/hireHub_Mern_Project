@@ -46,7 +46,9 @@ export const postJob = async (req, res) => {
         const job = await Job.create({
             title,
             description,
-            requirements: requirements.split(","),
+            requirements: Array.isArray(requirements)
+                ? requirements
+                : requirements.split(",").map(req => req.trim()),
             salary: Number(salary),
             location,
             jobType,
@@ -208,7 +210,11 @@ export const updateJob = async (req, res) => {
         // Update fields if provided
         if (title) job.title = title;
         if (description) job.description = description;
-        if (requirements) job.requirements = requirements.split(",");
+        if (requirements) {
+            job.requirements = Array.isArray(requirements)
+                ? requirements
+                : requirements.split(",").map(req => req.trim());
+        }
         if (salary !== undefined) job.salary = Number(salary);
         if (location) job.location = location;
         if (jobType) job.jobType = jobType;
