@@ -18,26 +18,45 @@ const ResumePreview = ({ resumeData }) => {
       {/* Header */}
       {personalDetails.fullName && (
         <div className="mb-6 pb-6 border-b-2 border-gray-900">
-          <h1 className="text-4xl font-bold mb-2">
+          <h1 className="text-4xl font-bold mb-3">
             {personalDetails.fullName}
           </h1>
-          <div className="flex flex-wrap gap-4 text-sm text-gray-700">
+          <div className="flex flex-wrap gap-4 text-sm text-gray-700 mb-3">
             {personalDetails.email && (
               <span className="flex items-center gap-1">
-                ✉️ {personalDetails.email}
+                {personalDetails.email}
               </span>
             )}
             {personalDetails.phone && (
               <span className="flex items-center gap-1">
-                📱 {personalDetails.phone}
+                {personalDetails.phone}
               </span>
             )}
             {personalDetails.location && (
               <span className="flex items-center gap-1">
-                📍 {personalDetails.location}
+                {personalDetails.location}
               </span>
             )}
           </div>
+
+          {/* Social Profiles */}
+          {(personalDetails.profiles || []).filter((p) => p.url).length > 0 && (
+            <div className="flex flex-wrap gap-3 text-xs">
+              {(personalDetails.profiles || [])
+                .filter((p) => p.url)
+                .map((profile, index) => (
+                  <a
+                    key={index}
+                    href={profile.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline flex items-center gap-1"
+                  >
+                    {profile.platform} <ExternalLink size={12} />
+                  </a>
+                ))}
+            </div>
+          )}
         </div>
       )}
 
