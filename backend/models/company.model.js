@@ -4,8 +4,7 @@ const companySchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
-            unique: true
+            required: true
         },
         description: { type: String },
         website: { type: String },
@@ -19,5 +18,8 @@ const companySchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
+
+// Create compound unique index on name and userId
+companySchema.index({ name: 1, userId: 1 }, { unique: true });
 
 export const Company = mongoose.model("Company", companySchema);

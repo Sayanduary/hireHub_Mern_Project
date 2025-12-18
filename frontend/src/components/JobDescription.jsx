@@ -202,6 +202,34 @@ const JobDescription = () => {
                 <p className="mt-4 text-sm leading-relaxed text-gray-600 dark:text-[#B0B0B0]">
                   {singleJob?.description}
                 </p>
+
+                {/* Requirements Section */}
+                {singleJob?.requirements &&
+                  singleJob?.requirements.length > 0 && (
+                    <div className="mt-6">
+                      <h3 className="text-base font-semibold text-gray-900 dark:text-[#E0E0E0]">
+                        Requirements
+                      </h3>
+                      <ul className="mt-3 space-y-2">
+                        {singleJob.requirements
+                          .filter(
+                            (req) =>
+                              req &&
+                              typeof req === "string" &&
+                              req.trim().length > 0
+                          )
+                          .map((requirement, index) => (
+                            <li
+                              key={index}
+                              className="flex items-start gap-3 text-sm text-gray-600 dark:text-[#B0B0B0]"
+                            >
+                              <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-gray-400 dark:bg-[#666666]" />
+                              <span>{requirement.trim()}</span>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )}
               </div>
             </div>
           </article>

@@ -16,7 +16,7 @@ import axios from "axios";
 import { JOB_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, X } from "lucide-react";
 import useGetAllCompanies from "@/hooks/useGetAllCompanies";
 
 const JobSetup = () => {
@@ -25,7 +25,7 @@ const JobSetup = () => {
   const [input, setInput] = useState({
     title: "",
     description: "",
-    requirements: "",
+    requirements: [],
     salary: "",
     location: "",
     jobType: "",
@@ -33,6 +33,7 @@ const JobSetup = () => {
     position: 0,
     companyId: "",
   });
+  const [requirementInput, setRequirementInput] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -41,6 +42,23 @@ const JobSetup = () => {
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const addRequirement = () => {
+    if (requirementInput.trim()) {
+      setInput({
+        ...input,
+        requirements: [...input.requirements, requirementInput.trim()],
+      });
+      setRequirementInput("");
+    }
+  };
+
+  const removeRequirement = (index) => {
+    setInput({
+      ...input,
+      requirements: input.requirements.filter((_, i) => i !== index),
+    });
   };
 
   const selectChangeHandler = (value) => {
@@ -86,7 +104,9 @@ const JobSetup = () => {
           setInput({
             title: job.title || "",
             description: job.description || "",
-            requirements: job.requirements?.join(", ") || "",
+            requirements: Array.isArray(job.requirements)
+              ? job.requirements
+              : [],
             salary: job.salary || "",
             location: job.location || "",
             jobType: job.jobType || "",
@@ -142,14 +162,53 @@ const JobSetup = () => {
               />
             </div>
             <div>
-              <Label>Requirements (comma separated)</Label>
-              <Input
-                type="text"
-                name="requirements"
-                value={input.requirements}
-                onChange={changeEventHandler}
-                className="my-1"
-              />
+              <Label>Requirements</Label>
+              <div className="mt-2 flex gap-2">
+                <Input
+                  type="text"
+                  placeholder="Add a requirement (e.g., 3+ years experience)"
+                  value={requirementInput}
+                  onChange={(e) => setRequirementInput(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addRequirement();
+                    }
+                  }}
+                  className="my-1 flex-1"
+                />
+                <Button
+                  type="button"
+                  onClick={addRequirement}
+                  className="h-10 px-4 rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
+                >
+                  Add
+                </Button>
+              </div>
+              {input.requirements.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  {input.requirements.map((req, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between gap-2 p-2 bg-gray-100 dark:bg-[#1a1a1a] rounded-md"
+                    >
+                      <div className="flex items-center gap-2 flex-1">
+                        <span className="h-1.5 w-1.5 rounded-full bg-gray-400 dark:bg-[#666666]" />
+                        <span className="text-sm text-gray-700 dark:text-[#E0E0E0]">
+                          {req}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeRequirement(index)}
+                        className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div>
               <Label>Salary (LPA)</Label>

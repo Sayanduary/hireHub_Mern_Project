@@ -7,25 +7,28 @@ export const registerCompany = async (req, res) => {
     try {
         const { companyName } = req.body;
 
-        if (!companyName) {
+        if (!companyName || !companyName.trim()) {
             return res.status(400).json({
                 message: "Company name is required.",
                 success: false
             });
         }
 
-        // Check duplicate by name
-        let company = await Company.findOne({ name: companyName });
+        // Check duplicate by name for this user (case-insensitive)
+        let company = await Company.findOne({
+            name: { $regex: `^${companyName.trim()}$`, $options: 'i' },
+            userId: req.id
+        });
         if (company) {
             return res.status(400).json({
-                message: "A company with this name already exists.",
+                message: "You already have a company with this name.",
                 success: false
             });
         }
 
-        // Create company
+        // Create company with trimmed name
         company = await Company.create({
-            name: companyName,
+            name: companyName.trim(),
             userId: req.id
         });
 
@@ -37,7 +40,19 @@ export const registerCompany = async (req, res) => {
 
     } catch (error) {
         console.error("COMPANY REGISTER ERROR:", error);
-        return res.status(500).json({ message: "Server error", success: false });
+
+        // Handle duplicate key error from old unique index
+        if (error.code === 11000) {
+            return res.status(400).json({
+                message: "Company name already exists. Please choose a different name.",
+                success: false
+            });
+        }
+
+        return res.status(500).json({
+            message: error.message || "Server error",
+            success: false
+        });
     }
 };
 
