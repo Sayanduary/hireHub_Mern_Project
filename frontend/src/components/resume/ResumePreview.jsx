@@ -2,7 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import { ExternalLink } from "lucide-react";
 
-const ResumePreview = ({ resumeData }) => {
+const ResumePreview = ({ resumeData, countryConfig = {} }) => {
   const {
     personalDetails,
     professionalSummary,
@@ -12,6 +12,17 @@ const ResumePreview = ({ resumeData }) => {
     projects,
     certificates,
   } = resumeData;
+
+  // Add country code to phone if it doesn't have one
+  const getPhoneWithCode = () => {
+    let phone = personalDetails?.phone || "";
+    if (phone && !phone.startsWith("+")) {
+      const countryCode =
+        countryConfig[personalDetails?.country]?.code || "+91";
+      return `${countryCode} ${phone}`;
+    }
+    return phone;
+  };
 
   return (
     <div className="max-w-4xl mx-auto text-gray-900 font-serif">
@@ -27,9 +38,9 @@ const ResumePreview = ({ resumeData }) => {
                 {personalDetails.email}
               </span>
             )}
-            {personalDetails.phone && (
+            {getPhoneWithCode() && (
               <span className="flex items-center gap-1">
-                {personalDetails.phone}
+                {getPhoneWithCode()}
               </span>
             )}
             {personalDetails.location && (

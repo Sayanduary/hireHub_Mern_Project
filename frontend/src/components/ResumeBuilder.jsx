@@ -137,7 +137,7 @@ const ResumeBuilder = () => {
         .replace(/\s+/g, "_")
         .replace(/[^a-zA-Z0-9_]/g, "");
 
-      generateResumePDF(resumeData, `${safeName}_Resume.pdf`);
+      generateResumePDF(resumeData, `${safeName}_Resume.pdf`, COUNTRY_CONFIG);
       toast.success("Resume downloaded successfully");
     } catch (err) {
       console.error(err);
@@ -177,7 +177,10 @@ const ResumeBuilder = () => {
     setIsSaving(true);
     try {
       // Generate PDF as base64
-      const pdfBase64 = await generateResumePDFBase64(resumeData);
+      const pdfBase64 = await generateResumePDFBase64(
+        resumeData,
+        COUNTRY_CONFIG
+      );
 
       const payload = {
         title: resumeTitle,
@@ -351,7 +354,10 @@ const ResumeBuilder = () => {
             >
               {/* Light-theme-only preview */}
               <div className="prose prose-neutral max-w-none">
-                <ResumePreview resumeData={resumeData} />
+                <ResumePreview
+                  resumeData={resumeData}
+                  countryConfig={COUNTRY_CONFIG}
+                />
               </div>
             </div>
           </div>

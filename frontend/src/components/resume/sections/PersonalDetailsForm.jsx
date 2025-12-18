@@ -11,6 +11,12 @@ const PersonalDetailsForm = ({ data, onChange, countryConfig = {} }) => {
     });
   };
 
+  const getPhoneDisplay = () => {
+    if (!data.phone) return "";
+    // Only remove country code if it starts with + (like +91)
+    return data.phone.replace(/^\+\d{1,3}\s*/, "").trim();
+  };
+
   const handleProfileChange = (index, field, value) => {
     const updatedProfiles = [...(data.profiles || [])];
     updatedProfiles[index] = { ...updatedProfiles[index], [field]: value };
@@ -93,17 +99,21 @@ const PersonalDetailsForm = ({ data, onChange, countryConfig = {} }) => {
 
             <div>
               <Label htmlFor="phone">Phone</Label>
-              <Input
-                id="phone"
-                type="text"
-                placeholder={`${
-                  countryConfig[data.country]?.code || "+91"
-                } 9876543210`}
-                value={data.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-              />
+              <div className="flex items-center border border-gray-300 dark:border-[#444444] rounded-md bg-white dark:bg-[#1a1a1a] overflow-hidden">
+                <span className="px-3 py-2 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-300 dark:border-[#444444] whitespace-nowrap">
+                  {countryConfig[data.country]?.code || "+91"}
+                </span>
+                <input
+                  id="phone"
+                  type="text"
+                  placeholder="9876543210"
+                  value={getPhoneDisplay()}
+                  onChange={(e) => handleChange("phone", e.target.value)}
+                  className="flex-1 px-3 py-2 bg-transparent text-gray-900 dark:text-white outline-none text-sm"
+                />
+              </div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {countryConfig[data.country]?.digits || 10} digits required
+                Enter phone number without country code
               </p>
             </div>
           </div>

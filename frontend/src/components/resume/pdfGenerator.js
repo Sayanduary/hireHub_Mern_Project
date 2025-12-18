@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 
-export const generateResumePDF = (resumeData, fileName = "resume.pdf") => {
+export const generateResumePDF = (resumeData, fileName = "resume.pdf", countryConfig = {}) => {
   let {
     personalDetails,
     professionalSummary,
@@ -104,9 +104,16 @@ export const generateResumePDF = (resumeData, fileName = "resume.pdf") => {
     doc.text(personalDetails.fullName.toUpperCase(), margin, yPosition);
     yPosition += 8;
 
+    // Add country code to phone if it doesn't have one
+    let phone = personalDetails.phone || "";
+    if (phone && !phone.startsWith("+")) {
+      const countryCode = countryConfig[personalDetails.country]?.code || "+91";
+      phone = `${countryCode} ${phone}`;
+    }
+
     const contact = [
       personalDetails.email,
-      personalDetails.phone,
+      phone,
       personalDetails.location,
     ].filter(Boolean);
 
@@ -242,7 +249,7 @@ export const generateResumePDF = (resumeData, fileName = "resume.pdf") => {
 };
 
 // Generate PDF as Base64 for sending to server
-export const generateResumePDFBase64 = async (resumeData) => {
+export const generateResumePDFBase64 = async (resumeData, countryConfig = {}) => {
   let {
     personalDetails,
     professionalSummary,
@@ -334,8 +341,16 @@ export const generateResumePDFBase64 = async (resumeData) => {
   let contactInfo = [];
   if (personalDetails.email)
     contactInfo.push(`Email: ${personalDetails.email}`);
-  if (personalDetails.phone)
-    contactInfo.push(`Phone: ${personalDetails.phone}`);
+
+  // Add country code to phone if it doesn't have one
+  let phone = personalDetails.phone || "";
+  if (phone && !phone.startsWith("+")) {
+    const countryCode = countryConfig[personalDetails.country]?.code || "+91";
+    phone = `${countryCode} ${phone}`;
+  }
+  if (phone)
+    contactInfo.push(`Phone: ${phone}`);
+
   if (personalDetails.location)
     contactInfo.push(`Location: ${personalDetails.location}`);
 
