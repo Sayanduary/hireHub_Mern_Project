@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { toast } from "sonner";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Bookmark } from "lucide-react";
+import { USER_API_END_POINT } from "@/utils/constant";
+import { addSavedJobId, removeSavedJobId } from "@/redux/savedJobSlice";
 
 const LatestJobCards = ({ job }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.auth);
+  const { savedJobIds } = useSelector((store) => store.savedJob);
+  const [isSavingLoading, setIsSavingLoading] = useState(false);
+
+  const isSaved = savedJobIds.includes(job?._id);
 
   const formattedDate = job?.createdAt
     ? new Date(job.createdAt).toLocaleString("en-US", {
@@ -14,6 +25,41 @@ const LatestJobCards = ({ job }) => {
         year: "numeric",
       })
     : "Recently";
+
+  const handleSaveJob = async (e) => {
+    e.stopPropagation();
+
+    if (!user) {
+      toast.error("Please login to save jobs", { duration: 1000 });
+      navigate("/login");
+      return;
+    }
+
+    setIsSavingLoading(true);
+    try {
+      const res = await axios.post(
+        `${USER_API_END_POINT}/save-job/${job._id}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        if (isSaved) {
+          dispatch(removeSavedJobId(job._id));
+          toast.success("Job removed from saved", { duration: 1000 });
+        } else {
+          dispatch(addSavedJobId(job._id));
+          toast.success("Job saved successfully", { duration: 1000 });
+        }
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to save job", {
+        duration: 1000,
+      });
+    } finally {
+      setIsSavingLoading(false);
+    }
+  };
 
   return (
     <article
@@ -60,7 +106,8 @@ const LatestJobCards = ({ job }) => {
         </div>
 
         <button
-          onClick={(e) => e.stopPropagation()}
+          onClick={handleSaveJob}
+          disabled={isSavingLoading}
           aria-label="Save job"
           className="
             inline-flex items-center justify-center
@@ -71,9 +118,10 @@ const LatestJobCards = ({ job }) => {
             transition-colors
             hover:text-gray-900 dark:hover:text-white
             hover:bg-gray-50 dark:hover:bg-[#1a1a1a]
+            disabled:opacity-50
           "
         >
-          <Bookmark className="h-4 w-4" />
+          <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
         </button>
       </header>
 
