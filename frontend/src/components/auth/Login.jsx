@@ -9,7 +9,7 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -17,6 +17,7 @@ const Login = () => {
     password: "",
     role: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const { loading, user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -101,14 +102,27 @@ const Login = () => {
               <Label className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0]">
                 Password
               </Label>
-              <Input
-                type="password"
-                value={input.password}
-                name="password"
-                onChange={changeEventHandler}
-                placeholder="Enter your password"
-                className="h-11 rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888] transition-colors duration-200"
-              />
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={input.password}
+                  name="password"
+                  onChange={changeEventHandler}
+                  placeholder="Enter your password"
+                  className="h-11 pr-10 rounded-lg border-2 border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-900 focus-visible:ring-0 dark:border-[#444444] dark:bg-[#121212] dark:text-[#E0E0E0] dark:placeholder:text-[#888888] dark:focus:border-[#888888] transition-colors duration-200"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-[#888888] dark:hover:text-[#B0B0B0]"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-3">
