@@ -81,7 +81,7 @@ const LatestJobs = () => {
             viewport={{ once: true, margin: "-80px" }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {jobs.slice(0, 6).map((job) => (
+            {jobs.slice(0, 9).map((job) => (
               <motion.div
                 key={job._id}
                 variants={cardVariants}
