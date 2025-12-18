@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import ScrollToTop from "./components/ScrollToTop";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Home from "./components/Home";
@@ -32,6 +33,7 @@ PrivateRoute.propTypes = {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
