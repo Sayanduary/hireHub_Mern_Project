@@ -8,17 +8,24 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "sonner";
-import { APPLICATION_API_END_POINT } from "@/utils/constant";
+import {
+  APPLICATION_API_END_POINT,
+  USER_API_END_POINT,
+} from "@/utils/constant";
 import { addAppliedJobId } from "@/redux/applicationSlice";
+import { addSavedJobId, removeSavedJobId } from "@/redux/savedJobSlice";
 
 const Job = ({ job }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const { appliedJobIds } = useSelector((store) => store.application);
+  const { savedJobIds } = useSelector((store) => store.savedJob);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSavingLoading, setIsSavingLoading] = useState(false);
 
   const isApplied = appliedJobIds.includes(job?._id);
+  const isSaved = savedJobIds.includes(job?._id);
 
   const daysAgoFunction = (mongodbTime) => {
     const createdAt = new Date(mongodbTime);
@@ -78,6 +85,41 @@ const Job = ({ job }) => {
     }
   };
 
+  const handleSaveJob = async (e) => {
+    e.stopPropagation();
+
+    if (!user) {
+      toast.error("Please login to save jobs", { duration: 1000 });
+      navigate("/login");
+      return;
+    }
+
+    setIsSavingLoading(true);
+    try {
+      const res = await axios.post(
+        `${USER_API_END_POINT}/save-job/${job._id}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        if (isSaved) {
+          dispatch(removeSavedJobId(job._id));
+          toast.success("Job removed from saved", { duration: 1000 });
+        } else {
+          dispatch(addSavedJobId(job._id));
+          toast.success("Job saved successfully", { duration: 1000 });
+        }
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to save job", {
+        duration: 1000,
+      });
+    } finally {
+      setIsSavingLoading(false);
+    }
+  };
+
   return (
     <article
       className="
@@ -117,7 +159,8 @@ const Job = ({ job }) => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={(e) => e.stopPropagation()}
+          onClick={handleSaveJob}
+          disabled={isSavingLoading}
           className="
             h-8 w-8 rounded-lg
             text-gray-500 dark:text-[#888888]
@@ -126,9 +169,10 @@ const Job = ({ job }) => {
             hover:text-gray-900 dark:hover:text-[#E0E0E0]
             hover:scale-[1.05]
             active:scale-[0.96]
+            disabled:opacity-50
           "
         >
-          <Bookmark className="h-4 w-4" />
+          <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
         </Button>
       </div>
 
