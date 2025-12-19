@@ -217,8 +217,36 @@ const FilterCard = () => {
   const filterBtn =
     "h-10 px-4 rounded-lg border border-gray-300 bg-white text-sm font-medium text-gray-800 hover:bg-gray-100 transition dark:border-[#2a2a2a] dark:bg-[#121212] dark:text-[#d0d0d0] dark:hover:bg-[#1e1e1e]";
 
+  const dropdownWrapper =
+    "absolute top-full left-0 pt-2 w-64 z-50";
+
   const dropdownBox =
-    "absolute top-full left-0 mt-2 w-64 rounded-xl border border-gray-200 bg-white shadow-xl z-50 dark:border-[#2a2a2a] dark:bg-[#121212]";
+    "rounded-xl border border-gray-200 bg-white shadow-xl dark:border-[#2a2a2a] dark:bg-[#121212]";
+
+  // Handler for mouse enter - cancel any pending close
+  const handleMouseEnter = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  };
+
+  // Handler for mouse leave - close with delay
+  const closeTimeoutRef = useRef(null);
+  const handleMouseLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 150);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   /* ======================= RENDER ======================= */
 
@@ -242,6 +270,8 @@ const FilterCard = () => {
           <div
             className="relative"
             ref={openDropdown === "skills" ? dropdownRef : null}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <button
               className={filterBtn}
@@ -253,21 +283,23 @@ const FilterCard = () => {
             </button>
 
             {openDropdown === "skills" && (
-              <div className={dropdownBox}>
-                <div className="p-4 grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
-                  {skillsData.map((s) => (
-                    <label
-                      key={s}
-                      className="flex items-center gap-2 text-sm cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedSkills.includes(s)}
-                        onChange={() => handleSkillToggle(s)}
-                      />
-                      {s}
-                    </label>
-                  ))}
+              <div className={dropdownWrapper}>
+                <div className={dropdownBox}>
+                  <div className="p-4 grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
+                    {skillsData.map((s) => (
+                      <label
+                        key={s}
+                        className="flex items-center gap-2 text-sm cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedSkills.includes(s)}
+                          onChange={() => handleSkillToggle(s)}
+                        />
+                        {s}
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
@@ -279,6 +311,8 @@ const FilterCard = () => {
               key={f.filterType}
               className="relative"
               ref={openDropdown === f.filterType ? dropdownRef : null}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <button
                 className={filterBtn}
@@ -293,29 +327,31 @@ const FilterCard = () => {
               </button>
 
               {openDropdown === f.filterType && (
-                <div className={dropdownBox}>
-                  <div className="p-4">
-                    <RadioGroup
-                      value={
-                        f.filterType === "Location"
-                          ? selectedLocation
-                          : f.filterType === "Industry"
-                          ? selectedIndustry
-                          : f.filterType === "Job Type"
-                          ? selectedJobType
-                          : f.filterType === "Experience Level"
-                          ? selectedExperience
-                          : selectedSalary
-                      }
-                      onValueChange={(v) => handleFilterChange(f.filterType, v)}
-                    >
-                      {f.array.map((o) => (
-                        <div key={o} className="flex items-center gap-2">
-                          <RadioGroupItem value={o} />
-                          <Label>{o}</Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
+                <div className={dropdownWrapper}>
+                  <div className={dropdownBox}>
+                    <div className="p-4">
+                      <RadioGroup
+                        value={
+                          f.filterType === "Location"
+                            ? selectedLocation
+                            : f.filterType === "Industry"
+                            ? selectedIndustry
+                            : f.filterType === "Job Type"
+                            ? selectedJobType
+                            : f.filterType === "Experience Level"
+                            ? selectedExperience
+                            : selectedSalary
+                        }
+                        onValueChange={(v) => handleFilterChange(f.filterType, v)}
+                      >
+                        {f.array.map((o) => (
+                          <div key={o} className="flex items-center gap-2">
+                            <RadioGroupItem value={o} />
+                            <Label>{o}</Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
                   </div>
                 </div>
               )}

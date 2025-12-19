@@ -220,8 +220,8 @@ const ApplicantsTable = () => {
             <div 
               className="relative"
               ref={openDropdown === 'status' ? dropdownRef : null}
-              onMouseEnter={openDropdown === 'status' ? handleMouseEnter : undefined}
-              onMouseLeave={openDropdown === 'status' ? handleMouseLeave : undefined}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <button
                 type="button"
@@ -235,9 +235,10 @@ const ApplicantsTable = () => {
               
               {openDropdown === 'status' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
+                  className="absolute top-full left-0 pt-2 w-56 z-50"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
+                  <div className="rounded-md border border-gray-200 bg-white shadow-lg dark:border-[#444444] dark:bg-[#121212]">
                   <div className="p-3">
                     <div className="space-y-2">
                       {['all', 'pending', 'accepted', 'rejected'].map((status) => (
@@ -258,6 +259,7 @@ const ApplicantsTable = () => {
                       ))}
                     </div>
                   </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -266,8 +268,8 @@ const ApplicantsTable = () => {
             <div 
               className="relative"
               ref={openDropdown === 'date' ? dropdownRef : null}
-              onMouseEnter={openDropdown === 'date' ? handleMouseEnter : undefined}
-              onMouseLeave={openDropdown === 'date' ? handleMouseLeave : undefined}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <button
                 type="button"
@@ -281,29 +283,31 @@ const ApplicantsTable = () => {
               
               {openDropdown === 'date' && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-50 dark:border-[#444444] dark:bg-[#121212]"
+                  className="absolute top-full left-0 pt-2 w-56 z-50"
                   onMouseDown={(e) => e.stopPropagation()}
                 >
-                  <div className="p-3">
-                    <div className="space-y-2">
-                      {['all', 'today', 'last7days', 'custom'].map((date) => (
-                        <button
-                          key={date}
-                          onClick={() => {
-                            setDateFilter(date);
-                            if (date !== 'custom') {
-                              setOpenDropdown(null);
-                            }
-                          }}
-                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                            dateFilter === date
-                              ? 'bg-gray-100 dark:bg-[#1a1a1a] text-gray-900 dark:text-[#E0E0E0] font-medium'
-                              : 'text-gray-700 dark:text-[#B0B0B0] hover:bg-gray-50 dark:hover:bg-[#1a1a1a]/50'
-                          }`}
-                        >
-                          {date === 'all' ? 'All Time' : date === 'last7days' ? 'Last 7 Days' : date === 'today' ? 'Today' : 'Custom Range'}
-                        </button>
-                      ))}
+                  <div className="rounded-md border border-gray-200 bg-white shadow-lg dark:border-[#444444] dark:bg-[#121212]">
+                    <div className="p-3">
+                      <div className="space-y-2">
+                        {['all', 'today', 'last7days', 'custom'].map((date) => (
+                          <button
+                            key={date}
+                            onClick={() => {
+                              setDateFilter(date);
+                              if (date !== 'custom') {
+                                setOpenDropdown(null);
+                              }
+                            }}
+                            className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
+                              dateFilter === date
+                                ? 'bg-gray-100 dark:bg-[#1a1a1a] text-gray-900 dark:text-[#E0E0E0] font-medium'
+                                : 'text-gray-700 dark:text-[#B0B0B0] hover:bg-gray-50 dark:hover:bg-[#1a1a1a]/50'
+                            }`}
+                          >
+                            {date === 'all' ? 'All Time' : date === 'last7days' ? 'Last 7 Days' : date === 'today' ? 'Today' : 'Custom Range'}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
