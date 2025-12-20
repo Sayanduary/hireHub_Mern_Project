@@ -980,49 +980,6 @@ External Services:
 
 ---
 
-## 18. Environment Variables Required
-
-```bash
-# Backend (.env)
-
-# Server Configuration
-PORT=3000
-SECRET_KEY=your_jwt_secret
-
-# Database
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/hirehub
-
-# JWT Configuration
-JWT_EXPIRES_IN=1d
-
-# Cloudinary Configuration
-CLOUD_NAME=your_cloudinary_cloud_name
-API_KEY=your_cloudinary_api_key
-API_SECRET=your_cloudinary_api_secret
-
-# Google OAuth 2.0
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_CALLBACK_URL=http://localhost:3000/api/v1/user/auth/google/callback
-
-# Frontend URL (for CORS and redirects)
-CLIENT_URL=http://localhost:5173
-
-# AI Services (Optional - for enhanced ATS analysis)
-GEMINI_API_KEY=your_google_gemini_api_key
-```
-
-```bash
-# Frontend (.env)
-
-# API Base URL
-VITE_API_BASE_URL=http://localhost:3000
-
-# Google OAuth Client ID (for frontend)
-VITE_GOOGLE_CLIENT_ID=your_google_client_id
-```
-
----
 
 ## 19. Deployment Considerations
 
