@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Code,
   Server,
@@ -79,7 +78,10 @@ const CategorySection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-5xl font-semibold text-gray-900 dark:text-[#E0E0E0]"   style={{ fontFamily: "'Oswald', sans-serif" }}>
+          <h2
+            className="text-5xl font-semibold text-gray-900 dark:text-[#E0E0E0]"
+            style={{ fontFamily: "'Oswald', sans-serif" }}
+          >
             Explore jobs by role
           </h2>
           <p className="mt-3 text-base text-gray-600 dark:text-[#B0B0B0]">
