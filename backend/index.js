@@ -30,8 +30,8 @@ app.use(
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
-            secure: false, // Set to true in production with HTTPS
-            sameSite: "lax",
+            secure: true,  // Required for cross-domain cookies (HTTPS)
+            sameSite: "none", // Required for cross-domain cookies
             maxAge: 24 * 60 * 60 * 1000
         }
     })
@@ -43,7 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const corsOptions = {
-    origin: "https://hirehub-liart.vercel.app/",
+    origin: "https://hirehub-liart.vercel.app",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

@@ -6,8 +6,10 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://localhost:3001").replace(/\/$/, '');
+
 const api = axios.create({
-  baseURL: "http://localhost:3001/api/v1",
+  baseURL: `${API_BASE_URL}/api/v1`,
   withCredentials: true, // CRITICAL FOR COOKIE AUTH
 });
 

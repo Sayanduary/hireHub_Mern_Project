@@ -96,8 +96,8 @@ export const login = async (req, res) => {
             .status(200)
             .cookie("token", token, {
                 httpOnly: true,
-                secure: false,            // IMPORTANT for localhost/Postman
-                sameSite: "lax",          // prevents cookie blocking
+                secure: true,             // Required for cross-domain cookies (HTTPS)
+                sameSite: "none",         // Required for cross-domain cookies
                 path: "/",                // ensure cookie is sent for all routes
                 maxAge: 24 * 60 * 60 * 1000
             })
@@ -122,8 +122,8 @@ export const logout = async (req, res) => {
         .cookie("token", "", {
             maxAge: 0,
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             path: "/"
         })
         .json({ message: "Logged out successfully", success: true });
@@ -561,8 +561,8 @@ export const googleLogin = async (req, res) => {
             .status(200)
             .cookie("token", token, {
                 httpOnly: true,
-                secure: false,
-                sameSite: "lax",
+                secure: true,
+                sameSite: "none",
                 path: "/",
                 maxAge: 24 * 60 * 60 * 1000
             })
