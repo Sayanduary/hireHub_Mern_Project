@@ -120,7 +120,25 @@ const Navbar = () => {
             )}
           </Button>
 
-          {/* Auth */}
+          {/* Auth - Mobile buttons (visible on small screens) */}
+          {!user && (
+            <div className="flex md:hidden items-center gap-1">
+              <Link
+                to="/login"
+                className="px-3 py-1.5 text-xs font-medium rounded-md text-gray-900 hover:bg-gray-900/10 dark:text-[#b0b0b0] dark:hover:bg-[#1a1a1a]"
+              >
+                Sign in
+              </Link>
+              <Link
+                to="/signup"
+                className="px-3 py-1.5 text-xs font-medium rounded-md bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-[#121212] dark:hover:bg-gray-200"
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
+
+          {/* Auth - Desktop buttons (hidden on small screens) */}
           {!user ? (
             <div className="hidden md:flex items-center gap-2">
               <Link
