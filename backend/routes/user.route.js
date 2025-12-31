@@ -25,7 +25,7 @@ router.route("/auth/google").get((req, res, next) => {
     state: role
   })(req, res, next);
 });
-router.route("/auth/google/callback").get(passport.authenticate("google", { failureRedirect: "/login" }), googleCallback);
+router.route("/auth/google/callback").get(passport.authenticate("google", { failureRedirect: process.env.CLIENT_URL + "/login" }), googleCallback);
 router.route("/google/login").get(googleLogin);
 
 export default router;
